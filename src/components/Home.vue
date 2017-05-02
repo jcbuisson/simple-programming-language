@@ -5,15 +5,15 @@
     <div class="row">
        <div class="col-4">
           <b-alert show> Code </b-alert>
-          <codemirror v-model="code" :options="editorOptions"></codemirror>
+          <my-code-mirror v-model="code" :options="editorOptions"></my-code-mirror>
        </div>
        <div class="col-2">
           <b-alert show> Data </b-alert>
-          <codemirror v-model="code2" :options="editorOptions"></codemirror>
+          <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
        </div>
        <div class="col-2">
           <b-alert show> Data </b-alert>
-          <codemirror v-model="code2" :options="editorOptions"></codemirror>
+          <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
        </div>
     </div>
 
@@ -21,15 +21,16 @@
 </template>
 
 <script>
-import codemirror from '@/components/codemirror'
+import ccc from '@/components/MyCodeMirror'
+
 export default {
   name: 'home',
-  components: {codemirror: codemirror},
+  components: {MyCodeMirror: ccc},
   data () {
     return {
 
       code: '# type your code here',
-      code2: '1000',
+      code2: '1000\n500\n250',
       editorOptions: {
         mode: this.mode,
         tabSize: 2,

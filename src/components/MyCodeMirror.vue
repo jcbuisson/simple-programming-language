@@ -8,8 +8,8 @@
 
   var CodeMirror = require('codemirror/lib/codemirror.js')
   require('codemirror/lib/codemirror.css')
+
   export default {
-    name:'codemirror',
     props: {
       value: String,
       options: {
@@ -23,9 +23,8 @@
         }
       },
     },
-    xxx: function() {
-       var handle = CodeMirror.firstLine();
-       CodeMirror.setLineContent(handle, "aze");
+    test: function() {
+       console.log("azer");
     },
     ready: function () {
       var _this = this
