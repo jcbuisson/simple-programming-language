@@ -3,15 +3,15 @@
     <h1>Programming Sandbox</h1>
 
     <div class="row">
-       <div class="col-6">
+       <div class="col-4">
           <b-alert show> Code </b-alert>
           <codemirror v-model="code" :options="editorOptions"></codemirror>
        </div>
-       <div class="col-3">
+       <div class="col-2">
           <b-alert show> Data </b-alert>
           <codemirror v-model="code2" :options="editorOptions"></codemirror>
        </div>
-       <div class="col-3">
+       <div class="col-2">
           <b-alert show> Data </b-alert>
           <codemirror v-model="code2" :options="editorOptions"></codemirror>
        </div>

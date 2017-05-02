@@ -23,6 +23,10 @@
         }
       },
     },
+    xxx: function() {
+       var handle = CodeMirror.firstLine();
+       CodeMirror.setLineContent(handle, "aze");
+    },
     ready: function () {
       var _this = this
       this.editor = CodeMirror.fromTextArea(this.$el, this.options)
@@ -75,5 +79,6 @@
 <style>
   .CodeMirror-code {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
   }
 </style>
