@@ -14,7 +14,6 @@
 
   export default {
     props: {
-      setLine: function() { console.log("qqqq") },
       value: String,
       options: {
         type: Object,
@@ -26,11 +25,6 @@
           }
         }
       },
-    },
-    methods: {
-       test() {
-          console.log("jhkjkjh")
-       }
     },
     created: function () {
        event.on('step', () => {

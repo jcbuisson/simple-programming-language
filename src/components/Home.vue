@@ -12,8 +12,7 @@
           <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
        </div>
        <div class="col-2">
-          <b-alert show> Data </b-alert>
-          <my-code-mirror v-model="code2" :options="editorOptions" v-bind:test="step"></my-code-mirror>
+          <titled-editor></titled-editor>
        </div>
     </div>
     <div>
@@ -25,13 +24,16 @@
 
 <script>
 import defaultInMyCodeMirror from '@/components/MyCodeMirror'
+import titled from '@/components/TitledEditor'
 
 import { event }  from '../utility/eventBus.js'
 event.init()
 
 export default {
-  name: 'home',
-  components: { MyCodeMirror: defaultInMyCodeMirror },
+  components: {
+     MyCodeMirror: defaultInMyCodeMirror,
+     TitledEditor: titled,
+  },
   data () {
     return {
       state: true,
