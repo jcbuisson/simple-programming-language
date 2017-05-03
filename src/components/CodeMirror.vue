@@ -9,9 +9,6 @@
   var CodeMirror = require('codemirror/lib/codemirror.js')
   require('codemirror/lib/codemirror.css')
 
-  import { event } from '../utility/eventBus.js'
-  event.init()
-
   export default {
     props: {
       value: String,
@@ -25,11 +22,6 @@
           }
         }
       },
-    },
-    created: function () {
-       event.on('step', () => {
-         this.value = "111"
-       })
     },
     ready: function () {
       var _this = this
