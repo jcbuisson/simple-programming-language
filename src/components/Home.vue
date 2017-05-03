@@ -4,14 +4,13 @@
 
     <div class="row">
        <div class="col-4">
-          <b-alert show> Code </b-alert>
-          <my-code-mirror v-model="code" :options="editorOptions"></my-code-mirror>
+          <code-editor :title="'Code'"></code-editor>
        </div>
        <div class="col-2">
-          <memory-editor :title="'MyData'"></memory-editor>
+          <memory-editor :title="'Data'"></memory-editor>
        </div>
        <div class="col-2">
-          <memory-editor :title="'MyData'"></memory-editor>
+          <memory-editor :title="'Stack'"></memory-editor>
        </div>
     </div>
     <div>
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-import mycodemirror from '@/components/MyCodeMirror'
+import codeditor from '@/components/CodeEditor'
 import memoryeditor from '@/components/MemoryEditor'
 
 import { event }  from '../utility/eventBus.js'
@@ -30,7 +29,7 @@ event.init()
 
 export default {
   components: {
-     MyCodeMirror: mycodemirror,
+     CodeEditor: codeditor,
      MemoryEditor: memoryeditor,
   },
   data () {
