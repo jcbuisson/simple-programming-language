@@ -12,7 +12,7 @@
           <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
        </div>
        <div class="col-2">
-          <titled-editor></titled-editor>
+          <titled-editor :title="'MyData'"></titled-editor>
        </div>
     </div>
     <div>

@@ -1,7 +1,7 @@
 
 <template>
    <div>
-      <b-alert show class="title"> Code </b-alert>
+      <b-alert show class="title"> {{ title }} </b-alert>
       <my-code-mirror v-model="code" :options="editorOptions"></my-code-mirror>
    </div>
 </template>
@@ -11,13 +11,17 @@ import defaultInMyCodeMirror from '@/components/MyCodeMirror'
 
 export default {
    components: { MyCodeMirror: defaultInMyCodeMirror },
+   props: {
+      title: String,
+      //value: String,
+   },
    data () {
       return {
          state: true,
          code: 'titled editor',
          editorOptions: {
             mode: this.mode,
-            tabSize: 2,
+            tabSize: 3,
             lineNumbers: true,
             firstLineNumber: 0,
             lineWrapping: true,
