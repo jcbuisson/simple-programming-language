@@ -8,11 +8,10 @@
           <my-code-mirror v-model="code" :options="editorOptions"></my-code-mirror>
        </div>
        <div class="col-2">
-          <b-alert show> Data </b-alert>
-          <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
+          <memory-editor :title="'MyData'"></memory-editor>
        </div>
        <div class="col-2">
-          <titled-editor :title="'MyData'"></titled-editor>
+          <memory-editor :title="'MyData'"></memory-editor>
        </div>
     </div>
     <div>
@@ -23,16 +22,16 @@
 </template>
 
 <script>
-import defaultInMyCodeMirror from '@/components/MyCodeMirror'
-import titled from '@/components/TitledEditor'
+import mycodemirror from '@/components/MyCodeMirror'
+import memoryeditor from '@/components/MemoryEditor'
 
 import { event }  from '../utility/eventBus.js'
 event.init()
 
 export default {
   components: {
-     MyCodeMirror: defaultInMyCodeMirror,
-     TitledEditor: titled,
+     MyCodeMirror: mycodemirror,
+     MemoryEditor: memoryeditor,
   },
   data () {
     return {

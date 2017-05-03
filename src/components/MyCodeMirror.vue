@@ -4,7 +4,7 @@
 </template>
 
 <script>
-  // JCB adapté de https://www.npmjs.com/package/vue-codemirror-lite
+  // adapted from https://www.npmjs.com/package/vue-codemirror-lite
 
   var CodeMirror = require('codemirror/lib/codemirror.js')
   require('codemirror/lib/codemirror.css')
