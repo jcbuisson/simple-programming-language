@@ -9,8 +9,12 @@
   var CodeMirror = require('codemirror/lib/codemirror.js')
   require('codemirror/lib/codemirror.css')
 
+  import { event } from '../utility/eventBus.js'
+  event.init()
+
   export default {
     props: {
+      setLine: function() { console.log("qqqq") },
       value: String,
       options: {
         type: Object,
@@ -23,8 +27,15 @@
         }
       },
     },
-    test: function() {
-       console.log("azer");
+    methods: {
+       test() {
+          console.log("jhkjkjh")
+       }
+    },
+    created: function () {
+       event.on('step', () => {
+         this.value = "111"
+       })
     },
     ready: function () {
       var _this = this

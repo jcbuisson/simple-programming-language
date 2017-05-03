@@ -13,22 +13,28 @@
        </div>
        <div class="col-2">
           <b-alert show> Data </b-alert>
-          <my-code-mirror v-model="code2" :options="editorOptions"></my-code-mirror>
+          <my-code-mirror v-model="code2" :options="editorOptions" v-bind:test="step"></my-code-mirror>
        </div>
+    </div>
+    <div>
+       <button type="button" class="btn btn-primary" v-on:click="step">Step</button>
     </div>
 
   </div>
 </template>
 
 <script>
-import ccc from '@/components/MyCodeMirror'
+import defaultInMyCodeMirror from '@/components/MyCodeMirror'
+
+import { event }  from '../utility/eventBus.js'
+event.init()
 
 export default {
   name: 'home',
-  components: {MyCodeMirror: ccc},
+  components: { MyCodeMirror: defaultInMyCodeMirror },
   data () {
     return {
-
+      state: true,
       code: '# type your code here',
       code2: '1000\n500\n250',
       editorOptions: {
@@ -40,7 +46,12 @@ export default {
         extraKeys: {'Ctrl-Space': 'autocomplete'},
       }
     }
-  }
+  },
+  methods: {
+     step: function() {
+        event.emit('step')
+     }
+  },
 }
 </script>
 
