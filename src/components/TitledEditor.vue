@@ -2,31 +2,27 @@
 <template>
    <div>
       <b-alert show class="title"> {{ title }} </b-alert>
-      <code-mirror v-model="code" :options="editorOptions"></code-mirror>
+      <code-mirror v-bind:value="editorcontent" v-bind:options="editorOptions"></code-mirror>
    </div>
 </template>
 
 <script>
    import codemirror from '@/components/CodeMirror'
 
-   import { event } from '../utility/eventBus.js'
-   event.init()
-
    export default {
       components: { CodeMirror: codemirror },
       props: {
          title: String,
-         //value: String,
+         textcontent: String,
       },
-      created: function () {
-         event.on('step', () => {
-            this.value = "111"
-         })
+      computed: {
+         editorcontent: function() {
+            return this.textcontent
+         }
       },
       data () {
          return {
             state: true,
-            code: 'titled editor',
             editorOptions: {
                mode: this.mode,
                tabSize: 3,

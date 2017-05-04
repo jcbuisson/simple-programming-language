@@ -7,10 +7,10 @@
           <code-editor :title="'Code'"></code-editor>
        </div>
        <div class="col-2">
-          <memory-editor :title="'Data'"></memory-editor>
+          <memory-editor :numberarray="darray" :title="'Data'"></memory-editor>
        </div>
        <div class="col-2">
-          <memory-editor :title="'Stack'"></memory-editor>
+          <memory-editor :numberarray="sarray" :title="'Stack'"></memory-editor>
        </div>
     </div>
     <div>
@@ -35,8 +35,8 @@ export default {
   data () {
     return {
       state: true,
-      code: '# type your code here',
-      code2: '1000\n500\n250',
+      darray: ["1000", "800", "600"],
+      sarray: ["600", "800", "1000"],
       editorOptions: {
         mode: this.mode,
         tabSize: 2,
