@@ -1,10 +1,12 @@
 
 <template>
-   <titled-editor v-bind:title="title" v-bind:textcontent="textContent"></titled-editor>
+   <titled-editor v-bind:title="title" v-bind:initialcontent="textContent" v-on:contentChanged="onContentChanged"></titled-editor>
 </template>
 
 <script>
    import titled from '@/components/TitledEditor'
+
+   import cloneDeep from 'lodash/cloneDeep'
 
    import { event } from '../utility/eventBus.js'
    event.init()
@@ -13,22 +15,28 @@ export default {
     components: { TitledEditor: titled },
     props: {
        title: String,
-       numberarray: Array,
+       initialarray: Array,
     },
     computed: {
-        textContent: function() {
-          return this.numberarray.join('\n')
-        }
+       textContent: function() {
+         console.log("compute : " + this.currentarray.join(','))
+         return this.currentarray.join('\n')
+       }
     },
     created: function () {
        var _this = this
-        event.on('step', () => {
-           console.log(_this.numberarray[0])
-        })
+       event.on('step', () => {
+          this.currentarray = ["1", "2", "3"]
+       })
+    },
+    methods: {
+       onContentChanged: function(newContent) {
+           console.log('content changed : ' + newContent)
+       }
     },
     data () {
        return {
-          numarray
+          currentarray: cloneDeep(this.initialarray)
        }
     },
 }

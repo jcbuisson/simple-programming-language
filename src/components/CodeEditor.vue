@@ -1,6 +1,6 @@
 
 <template>
-   <titled-editor v-bind:title="title"></titled-editor>
+   <titled-editor v-bind:title="title" v-bind:initialcontent="''"></titled-editor>
 </template>
 
 <script>

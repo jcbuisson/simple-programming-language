@@ -7,10 +7,10 @@
           <code-editor :title="'Code'"></code-editor>
        </div>
        <div class="col-2">
-          <memory-editor :numberarray="darray" :title="'Data'"></memory-editor>
+          <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
        </div>
        <div class="col-2">
-          <memory-editor :numberarray="sarray" :title="'Stack'"></memory-editor>
+          <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
        </div>
     </div>
     <div>

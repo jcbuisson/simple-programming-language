@@ -2,7 +2,7 @@
 <template>
    <div>
       <b-alert show class="title"> {{ title }} </b-alert>
-      <code-mirror v-bind:value="editorcontent" v-bind:options="editorOptions"></code-mirror>
+      <code-mirror v-bind:value="editorcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
    </div>
 </template>
 
@@ -13,16 +13,21 @@
       components: { CodeMirror: codemirror },
       props: {
          title: String,
-         textcontent: String,
+         initialcontent: String,
+      },
+      methods: {
+         contentChanged: function(newContent) {
+            console.log('editorcontent = ' + this.editorcontent)
+            this.$emit('contentChanged', newContent)
+         },
       },
       computed: {
          editorcontent: function() {
-            return this.textcontent
+            return this.initialcontent
          }
       },
       data () {
          return {
-            state: true,
             editorOptions: {
                mode: this.mode,
                tabSize: 3,
