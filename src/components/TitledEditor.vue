@@ -2,7 +2,7 @@
 <template>
    <div>
       <b-alert show class="title"> {{ title }} </b-alert>
-      <code-mirror v-bind:value="editorcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
+      <code-mirror v-bind:value="currentcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
    </div>
 </template>
 
@@ -17,12 +17,12 @@
       },
       methods: {
          contentChanged: function(newContent) {
-            console.log('editorcontent = ' + this.editorcontent)
+            console.log('currentcontent = ' + this.currentcontent)
             this.$emit('contentChanged', newContent)
          },
       },
       computed: {
-         editorcontent: function() {
+         currentcontent: function() {
             return this.initialcontent
          }
       },

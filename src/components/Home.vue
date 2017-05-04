@@ -49,7 +49,7 @@ export default {
   },
   methods: {
      step: function() {
-        event.emit('step')
+        this.darray = ["1111", "888", "666"]
      }
   },
 }

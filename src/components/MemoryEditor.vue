@@ -18,25 +18,16 @@ export default {
        initialarray: Array,
     },
     computed: {
+       currentarray: function() {
+          return this.initialarray
+       },
        textContent: function() {
-         console.log("compute : " + this.currentarray.join(','))
          return this.currentarray.join('\n')
        }
-    },
-    created: function () {
-       var _this = this
-       event.on('step', () => {
-          this.currentarray = ["1", "2", "3"]
-       })
     },
     methods: {
        onContentChanged: function(newContent) {
            console.log('content changed : ' + newContent)
-       }
-    },
-    data () {
-       return {
-          currentarray: cloneDeep(this.initialarray)
        }
     },
 }
