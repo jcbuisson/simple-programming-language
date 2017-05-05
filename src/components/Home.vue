@@ -1,5 +1,5 @@
 <template>
-   <div class="home">
+   <!--div class="home">
       <h1>Programming Sandbox</h1>
 
       <div class="row">
@@ -26,8 +26,26 @@
 
       <div>
          <button type="button" class="btn btn-primary" v-on:click="step">Step</button>
-      </div>
-   </div>
+      </div-->
+
+
+<div class="flexbox-parent">
+    <div class="flexbox-item header">
+        Header
+    </div>
+    
+    <div class="flexbox-item fill-area content flexbox-item-grow">
+        <div class="fill-area-content flexbox-item-grow">
+
+           CONTENT
+        </div>
+    </div>
+    
+    <div class="flexbox-item footer">
+        Footer
+    </div>
+</div>
+
 </template>
 
 <script>
@@ -40,12 +58,14 @@
 
    import parser from '../utility/parser.js'
 
+   import codemirror from '@/components/CodeMirror'
 
    export default {
       components: {
          CodeEditor: codeditor,
          MemoryEditor: memoryeditor,
          Screen: screen,
+         CodeMirror: codemirror,
       },
       data () {
          return {
@@ -91,4 +111,60 @@ li {
 a {
   color: #42b983;
 }
+
+.navbar {
+  margin-bottom: 10px;
+}
+
+
+
+
+.home {
+    width: 100%;
+    height: 100%;
+}
+
+.flexbox-parent {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: flex-start; /* align items in Main Axis */
+    align-items: stretch; /* align items in Cross Axis */
+    align-content: stretch; /* Extra space in Cross Axis */
+}
+
+.flexbox-item {
+    padding: 8px;
+}
+.flexbox-item-grow {
+    flex: 1; /* same as flex: 1 1 auto; */
+}
+
+.flexbox-item.header {
+    background: rgba(255, 0, 0, .1);
+}
+.flexbox-item.footer {
+    background: rgba(0, 255, 0, .1);
+}
+
+.fill-area {
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: flex-start; /* align items in Main Axis */
+    align-items: stretch; /* align items in Cross Axis */
+    align-content: stretch; /* Extra space in Cross Axis */
+    
+}
+.fill-area-content {
+    /*background: rgba(0, 0, 0, .3);
+    border: 1px solid #000000;*/
+    
+    /* Needed for when the area gets squished too far and there is content that can't be displayed */
+    overflow: auto; 
+}
+
 </style>
