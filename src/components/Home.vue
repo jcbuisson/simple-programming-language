@@ -108,7 +108,7 @@
 .header-panel {
    display: flex;
    flex-direction: row;  
-   justify-content: space-around;
+   justify-content: flex-end;
 
    align-items: center;
    align-content: center;
@@ -178,8 +178,7 @@
 }
 
 .memory-panel {
-   flex: 1;
-   background: rgba(50, 0, 100, .1);
+   flex: 3;
 
    display: flex;
    flex-direction: row;  
@@ -209,8 +208,7 @@
 }
 
 .input-output-panel {
-   flex: 1;
-   background: rgba(200, 0, 50, .1);
+   flex: 5;
 
    display: flex;
    flex-direction: column;  
