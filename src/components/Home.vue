@@ -22,19 +22,22 @@
     
     <div class="main-panel">
        <div class="main-panel-left">
-          <div class="main-panel-left-center">
+          <div class="code-editor-panel">
              CODE EDITOR
           </div>
-          <div class="main-panel-left-footer">
+          <div class="debug-toolbar-panel">
              DEBUG TOOLBAR
           </div>
        </div>
        <div class="main-panel-right">
-          <div class="main-panel-right-top">
-             MEMORY
+          <div class="memory-panel">
+             <div class="data-panel">DATA</div>
+             <div class="stack-panel">STACK</div>
+             <div class="input-panel">INPUT</div>
           </div>
-          <div class="main-panel-right-bottom">
-             INPUT/OUTPUT
+          <div class="input-output-panel">
+             <div class="keyboard-panel">KEYBOARD</div>
+             <div class="screen-panel">SCREEN</div>
           </div>
        </div>
     </div>
@@ -140,12 +143,12 @@
    align-content: stretch;
 }
 
-.main-panel-left-center {
+.code-editor-panel {
    flex: 1;
    background: rgba(100, 0, 100, .1);
 }
 
-.main-panel-left-footer {
+.debug-toolbar-panel {
    background: rgba(100, 100, 0, .1);
 }
 
@@ -161,14 +164,52 @@
    align-content: stretch;
 }
 
-.main-panel-right-top {
+.memory-panel {
    flex: 1;
    background: rgba(50, 0, 100, .1);
+
+   display: flex;
+   flex-direction: row;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
 }
 
-.main-panel-right-bottom {
+.data-panel {
    flex: 1;
-   background: rgba(100, 0, 50, .1);
+   background: rgba(100, 0, 0, .1);
+}
+
+.stack-panel {
+   flex: 1;
+   background: rgba(0, 100, 0, .1);
+}
+
+.input-panel {
+   flex: 1;
+   background: rgba(0, 0, 100, .1);
+}
+
+.input-output-panel {
+   flex: 1;
+   background: rgba(200, 0, 50, .1);
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.keyboard-panel {
+   background: rgba(100, 0, 0, .1);
+}
+
+.screen-panel {
+   flex: 1;
+   background: rgba(0, 100, 0, .1);
 }
 
 </style>
