@@ -20,7 +20,7 @@
             </div>
          </div>
          <div class="col-4">
-            SCREEN
+            <screen title="Display area"></screen>
          </div>
       </div>
 
@@ -33,6 +33,7 @@
 <script>
 import codeditor from '@/components/CodeEditor'
 import memoryeditor from '@/components/MemoryEditor'
+import screen from '@/components/Screen'
 
 import { event }  from '../utility/eventBus.js'
 event.init()
@@ -41,6 +42,7 @@ export default {
   components: {
      CodeEditor: codeditor,
      MemoryEditor: memoryeditor,
+     Screen: screen,
   },
   data () {
     return {
