@@ -2,7 +2,7 @@
 <template>
    <div class="screen">
       <b-alert show class="title"> {{ title }} </b-alert>
-      <div class="area">AA</div>
+      <div class="area"></div>
    </div>
 </template>
 

@@ -1,0 +1,21 @@
+
+Instruction
+  = _ codeop:CodeOp _ arg1:Argument _ "," _ arg2:Argument _
+  { return { 'codeop': codeop, 'arg1': arg1, 'arg2': arg2, }; }
+  
+Argument
+  = value:Integer
+  { return { 'type': 'int', 'value': value, }; }
+  / "data[" _ index:Integer _ "]"
+  { return { 'type': 'data', 'index': index, }; }
+
+CodeOp
+  = codeop:("cp" / "copy")
+  { return codeop; }
+
+Integer "integer"
+  = [0-9]+ { return parseInt(text(), 10); }
+
+_ "whitespace"
+  = [ \t\n\r]*
+

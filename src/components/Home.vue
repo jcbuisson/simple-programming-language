@@ -31,41 +31,45 @@
 </template>
 
 <script>
-import codeditor from '@/components/CodeEditor'
-import memoryeditor from '@/components/MemoryEditor'
-import screen from '@/components/Screen'
+   import codeditor from '@/components/CodeEditor'
+   import memoryeditor from '@/components/MemoryEditor'
+   import screen from '@/components/Screen'
 
-import { event }  from '../utility/eventBus.js'
-event.init()
+   import { event } from '../utility/eventBus.js'
+   event.init()
 
-export default {
-  components: {
-     CodeEditor: codeditor,
-     MemoryEditor: memoryeditor,
-     Screen: screen,
-  },
-  data () {
-    return {
-      state: true,
-      darray: ["1000", "800", "600"],
-      sarray: ["600", "800", "1000"],
-      inputs: [],
-      editorOptions: {
-        mode: this.mode,
-        tabSize: 2,
-        lineNumbers: true,
-        firstLineNumber: 0,
-        lineWrapping: true,
-        extraKeys: {'Ctrl-Space': 'autocomplete'},
-      }
-    }
-  },
-  methods: {
-     step: function() {
-        this.darray = ["1111", "888", "666"]
-     }
-  },
-}
+   import parser from '../utility/parser.js'
+
+
+   export default {
+      components: {
+         CodeEditor: codeditor,
+         MemoryEditor: memoryeditor,
+         Screen: screen,
+      },
+      data () {
+         return {
+            state: true,
+            darray: ["1000", "800", "600"],
+            sarray: ["600", "800", "1000"],
+            inputs: [],
+            editorOptions: {
+               mode: this.mode,
+               tabSize: 2,
+               lineNumbers: true,
+               firstLineNumber: 0,
+               lineWrapping: true,
+               extraKeys: {'Ctrl-Space': 'autocomplete'},
+            }
+         }
+      },
+      methods: {
+         step: function() {
+            let x = parser.parse("cp 10, data[0]")
+            this.darray = ["1111", "888", "666"]
+         }
+      },
+   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
