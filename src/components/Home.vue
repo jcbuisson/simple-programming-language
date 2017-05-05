@@ -1,12 +1,4 @@
 <template>
-   <!--div class="home">
-          <code-editor :title="'Code'"></code-editor>
-          <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
-          <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
-          <memory-editor :initialarray="inputs" :title="'Input'"></memory-editor>
-          <screen title="Display area"></screen>
-          <button type="button" class="btn btn-primary" v-on:click="step">Step</button>
-      </div-->
 
 <div class="home">
     <div class="header-panel">
@@ -23,7 +15,7 @@
     <div class="main-panel">
        <div class="main-panel-left">
           <div class="code-editor-panel">
-             CODE EDITOR
+             <code-editor :title="'Code'"></code-editor>
           </div>
           <div class="debug-toolbar-panel">
              DEBUG TOOLBAR
@@ -31,9 +23,15 @@
        </div>
        <div class="main-panel-right">
           <div class="memory-panel">
-             <div class="data-panel">DATA</div>
-             <div class="stack-panel">STACK</div>
-             <div class="input-panel">INPUT</div>
+             <div class="data-panel">
+                <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
+             </div>
+             <div class="stack-panel">
+                <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
+             </div>
+             <div class="input-panel">
+                <memory-editor :initialarray="inputs" :title="'Input'"></memory-editor>
+             </div>
           </div>
           <div class="input-output-panel">
              <div class="keyboard-panel">KEYBOARD</div>
