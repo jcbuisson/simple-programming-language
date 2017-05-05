@@ -106,13 +106,18 @@
 }
 
 .header-panel {
-   background: rgba(255, 0, 0, .1);
+   /*background: rgba(255, 0, 0, .1);*/
    display: flex;
    flex-direction: row;  
    justify-content: space-around;
 
    align-items: center;
    align-content: center;
+
+   margin-top: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+   margin-bottom: 5px;
 }
 
 .header-panel-group {
@@ -129,6 +134,11 @@
 
    align-items: stretch;
    align-content: stretch;
+
+   margin-top: 5px;
+   margin-left: 10px;
+   margin-right: 10px;
+   margin-bottom: 10px;
 }
 
 .main-panel-left {
