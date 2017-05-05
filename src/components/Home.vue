@@ -106,7 +106,6 @@
 }
 
 .header-panel {
-   /*background: rgba(255, 0, 0, .1);*/
    display: flex;
    flex-direction: row;  
    justify-content: space-around;
@@ -125,7 +124,6 @@
 }
 
 .main-panel {
-   background: rgba(0, 255, 0, .1);
    flex: 1;
 
    display: flex;
@@ -134,16 +132,10 @@
 
    align-items: stretch;
    align-content: stretch;
-
-   margin-top: 5px;
-   margin-left: 10px;
-   margin-right: 10px;
-   margin-bottom: 10px;
 }
 
 .main-panel-left {
    flex: 1;
-   background: rgba(255, 255, 0, .1);
 
    display: flex;
    flex-direction: column;  
@@ -151,20 +143,26 @@
 
    align-items: stretch;
    align-content: stretch;
+
+   margin-top: 5px;
+   margin-left: 10px;
+   margin-right: 5px;
+   margin-bottom: 10px;
 }
 
 .code-editor-panel {
    flex: 1;
    background: rgba(100, 0, 100, .1);
+   margin-bottom: 5px;
 }
 
 .debug-toolbar-panel {
    background: rgba(100, 100, 0, .1);
+   margin-top: 5px;
 }
 
 .main-panel-right {
    flex: 1;
-   background: rgba(0, 255, 255, .1);
 
    display: flex;
    flex-direction: column;  
@@ -172,6 +170,11 @@
 
    align-items: stretch;
    align-content: stretch;
+
+   margin-top: 5px;
+   margin-left: 5px;
+   margin-right: 10px;
+   margin-bottom: 10px;
 }
 
 .memory-panel {
@@ -189,16 +192,20 @@
 .data-panel {
    flex: 1;
    background: rgba(100, 0, 0, .1);
+   margin-right: 5px;
 }
 
 .stack-panel {
    flex: 1;
    background: rgba(0, 100, 0, .1);
+   margin-left: 5px;
+   margin-right: 5px;
 }
 
 .input-panel {
    flex: 1;
    background: rgba(0, 0, 100, .1);
+   margin-left: 5px;
 }
 
 .input-output-panel {
@@ -215,11 +222,14 @@
 
 .keyboard-panel {
    background: rgba(100, 0, 0, .1);
+   margin-top: 10px;
+   margin-bottom: 5px;
 }
 
 .screen-panel {
    flex: 1;
    background: rgba(0, 100, 0, .1);
+   margin-top: 5px;
 }
 
 </style>
