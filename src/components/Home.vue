@@ -1,23 +1,33 @@
 <template>
-  <div class="home">
-    <h1>Programming Sandbox</h1>
+   <div class="home">
+      <h1>Programming Sandbox</h1>
 
-    <div class="row">
-       <div class="col-4">
-          <code-editor :title="'Code'"></code-editor>
-       </div>
-       <div class="col-2">
-          <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
-       </div>
-       <div class="col-2">
-          <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
-       </div>
-    </div>
-    <div>
-       <button type="button" class="btn btn-primary" v-on:click="step">Step</button>
-    </div>
+      <div class="row">
+         <div class="col-8">
+            <div class="row">
+               <div class="col-6">
+                  <code-editor :title="'Code'"></code-editor>
+               </div>
+               <div class="col-2">
+                  <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
+               </div>
+               <div class="col-2">
+                  <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
+               </div>
+               <div class="col-2">
+                  <memory-editor :initialarray="inputs" :title="'Input'"></memory-editor>
+               </div>
+            </div>
+         </div>
+         <div class="col-4">
+            SCREEN
+         </div>
+      </div>
 
-  </div>
+      <div>
+         <button type="button" class="btn btn-primary" v-on:click="step">Step</button>
+      </div>
+   </div>
 </template>
 
 <script>
@@ -37,6 +47,7 @@ export default {
       state: true,
       darray: ["1000", "800", "600"],
       sarray: ["600", "800", "1000"],
+      inputs: [],
       editorOptions: {
         mode: this.mode,
         tabSize: 2,
