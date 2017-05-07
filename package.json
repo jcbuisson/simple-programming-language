@@ -15,6 +15,7 @@
   "dependencies": {
     "bootstrap-vue": "^0.15.0",
     "codemirror": "^5.25.2",
+    "font-awesome": "^4.7.0",
     "uikit": "^3.0.0-beta.22",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",

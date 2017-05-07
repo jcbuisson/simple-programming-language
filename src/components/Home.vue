@@ -8,7 +8,10 @@
              <code-editor v-bind:title="'Code'" v-bind:initialcode="'      cp   1000, d[0]'"></code-editor>
           </div>
           <div class="debug-toolbar-panel">
-             DEBUG TOOLBAR
+             <b-button-group>
+                <b-button v-on:click="step"> <i class="fa fa-step-forward"></i> </b-button>
+                <b-button> <i class="fa fa-play"></i> </b-button>
+             </b-button-group>
           </div>
        </div>
        <div class="main-panel-right">
@@ -70,7 +73,6 @@
       },
       methods: {
          step: function() {
-            let x = parser.parse("cp 10, data[0]")
             this.darray = ["1111", "888", "666"]
          }
       },

@@ -2,6 +2,8 @@
 
 - uses Bootstrap-Vue (https://bootstrap-vue.github.io)
 
+- uses FontAwesome (npm install font-awesome --save)
+
 
 ``` bash
 # install dependencies

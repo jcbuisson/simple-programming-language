@@ -1,18 +1,37 @@
 
 <template>
-   <div class="code-editor">
-      <titled-editor variant="warning" class="editor" v-bind:title="title" v-bind:initialcontent="currentcode" v-on:contentchanged="update"></titled-editor>
+
+   <div class="code-editor card no-block">
+
+      <div class="card-header">
+         <ul class="nav nav-navs card-header-navs">
+            <div class="navbar-brand">{{ title }}</div>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Examples
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+               <div class="dropdown-item">Example 1</div>
+               <div class="dropdown-item">Example 2</div>
+               <div class="dropdown-item">Example 3</div>
+            </div>
+            </li>
+         </ul>
+      </div>
+      <code-mirror v-bind:value="currentcode" v-on:change="update"></code-mirror>
       <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
+
    </div>
+
 </template>
 
 <script>
-   import titled from '@/components/TitledEditor'
+   import codemirror from '@/components/CodeMirror'
    import parser from '../utility/parser.js'
    import debounce from 'lodash/debounce'
 
    export default {
-      components: { TitledEditor: titled },
+      components: { CodeMirror: codemirror },
       props: {
          title: String,
          initialcode: String,

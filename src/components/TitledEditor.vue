@@ -1,33 +1,15 @@
 
 <template>
-   <div>
 
-      <!--b-card v-bind:header="title" class="mb-2" no-block vv-bind:variant="variant">
-         <code-mirror v-bind:value="currentcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
-      </b-card-->
+   <div class="card no-block">
 
-<div class="card no-block">
-
-  <div class="card-header">
-    <ul class="nav nav-navs card-header-navs">
-      <div class="navbar-brand">{{ title }}</div>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Examples
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <div class="dropdown-item">Example 1</div>
-          <div class="dropdown-item">Example 2</div>
-          <div class="dropdown-item">Example 3</div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <code-mirror v-bind:value="currentcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
-
-</div>
+      <div class="card-header">
+         {{ title }}
+      </div>
+      <code-mirror v-bind:value="currentcontent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
 
    </div>
+
 </template>
 
 <script>
