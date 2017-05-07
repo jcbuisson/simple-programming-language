@@ -6,14 +6,14 @@
         <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
         <b-link class="navbar-brand" to="#">
-           <span>Simple Programming Language {{ mode }}</span>
+           <span>Simple Programming Language</span>
         </b-link>
 
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav-item v-bind:active="mode === 'online'" v-on:click="mode = 'online'" href="#/online">Online version</b-nav-item>
                 <b-nav-item v-bind:active="mode === 'documentation'" v-on:click="mode = 'documentation'" href="#/documentation">Documentation</b-nav-item>
-                <b-nav-item v-bind:active="mode === 'development'" v-on:click="mode = 'development'" href="https://github.com/jcbuisson/">Development</b-nav-item>
+                <b-nav-item><a class="a" href="https://github.com/jcbuisson/simple-programming-language" target="_blank">Development</a></b-nav-item>
             </b-nav>
         </b-collapse>
     </b-navbar>
@@ -49,6 +49,25 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.a {
+  color: #aedcae;
+}
+
+.header {
+
+}
+
+.main {
+   flex: 1;
 }
 
 </style>
