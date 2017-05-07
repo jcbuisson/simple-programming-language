@@ -1,6 +1,6 @@
 
 <template>
-   <titled-editor v-bind:title="title" v-bind:initialcontent="textContent" v-on:contentChanged="onContentChanged"></titled-editor>
+   <titled-editor variant="primary" v-bind:title="title" v-bind:initialcontent="textContent" v-on:contentChanged="onContentChanged"></titled-editor>
 </template>
 
 <script>
@@ -35,4 +35,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+   title-editor {
+      overflow: auto;
+   }
 </style>

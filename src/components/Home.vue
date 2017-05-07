@@ -1,21 +1,27 @@
 <template>
 
 <div class="home">
-    <div class="header-panel">
-       <b-button-group class="header-panel-group">
-          <b-button variant="primary">Simple Programming Language Sandbox</b-button>
-       </b-button-group>
-       <b-button-group class="header-panel-group">
-          <b-button variant="success">Online version</b-button>
-          <b-button variant="primary">Documentation</b-button>
-          <b-button variant="info">Development</b-button>
-       </b-button-group>
-    </div>
+    <b-navbar toggleable type="inverse" variant="success">
+
+        <b-nav-toggle target="nav_collapse"></b-nav-toggle>
+
+        <b-link class="navbar-brand" to="#">
+           <span>Simple Programming Language</span>
+        </b-link>
+
+        <b-collapse is-nav id="nav_collapse">
+            <b-nav is-nav-bar class="ml-auto">
+                <b-nav-item v-bind:active="mode === 'online'">Online version</b-nav-item>
+                <b-nav-item v-bind:active="mode === 'documentation'" v-on:click="mode = 'documentation'">Documentation</b-nav-item>
+                <b-nav-item v-bind:active="mode === 'development'">Development</b-nav-item>
+            </b-nav>
+        </b-collapse>
+    </b-navbar>
     
     <div class="main-panel">
        <div class="main-panel-left">
           <div class="code-editor-panel">
-             <code-editor :title="'Code'"></code-editor>
+             <code-editor v-bind:title="'Code'" v-bind:initialcode="'      cp   1000, d[0]'"></code-editor>
           </div>
           <div class="debug-toolbar-panel">
              DEBUG TOOLBAR
@@ -65,7 +71,7 @@
       },
       data () {
          return {
-            state: true,
+            mode: 'online',
             darray: ["1000", "800", "600"],
             sarray: ["600", "800", "1000"],
             inputs: [],
@@ -104,21 +110,10 @@
 }
 
 .header-panel {
-   display: flex;
-   flex-direction: row;  
-   justify-content: flex-end;
-
-   align-items: center;
-   align-content: center;
-
    margin-top: 10px;
    margin-left: 10px;
    margin-right: 10px;
    margin-bottom: 5px;
-}
-
-.header-panel-group {
-   flex: 1;
 }
 
 .main-panel {

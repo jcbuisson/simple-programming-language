@@ -1,22 +1,54 @@
 
 <template>
-   <titled-editor v-bind:title="title" v-bind:initialcontent="''"></titled-editor>
+   <div class="code-editor">
+      <titled-editor variant="warning" class="editor" v-bind:title="title" v-bind:initialcontent="currentcode" v-on:contentchanged="update"></titled-editor>
+      <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
+   </div>
 </template>
 
 <script>
-import titled from '@/components/TitledEditor'
+   import titled from '@/components/TitledEditor'
+   import parser from '../utility/parser.js'
+   import debounce from 'lodash/debounce'
 
-export default {
-   components: { TitledEditor: titled },
-   props: {
-      title: String,
-      //value: String,
-   },
-   data () {
-      return {
-      }
-  },
-}
+   export default {
+      components: { TitledEditor: titled },
+      props: {
+         title: String,
+         initialcode: String,
+      },
+      computed: {
+         currentcode: function() {
+            return this.initialcode
+         },
+         variant: function() {
+            return this.err ? 'warning' : 'success'
+         },
+      },
+      methods: {
+         update: function(newcontent) {
+            this.currentcode = newcontent
+            this.parseProgram(newcontent)
+         },
+         parseProgram: debounce(function(code) {
+            try {
+               let x = parser.parse(code)
+               this.err = null
+               this.status = '✓ Done'
+            } catch(err) {
+               this.err = err
+               this.status = 'line ' + err.location.start.line + ', column ' + err.location.start.column + ': ' + err.message
+            }
+            this.$forceUpdate()
+         }, 500),
+      },
+      data () {
+         return {
+            status: '',
+            err: null,
+         }
+      },
+   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
