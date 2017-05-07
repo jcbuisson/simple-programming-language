@@ -34,13 +34,16 @@
             try {
                let x = parser.parse(code)
                this.err = null
-               this.status = '✓ Done'
+               this.status = '✓ No error'
             } catch(err) {
                this.err = err
-               this.status = 'line ' + err.location.start.line + ', column ' + err.location.start.column + ': ' + err.message
+               this.status = 'Line ' + err.location.start.line + ', column ' + err.location.start.column + ': ' + err.message
             }
             this.$forceUpdate()
          }, 500),
+      },
+      created: function() {
+         this.parseProgram(this.initialcode)
       },
       data () {
          return {

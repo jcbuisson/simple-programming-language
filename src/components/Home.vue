@@ -1,22 +1,6 @@
 <template>
 
 <div class="home">
-    <b-navbar toggleable type="inverse" variant="success">
-
-        <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-
-        <b-link class="navbar-brand" to="#">
-           <span>Simple Programming Language</span>
-        </b-link>
-
-        <b-collapse is-nav id="nav_collapse">
-            <b-nav is-nav-bar class="ml-auto">
-                <b-nav-item v-bind:active="mode === 'online'">Online version</b-nav-item>
-                <b-nav-item v-bind:active="mode === 'documentation'" v-on:click="mode = 'documentation'">Documentation</b-nav-item>
-                <b-nav-item v-bind:active="mode === 'development'">Development</b-nav-item>
-            </b-nav>
-        </b-collapse>
-    </b-navbar>
     
     <div class="main-panel">
        <div class="main-panel-left">
@@ -71,7 +55,6 @@
       },
       data () {
          return {
-            mode: 'online',
             darray: ["1000", "800", "600"],
             sarray: ["600", "800", "1000"],
             inputs: [],
