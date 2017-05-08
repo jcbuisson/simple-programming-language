@@ -45,6 +45,8 @@
    import { event } from '../utility/eventBus.js'
    event.init()
 
+   import { store } from '../utility/store.js'
+
    import parser from '../utility/parser.js'
 
    import codemirror from '@/components/CodeMirror'

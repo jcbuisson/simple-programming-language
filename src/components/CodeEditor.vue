@@ -4,19 +4,16 @@
    <div class="code-editor card no-block">
 
       <div class="card-header">
-         <ul class="nav nav-navs card-header-navs">
-            <div class="navbar-brand">{{ title }}</div>
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Examples
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-               <div class="dropdown-item">Example 1</div>
-               <div class="dropdown-item">Example 2</div>
-               <div class="dropdown-item">Example 3</div>
-            </div>
-            </li>
-         </ul>
+         <b-nav>
+            <div class="navbar-brand">{{ title }}</div>            
+            <b-nav-item-dropdown text="Examples" right-alignment>
+               <b-dropdown-item v-on:click="example1">Simple 1</b-dropdown-item>
+               <b-dropdown-item>Simple 2</b-dropdown-item>
+               <b-dropdown-divider></b-dropdown-divider>
+               <b-dropdown-item>Intermediate 1</b-dropdown-item>
+               <b-dropdown-item>Intermediate 2</b-dropdown-item>
+            </b-nav-item-dropdown>
+         </b-nav>
       </div>
       <code-mirror v-bind:value="currentcode" v-on:change="update"></code-mirror>
       <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
@@ -45,6 +42,9 @@
          },
       },
       methods: {
+         example1: function() {
+            console.log('Example 1');
+         },
          update: function(newcontent) {
             this.currentcode = newcontent
             this.parseProgram(newcontent)

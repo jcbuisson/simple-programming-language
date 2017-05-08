@@ -2,13 +2,10 @@
   <div id="app">
 
     <b-navbar toggleable type="inverse" variant="success">
-
         <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-
         <b-link class="navbar-brand" to="#">
            <span>Simple Programming Language</span>
         </b-link>
-
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav-item v-bind:active="mode === 'online'" v-on:click="mode = 'online'" href="#/">Online version</b-nav-item>
@@ -37,8 +34,8 @@
 <style>
 
 html, body {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #app {
@@ -50,12 +47,12 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 
-   display: flex;
-   flex-direction: column;  
-   justify-content: flex-start;
+  display: flex;
+  flex-direction: column;  
+  justify-content: flex-start;
 
-   align-items: stretch;
-   align-content: stretch;
+  align-items: stretch;
+  align-content: stretch;
 }
 
 .a {
@@ -67,7 +64,7 @@ html, body {
 }
 
 .main {
-   flex: 1;
+  flex: 1;
 }
 
 </style>
