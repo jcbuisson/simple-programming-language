@@ -5,7 +5,7 @@
     <div class="main-panel">
        <div class="main-panel-left">
           <div class="code-editor-panel">
-             <code-editor v-bind:title="'Code'" v-bind:initialcode="'      cp   1000, d[0]'"></code-editor>
+             <code-editor v-bind:title="'Code'" v-bind:initialcode="code" v-on:exampleLoaded="onExampleLoaded"></code-editor>
           </div>
           <div class="debug-toolbar-panel">
              <b-button-group>
@@ -46,6 +46,7 @@
    event.init()
 
    import { store } from '../utility/store.js'
+   import { examples } from '../utility/examples.js'
 
    import parser from '../utility/parser.js'
 
@@ -60,6 +61,7 @@
       },
       data () {
          return {
+            code: '',
             darray: ["1000", "800", "600"],
             sarray: ["600", "800", "1000"],
             inputs: [],
@@ -76,7 +78,10 @@
       methods: {
          step: function() {
             this.darray = ["1111", "888", "666"]
-         }
+         },
+         onExampleLoaded: function(exampleName) {
+            this.code = examples[exampleName]
+         },
       },
    }
 </script>

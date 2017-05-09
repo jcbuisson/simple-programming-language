@@ -7,8 +7,8 @@
          <b-nav>
             <div class="navbar-brand">{{ title }}</div>            
             <b-nav-item-dropdown text="Examples" right-alignment>
-               <b-dropdown-item v-on:click="example1">Simple 1</b-dropdown-item>
-               <b-dropdown-item>Simple 2</b-dropdown-item>
+               <b-dropdown-item v-on:click="example('input_output')">Input/Output</b-dropdown-item>
+               <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum on first nth integers</b-dropdown-item>
                <b-dropdown-divider></b-dropdown-divider>
                <b-dropdown-item>Intermediate 1</b-dropdown-item>
                <b-dropdown-item>Intermediate 2</b-dropdown-item>
@@ -42,13 +42,15 @@
          },
       },
       methods: {
-         example1: function() {
-            console.log('Example 1');
+         example: function(exampleName) {
+            console.log('Example: ' + exampleName)
+            this.$emit('exampleLoaded', exampleName)
          },
          update: function(newcontent) {
             this.currentcode = newcontent
             this.parseProgram(newcontent)
          },
+         // note the use of lodash's debounce function to prevent immediate and too frequent parsing
          parseProgram: debounce(function(code) {
             try {
                let x = parser.parse(code)

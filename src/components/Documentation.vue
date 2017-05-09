@@ -1,11 +1,20 @@
 <template>
    <div class="documentation">
 
-      <h2>General information</h2>
+      <h3>Introduction</h3>
       This plateform is a sandbox to make experiments with SPL, a simple programming language.
       You'll be able to write simple programs in this language, and run them to verify their execution
 
-      <h2>Program and data memory</h2>
+      <h3>Language concepts</h3>
+
+      <h4>Program and instructions</h4>
+      <ul>
+         <li>A <em>program</em> is a list of <em>instructions</em> placed in the <em>Code</em> area. You should not place more
+         than one instruction per line.
+         </li>
+      </ul>
+
+
    </div>
 </template>
 
