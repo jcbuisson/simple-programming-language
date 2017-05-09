@@ -3,9 +3,9 @@ Client-only web-application
 
 Uses:
 
-- VueJS2
+- VueJS 2
 
-- Webpack
+- Webpack 2
 
 - CodeMirror
 

@@ -8,6 +8,7 @@
 
    var CodeMirror = require('codemirror/lib/codemirror.js')
    require('codemirror/lib/codemirror.css')
+   require('codemirror/addon/selection/active-line.js')
 
    export default {
       props: {
@@ -17,6 +18,7 @@
             default: function () {
                return {
                   mode: 'text/javascript',
+                  styleActiveLine: true,
                   lineNumbers: true,
                   lineWrapping: true
                }

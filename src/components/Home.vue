@@ -80,7 +80,10 @@
             this.darray = ["1111", "888", "666"]
          },
          onExampleLoaded: function(exampleName) {
-            this.code = examples[exampleName]
+            let example = examples[exampleName]
+            this.code = example.code
+            this.darray = example.data
+            this.sarray = example.stack
          },
       },
    }
