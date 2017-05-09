@@ -1,8 +1,17 @@
 
+Client-only web-application
 
-- uses Bootstrap-Vue (https://bootstrap-vue.github.io)
+Uses:
 
-- uses FontAwesome (npm install font-awesome --save)
+- VueJS2
+
+- Webpack
+
+- CodeMirror
+
+- Bootstrap-Vue = Boostrap4 elements as Vue2 components (https://bootstrap-vue.github.io)
+
+- FontAwesome (npm install font-awesome --save)
 
 
 ``` bash

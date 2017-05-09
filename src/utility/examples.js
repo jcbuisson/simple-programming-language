@@ -3,7 +3,7 @@ const examples = {
 
    input_output:
       "here:  in[0] * in[0] -> out[0]\n" +
-      "    go 0",
+      "       go here",
 
    sum_of_nth_first_integers:
       "      input[0] -> data[0]\n" +
