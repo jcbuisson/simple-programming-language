@@ -13,6 +13,7 @@
    export default {
       props: {
          value: String,
+         selectedline: Number,
          options: {
             type: Object,
             default: function () {
@@ -29,6 +30,7 @@
          var _this = this
          this.editor = CodeMirror.fromTextArea(this.$el, this.options)
          this.editor.setValue(this.value)
+         //this.editor.setCursor({line: 0, ch: 1})
          this.editor.on('change', function(cm) {
             if (!!_this.$emit) {
                _this.$emit('change', cm.getValue())

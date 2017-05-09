@@ -7,15 +7,15 @@
          <b-nav>
             <div class="navbar-brand">{{ title }}</div>            
             <b-nav-item-dropdown text="Examples" right-alignment>
-               <b-dropdown-item v-on:click="example('input_output')">Input/Output</b-dropdown-item>
-               <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum on first nth integers</b-dropdown-item>
+               <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
+               <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
                <b-dropdown-divider></b-dropdown-divider>
                <b-dropdown-item>Intermediate 1</b-dropdown-item>
                <b-dropdown-item>Intermediate 2</b-dropdown-item>
             </b-nav-item-dropdown>
          </b-nav>
       </div>
-      <code-mirror v-bind:value="currentcode" v-on:change="update"></code-mirror>
+      <code-mirror v-bind:value="currentcode" v-on:change="update" v-bind:selectedline="selectedline"></code-mirror>
       <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
 
    </div>
@@ -32,6 +32,7 @@
       props: {
          title: String,
          initialcode: String,
+         selectedline: Number,
       },
       computed: {
          currentcode: function() {
