@@ -10,6 +10,9 @@
    require('codemirror/lib/codemirror.css')
    require('codemirror/addon/selection/active-line.js')
 
+   import { event } from '../utility/eventBus.js'
+   event.init()
+
    export default {
       props: {
          value: String,
@@ -18,10 +21,13 @@
             type: Object,
             default: function () {
                return {
-                  mode: 'text/javascript',
                   styleActiveLine: true,
                   lineNumbers: true,
-                  lineWrapping: true
+                  lineWrapping: true,
+                  tabSize: 3,
+                  lineNumbers: true,
+                  selectedLine: 0,
+                  firstLineNumber: 0,
                }
             }
          },
@@ -30,7 +36,7 @@
          var _this = this
          this.editor = CodeMirror.fromTextArea(this.$el, this.options)
          this.editor.setValue(this.value)
-         //this.editor.setCursor({line: 0, ch: 1})
+         //this.editor.setValue("000\n111\n222\n333")
          this.editor.on('change', function(cm) {
             if (!!_this.$emit) {
                _this.$emit('change', cm.getValue())
@@ -47,6 +53,9 @@
                 this.editor.scrollTo(scrollInfo.left, scrollInfo.top)
              }
          },
+         'selectedline': function(newVal, oldVal) {
+            this.editor.setCursor(newVal)
+         },
          'options': function (newOptions, oldVal) {
             if (typeof newOptions === 'object') {
                for (var optionName in newOptions) {
@@ -55,7 +64,7 @@
                   }
                }
             }
-         }
+         },
       },
       beforeDestroy: function () {
          if (this.editor) {

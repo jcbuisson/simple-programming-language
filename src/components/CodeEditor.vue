@@ -15,7 +15,7 @@
             </b-nav-item-dropdown>
          </b-nav>
       </div>
-      <code-mirror v-bind:value="currentcode" v-on:change="update" v-bind:selectedline="selectedline"></code-mirror>
+      <code-mirror v-bind:value="currentcode" v-bind:options="editorOptions" v-on:change="update" v-bind:selectedline="selectedline"></code-mirror>
       <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
 
    </div>
@@ -27,12 +27,17 @@
    import parser from '../utility/parser.js'
    import debounce from 'lodash/debounce'
 
+   //import { event } from '../utility/eventBus.js'
+   //event.init()
+
    export default {
-      components: { CodeMirror: codemirror },
+      components: {
+         CodeMirror: codemirror,
+      },
       props: {
          title: String,
          initialcode: String,
-         selectedline: Number,
+         selectedline: String,
       },
       computed: {
          currentcode: function() {
@@ -42,9 +47,13 @@
             return this.err ? 'warning' : 'success'
          },
       },
+      mounted: function () {
+         /*event.on('select-line', function(lineno) {
+            console.log('select-line ' + lineno)
+         })*/
+      },
       methods: {
          example: function(exampleName) {
-            console.log('Example: ' + exampleName)
             this.$emit('exampleLoaded', exampleName)
          },
          update: function(newcontent) {
@@ -71,6 +80,15 @@
          return {
             status: '',
             err: null,
+            editorOptions: {
+               mode: this.mode,
+               tabSize: 3,
+               lineNumbers: true,
+               firstLineNumber: 0,
+               styleActiveLine: true,
+               lineWrapping: true,
+               extraKeys: {'Ctrl-Space': 'autocomplete'},
+            }
          }
       },
    }

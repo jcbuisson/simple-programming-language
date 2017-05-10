@@ -8,7 +8,7 @@
         </b-link>
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar class="ml-auto">
-                <b-nav-item v-bind:active="mode === 'online'" v-on:click="mode = 'online'" href="#/">Online sandbox</b-nav-item>
+                <b-nav-item v-bind:active="mode === 'sandbox'" v-on:click="mode = 'sandbox'" href="#/">Online sandbox</b-nav-item>
                 <b-nav-item v-bind:active="mode === 'documentation'" v-on:click="mode = 'documentation'" href="#/documentation">Documentation</b-nav-item>
                 <b-nav-item><a class="a" href="https://github.com/jcbuisson/simple-programming-language" target="_blank">Development</a></b-nav-item>
             </b-nav>
@@ -25,7 +25,7 @@
       name: 'app',
       data () {
          return {
-            mode: 'online',
+            mode: 'sandbox',
          }
       },
    }

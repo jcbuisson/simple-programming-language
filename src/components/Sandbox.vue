@@ -6,12 +6,13 @@
        <div class="main-panel-left">
           <div class="code-editor-panel">
              <code-editor v-bind:title="'Code'" v-bind:initialcode="code" v-on:exampleLoaded="onExampleLoaded"
-                          v-bind:selectedline="selectedLine"></code-editor>
+                          v-bind:selectedline="selectedLine"
+             ></code-editor>
           </div>
           <div class="debug-toolbar-panel">
              <b-button-group>
                 <b-button v-on:click="step"> <i class="fa fa-step-forward"></i> </b-button>
-                <b-button> <i class="fa fa-play"></i> </b-button>
+                <b-button v-on:click="runstop"> <i class="fa fa-play"></i> </b-button>
              </b-button-group>
           </div>
        </div>
@@ -43,8 +44,8 @@
    import memoryeditor from '@/components/MemoryEditor'
    import screen from '@/components/Screen'
 
-   import { event } from '../utility/eventBus.js'
-   event.init()
+   //import { event } from '../utility/eventBus.js'
+   //event.init()
 
    import { store } from '../utility/store.js'
    import { examples } from '../utility/examples.js'
@@ -64,23 +65,20 @@
          return {
             code: '',
             darray: ["1000", "800", "600"],
-            sarray: ["600", "800", "1000"],
+            sarray: [0, 0.5, 1, 1.5, Math.PI],
             inputs: [],
-            //selectedLine: 1,
-            editorOptions: {
-               mode: this.mode,
-               tabSize: 3,
-               lineNumbers: true,
-               firstLineNumber: 0,
-               lineWrapping: true,
-               extraKeys: {'Ctrl-Space': 'autocomplete'},
-            }
+            selectedLine: 1,
          }
       },
       methods: {
          step: function() {
-            this.darray = ["1111", "888", "666"]
-
+            //this.darray = ["1111", "888", "666"]
+            this.selectedLine += 1
+            //event.emit('select-line', 5)
+         },
+         runstop: function() {
+            this.selectedLine = 0
+            this.darray = ["999"].concat(this.darray.slice(1))
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]

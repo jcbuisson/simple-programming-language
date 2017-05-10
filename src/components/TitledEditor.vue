@@ -24,8 +24,7 @@
       },
       methods: {
          contentChanged: function(newContent) {
-            console.log('currentcontent = ' + this.currentcontent)
-            this.$emit('contentchanged', newContent)
+            this.$emit('contentChanged', newContent)
          },
       },
       computed: {
@@ -37,10 +36,6 @@
          return {
             editorOptions: {
                mode: this.mode,
-               tabSize: 3,
-               lineNumbers: true,
-               firstLineNumber: 0,
-               lineWrapping: true,
                extraKeys: {'Ctrl-Space': 'autocomplete'},
             }
          }
