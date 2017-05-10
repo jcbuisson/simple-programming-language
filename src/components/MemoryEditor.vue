@@ -1,31 +1,49 @@
 
 <template>
-   <titled-editor variant="primary" v-bind:title="title" v-bind:initialcontent="textContent" v-on:contentChanged="onContentChanged"></titled-editor>
+   <div class="card no-block">
+
+      <div class="card-header">
+         {{ title }}
+      </div>
+      <code-mirror v-bind:value="textContent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
+
+   </div>
 </template>
 
 <script>
-   import titled from '@/components/TitledEditor'
+   import codemirror from '@/components/CodeMirror'
 
    import cloneDeep from 'lodash/cloneDeep'
 
 
    export default {
-      components: { TitledEditor: titled },
+      components: {
+         CodeMirror: codemirror,
+      },
       props: {
          title: String,
-         initialarray: Array,
+         dataarray: Array,
       },
       computed: {
-         currentarray: function() {
-            return this.initialarray
-         },
          textContent: function() {
-            return this.currentarray.join('\n')
+            return this.dataarray.join('\n')
          }
       },
       methods: {
-         onContentChanged: function(newContent) {
+         contentChanged: function(newContent) {
             console.log('content changed : ' + newContent)
+         }
+      },
+      data () {
+         return {
+            editorOptions: {
+               mode: "text/BIDON",
+               styleActiveLine: true,
+               lineWrapping: true,
+               tabSize: 3,
+               lineNumbers: true,
+               firstLineNumber: 0,
+            }
          }
       },
    }

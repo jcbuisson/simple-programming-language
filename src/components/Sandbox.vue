@@ -19,13 +19,13 @@
        <div class="main-panel-right">
           <div class="memory-panel">
              <div class="data-panel">
-                <memory-editor :initialarray="darray" :title="'Data'"></memory-editor>
+                <memory-editor :dataarray="darray" :title="'Data'"></memory-editor>
              </div>
              <div class="stack-panel" v-if="true">
-                <memory-editor :initialarray="sarray" :title="'Stack'"></memory-editor>
+                <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
              </div>
              <div class="input-panel">
-                <memory-editor :initialarray="inputs" :title="'Input'"></memory-editor>
+                <memory-editor :dataarray="inputs" :title="'Input'"></memory-editor>
              </div>
           </div>
           <div class="input-output-panel">
@@ -64,10 +64,10 @@
       data () {
          return {
             code: '',
-            darray: ["1000", "800", "600"],
+            darray: [1000, 800, 600],
             sarray: [0, 0.5, 1, 1.5, Math.PI],
             inputs: [],
-            selectedLine: 1,
+            selectedLine: 0,
          }
       },
       methods: {

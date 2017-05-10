@@ -26,7 +26,6 @@
                   lineWrapping: true,
                   tabSize: 3,
                   lineNumbers: true,
-                  selectedLine: 0,
                   firstLineNumber: 0,
                }
             }

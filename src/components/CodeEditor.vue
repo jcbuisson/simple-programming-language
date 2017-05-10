@@ -37,7 +37,7 @@
       props: {
          title: String,
          initialcode: String,
-         selectedline: String,
+         selectedline: Number,
       },
       computed: {
          currentcode: function() {
@@ -81,13 +81,12 @@
             status: '',
             err: null,
             editorOptions: {
-               mode: this.mode,
+               mode: "text/BIDON",
+               styleActiveLine: true,
+               lineWrapping: true,
                tabSize: 3,
                lineNumbers: true,
                firstLineNumber: 0,
-               styleActiveLine: true,
-               lineWrapping: true,
-               extraKeys: {'Ctrl-Space': 'autocomplete'},
             }
          }
       },
