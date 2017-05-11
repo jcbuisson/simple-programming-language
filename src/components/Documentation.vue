@@ -9,11 +9,24 @@
 
       <h4>Program and instructions</h4>
       <ul>
-         <li>A <em>program</em> is a list of <em>instructions</em> placed in the <em>Code</em> area. You should not place more
+         <li>A <em>program</em> is a list of <em>instructions</em> written in the <em>Code</em> area. You should not place more
          than one instruction per line.
          </li>
       </ul>
 
+      <h4>Input / Output</h4>
+      <p>
+         The only way to get information from the outside world is to read the <code>input</code> array, each location of which being dedicated
+         to a particular input aspect. For example, <code>input[0]</code> refects permanently the content of the input box situated in the middle-right
+         part of the sandbox:
+         <img src="azer"/>
+      </p>
+      <p>
+         Similarly, the only way to act on the outside world is to write in the <code>output</code> array, each location of which being dedicated
+         to a particular output or acting aspect. For example, writing a number into <code>output[0]</code> has the effect of displaying
+         this number in the output field situated in the middle-right part of the sandbox:
+         <img src="azer"/>
+      </p>
 
    </div>
 </template>

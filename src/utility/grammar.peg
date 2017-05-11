@@ -1,17 +1,56 @@
 
-Instruction
-  = _ codeop:CodeOp _ arg1:Argument _ "," _ arg2:Argument _
-  { return { 'codeop': codeop, 'arg1': arg1, 'arg2': arg2, }; }
-  
-Argument
-  = value:Integer
-  { return { 'type': 'int', 'value': value, }; }
-  / "data[" _ index:Integer _ "]"
-  { return { 'type': 'data', 'index': index, }; }
+Instructions
+  = _ head:Instruction _ tail:Instruction* _
+  { return [head].concat(tail); }
 
-CodeOp
-  = codeop:("cp" / "copy")
-  { return codeop; }
+Instruction
+  = _ "stop" _
+  { return { 'operation': 'stop' }; }
+  / _ "compare" _ expr1:Expression _ "to" _ expr2:Expression _
+  { return { 'operation': 'compare' }; }
+  / _ "go" _ label:Label _ "if" _ cond:Condition _
+  { return { 'operation': 'branch', 'target': label, 'condition': cond }; }
+  / _ "go" _ label:Label _
+  { return { 'operation': 'branch', 'target': label, 'condition': true }; }
+  / _ arg1:Expression _ "->" _ arg2:MemoryLocation _
+  { return { 'operation': 'copy', 'label': null, 'arg1': arg1, 'arg2': arg2, }; }
+  / _ label:Label? _ ":" _ arg1:Expression _ "->" _ arg2:MemoryLocation _
+  { return { 'operation': 'copy', 'label': label, 'arg1': arg1, 'arg2': arg2, }; }
+
+Label
+  = char0:[a-zA-Z_] chars:[a-zA-Z0-9_]*
+  { return (char0 + chars.join("")); }
+
+Condition
+  = "greater" / "greater_or_equal" / "smaller" / "smaller_or_equal"
+    
+MemoryLocation
+  = type:LocationType _ "[" _ index:Integer _ "]"
+  { return { 'type': type, 'index': index, }; }
+
+LocationType
+  = "data" { return 'data'; }
+  / "d" { return 'data'; }
+  / "stack" { return 'stack'; }
+  / "s" { return 'stack'; }
+  / "input" { return 'input'; }
+  / "in" { return 'input'; }
+  / "output" { return 'output'; }
+  / "out" { return 'output'; }
+  
+Expression
+  = head:Term tail:(_ ("+" / "-") _ Term)*
+  { return [head].concat(tail); }
+  
+Term
+  = head:Factor tail:(_ ("*" / "/") _ Factor)*
+  { return [head].concat(tail); }
+
+Factor
+  = "(" _ expr:Expression _ ")"
+  { return expr; }
+  / Integer
+  / MemoryLocation
 
 Integer "integer"
   = [0-9]+ { return parseInt(text(), 10); }
