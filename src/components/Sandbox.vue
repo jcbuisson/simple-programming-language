@@ -2,38 +2,56 @@
 
 <div class="sandbox">
     
-    <div class="main-panel">
-       <div class="main-panel-left">
-          <div class="code-editor-panel">
-             <code-editor v-bind:title="'Code'" v-bind:initialcode="code" v-on:exampleLoaded="onExampleLoaded"
-                          v-bind:selectedline="selectedLine"
-             ></code-editor>
-          </div>
-          <div class="debug-toolbar-panel">
-             <b-button-group>
-                <b-button v-on:click="step"> <i class="fa fa-step-forward"></i> </b-button>
-                <b-button v-on:click="runstop"> <i class="fa fa-play"></i> </b-button>
-             </b-button-group>
-          </div>
-       </div>
-       <div class="main-panel-right">
-          <div class="memory-panel">
-             <div class="data-panel">
-                <memory-editor :dataarray="darray" :title="'Data'"></memory-editor>
-             </div>
-             <div class="stack-panel" v-if="true">
-                <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
-             </div>
-             <div class="input-panel">
-                <memory-editor :dataarray="inputs" :title="'Input'"></memory-editor>
-             </div>
-          </div>
-          <div class="input-output-panel">
-             <div class="keyboard-panel">KEYBOARD</div>
-             <div class="screen-panel">SCREEN</div>
-          </div>
-       </div>
-    </div>
+   <div class="main-panel">
+      <div class="main-panel-left">
+         <div class="code-editor-panel">
+            <code-editor v-bind:title="'Code'" v-bind:initialcode="code" v-on:exampleLoaded="onExampleLoaded"
+                         v-bind:selectedline="selectedLine"
+            ></code-editor>
+         </div>
+         <div class="debug-toolbar-panel">
+            <b-button-group>
+               <b-button v-on:click="step"> <i class="fa fa-step-forward"></i> </b-button>
+               <b-button v-on:click="runstop"> <i class="fa fa-play"></i> </b-button>
+            </b-button-group>
+         </div>
+      </div>
+      <div class="main-panel-right">
+         <div class="memory-panel">
+            <div class="data-panel">
+               <memory-editor :dataarray="darray" :title="'Data'"></memory-editor>
+            </div>
+            <div class="stack-panel" v-if="true">
+               <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
+            </div>
+            <div class="input-panel">
+               <memory-editor :dataarray="inputs" :title="'Input'"></memory-editor>
+            </div>
+         </div>
+         <div class="input-output-panel">
+            <div class="input0-output0-panel">
+               <!--div class="card input0-panel">
+                  <div class="card-block">
+                     <p>input[0] : </p> <input type="number" v-model="inputs[0]"></div>
+               </div>
+               <div class="card output0-panel">
+                  <div class="card-block"><p>output[0] : 1234</p></div>
+               </div-->
+               <div class="card input0-panel">
+                  <div class="card-header">input[0]</div>
+                  <div class="card-block">
+                     <input type="number" v-model="inputs[0]">
+                  </div>
+               </div>
+               <div class="card output0-panel">
+                  <div class="card-header">output[0]</div>
+                  <div class="card-block"><p>1234</p></div>
+               </div>
+            </div>
+            <div class="screen-panel">SCREEN</div>
+         </div>
+      </div>
+   </div>
 </div>
 
 </template>
@@ -207,16 +225,38 @@
    align-content: stretch;
 }
 
-.keyboard-panel {
+.input0-output0-panel {
+   display: flex;
+   flex-direction: row;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.input0-panel {
+   flex: 1;
+}
+
+.output0-panel {
+   flex: 1;
+}
+
+/*.keyboard-panel {
    background: rgba(100, 0, 0, .1);
    margin-top: 10px;
    margin-bottom: 5px;
-}
+}*/
 
 .screen-panel {
    flex: 1;
    background: rgba(0, 100, 0, .1);
    margin-top: 5px;
+}
+
+.card .card-block {
+   padding-top: 10px;
+   padding-bottom: 0px;
 }
 
 </style>

@@ -10,8 +10,8 @@
    require('codemirror/lib/codemirror.css')
    require('codemirror/addon/selection/active-line.js')
 
-   import { event } from '../utility/eventBus.js'
-   event.init()
+   //import { event } from '../utility/eventBus.js'
+   //event.init()
 
    export default {
       props: {
@@ -35,7 +35,6 @@
          var _this = this
          this.editor = CodeMirror.fromTextArea(this.$el, this.options)
          this.editor.setValue(this.value)
-         //this.editor.setValue("000\n111\n222\n333")
          this.editor.on('change', function(cm) {
             if (!!_this.$emit) {
                _this.$emit('change', cm.getValue())

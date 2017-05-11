@@ -31,7 +31,7 @@
       },
       methods: {
          contentChanged: function(newContent) {
-            console.log('content changed : ' + newContent)
+            //console.log('content changed : ' + newContent)
          }
       },
       data () {
