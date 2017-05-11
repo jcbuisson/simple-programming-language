@@ -8,14 +8,23 @@
             <code-editor v-bind:title="'Code'"
                          v-bind:initialcode="code"
                          v-bind:styleactiveline="codeStyleActiveLine"
-                         v-bind:selectedline="selectedLine"
+                         v-bind:selectedline="state.selectedLine"
                          v-on:exampleLoaded="onExampleLoaded"
+                         v-on:programParsed="onProgramParsed"
+                         v-on:programError="onProgramError"
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
             <b-button-group>
-               <b-button v-on:click="step"> <i class="fa fa-step-forward"></i> </b-button>
-               <b-button v-on:click="runstop"> <i class="fa fa-play"></i> </b-button>
+               <b-popover content="Reset" :triggers="['hover']">
+                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'"> <i class="fa fa-stop"></i> </b-btn>
+               </b-popover>
+               <b-popover content="Step" :triggers="['hover']">
+                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok'"> <i class="fa fa-step-forward"></i> </b-btn>
+               </b-popover>
+               <b-popover content="Run/Pause" :triggers="['hover']">
+                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'"> <i class="fa" v-bind:class="{ 'fa-pause': running, 'fa-play': !running }"></i> </b-btn>
+               </b-popover>
             </b-button-group>
          </div>
       </div>
@@ -33,13 +42,6 @@
          </div>
          <div class="input-output-panel">
             <div class="input0-output0-panel">
-               <!--div class="card input0-panel">
-                  <div class="card-block">
-                     <p>input[0] : </p> <input type="number" v-model="inputs[0]"></div>
-               </div>
-               <div class="card output0-panel">
-                  <div class="card-block"><p>output[0] : 1234</p></div>
-               </div-->
                <div class="card input0-panel">
                   <div class="card-header">Number input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
                   <div class="card-block">
@@ -48,6 +50,10 @@
                </div>
                <div class="card output0-panel">
                   <div class="card-header">Number output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
+                  <div class="card-block"><p>1234</p></div>
+               </div>
+               <div class="card compare-panel">
+                  <div class="card-header">Compare results</div>
                   <div class="card-block"><p>1234</p></div>
                </div>
             </div>
@@ -85,31 +91,64 @@
       data () {
          return {
             code: '',
-            darray: [1000, 800, 600],
-            sarray: [0, 0.5, 1, 1.5, Math.PI],
+            state: { 'code': 'code-empty' },
+            darray: [],
+            sarray: [],
             inputs: [],
-            selectedLine: 0,
-            codeStyleActiveLine: true,
             dataStyleActiveLine: false,
+            running: false,
          }
       },
+      computed: {
+         codeStyleActiveLine: function() {
+            if (this.state.tag === 'code-empty') {
+               return false;
+            } else if (this.state.tag === 'code-error') {
+               return false;
+            } else if (this.state.tag === 'code-ok') {
+               return true;
+            }
+         },
+      },
       methods: {
+         reset: function() {
+         },
          step: function() {
             //this.darray = ["1111", "888", "666"]
-            this.dataStyleActiveLine = true
-            this.selectedLine += 1
+            this.state.selectedLine += 1
             //event.emit('select-line', 5)
          },
          runstop: function() {
-            this.selectedLine = 0
-            this.dataStyleActiveLine = false
-            this.darray = ["999"].concat(this.darray.slice(1))
+            this.running = !this.running
+            if (this.running) {
+               this.run()
+            } else {
+               this.stop()
+            }
+         },
+         run: function() {
+            this.state.selectedLine = 0
+            this.darray = [999].concat(this.darray.slice(1))
+         },
+         stop: function() {
+            this.state.selectedLine = 0
+            this.darray = [-999].concat(this.darray.slice(1))
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
             this.code = example.code
             this.darray = example.data
             this.sarray = example.stack
+         },
+         onProgramParsed: function(instructions) {
+            if (instructions.length === 0) {
+               this.state = { 'tag': 'code-empty' }
+            } else {
+               this.state = { 'tag': 'code-ok', 'selectedLine': 0 }
+            }
+         },
+         onProgramError: function() {
+            this.state = { 'tag': 'code-error' }
          },
       },
    }
@@ -242,11 +281,15 @@
 }
 
 .input0-panel {
-   flex: 1;
+   flex: 5;
 }
 
 .output0-panel {
-   flex: 1;
+   flex: 5;
+}
+
+.compare-panel {
+   flex: 5;
 }
 
 /*.keyboard-panel {

@@ -69,12 +69,14 @@
          // note the use of lodash's debounce function to prevent immediate and too frequent parsing
          parseProgram: debounce(function(code) {
             try {
-               let x = parser.parse(code)
+               let parsedProgram = parser.parse(code)
                this.err = null
                this.status = '✓ No error'
+               this.$emit('programParsed', parsedProgram)
             } catch(err) {
                this.err = err
                this.status = 'Line ' + err.location.start.line + ', column ' + err.location.start.column + ': ' + err.message
+               this.$emit('programError')
             }
             this.$forceUpdate()
          }, 500),

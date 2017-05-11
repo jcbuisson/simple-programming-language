@@ -49,13 +49,13 @@ Expression
   { return [head].concat(tail.map(function(e) { return [e[1],e[3]];} )); }
   
 ExpressionZ
-  = head:Term _ tail:ExpressionTail+
+  = head:Term tail:ExpressionTail+
   { return { 'head': head, 'tail': tail } }
   / term:Term
   { return term; }
   
 ExpressionTail
-  = op:("+" / "-") _ term:Term
+  = _ op:("+" / "-") _ term:Term
   { return { 'op': op, 'term': term }; }
   
 Term
