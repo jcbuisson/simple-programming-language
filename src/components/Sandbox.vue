@@ -5,8 +5,11 @@
    <div class="main-panel">
       <div class="main-panel-left">
          <div class="code-editor-panel">
-            <code-editor v-bind:title="'Code'" v-bind:initialcode="code" v-on:exampleLoaded="onExampleLoaded"
+            <code-editor v-bind:title="'Code'"
+                         v-bind:initialcode="code"
+                         v-bind:styleactiveline="codeStyleActiveLine"
                          v-bind:selectedline="selectedLine"
+                         v-on:exampleLoaded="onExampleLoaded"
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
@@ -19,7 +22,7 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor :dataarray="darray" :title="'Data'"></memory-editor>
+               <memory-editor :dataarray="darray" :title="'Data'" v-bind:styleactiveline="dataStyleActiveLine"></memory-editor>
             </div>
             <div class="stack-panel" v-if="true">
                <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
@@ -38,13 +41,13 @@
                   <div class="card-block"><p>output[0] : 1234</p></div>
                </div-->
                <div class="card input0-panel">
-                  <div class="card-header">input[0]</div>
+                  <div class="card-header">Number input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
                   <div class="card-block">
                      <input type="number" v-model="inputs[0]">
                   </div>
                </div>
                <div class="card output0-panel">
-                  <div class="card-header">output[0]</div>
+                  <div class="card-header">Number output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
                   <div class="card-block"><p>1234</p></div>
                </div>
             </div>
@@ -86,16 +89,20 @@
             sarray: [0, 0.5, 1, 1.5, Math.PI],
             inputs: [],
             selectedLine: 0,
+            codeStyleActiveLine: true,
+            dataStyleActiveLine: false,
          }
       },
       methods: {
          step: function() {
             //this.darray = ["1111", "888", "666"]
+            this.dataStyleActiveLine = true
             this.selectedLine += 1
             //event.emit('select-line', 5)
          },
          runstop: function() {
             this.selectedLine = 0
+            this.dataStyleActiveLine = false
             this.darray = ["999"].concat(this.darray.slice(1))
          },
          onExampleLoaded: function(exampleName) {

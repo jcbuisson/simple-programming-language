@@ -5,7 +5,12 @@
       <div class="card-header">
          {{ title }}
       </div>
-      <code-mirror v-bind:value="textContent" v-bind:options="editorOptions" v-on:change="contentChanged"></code-mirror>
+      <code-mirror
+         v-bind:value="textContent"
+         v-bind:styleactiveline="styleactiveline"
+         v-bind:options="editorOptions"
+         v-on:change="contentChanged"
+      ></code-mirror>
 
    </div>
 </template>
@@ -23,6 +28,7 @@
       props: {
          title: String,
          dataarray: Array,
+         styleactiveline: Boolean,
       },
       computed: {
          textContent: function() {
@@ -38,7 +44,7 @@
          return {
             editorOptions: {
                mode: "text/BIDON",
-               styleActiveLine: true,
+               styleActiveLine: this.styleactiveline,
                lineWrapping: true,
                tabSize: 3,
                lineNumbers: true,

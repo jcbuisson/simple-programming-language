@@ -17,6 +17,7 @@
       props: {
          value: String,
          selectedline: Number,
+         styleactiveline: Boolean,
          options: {
             type: Object,
             default: function () {
@@ -35,6 +36,7 @@
          var _this = this
          this.editor = CodeMirror.fromTextArea(this.$el, this.options)
          this.editor.setValue(this.value)
+         this.editor.setOption('styleActiveLine', this.styleactiveline)
          this.editor.on('change', function(cm) {
             if (!!_this.$emit) {
                _this.$emit('change', cm.getValue())
@@ -52,7 +54,11 @@
              }
          },
          'selectedline': function(newVal, oldVal) {
+            let x = this.linenumbers;
             this.editor.setCursor(newVal)
+         },
+         'styleactiveline': function(newVal, oldVal) {
+            this.editor.setOption('styleActiveLine', newVal)
          },
          'options': function (newOptions, oldVal) {
             if (typeof newOptions === 'object') {

@@ -1,28 +1,34 @@
 
-Instructions
-  = _ head:Instruction _ tail:Instruction* _
-  { return [head].concat(tail); }
+ProgramEx
+  = _ instructions:(LabeledInstruction _)*
+  { return instructions.map(function(e) { return e[0]; }); }
 
+LabeledInstruction
+  = label:Label _ ":" _ instruction:Instruction
+  { return { 'label': label, 'instruction': instruction, 'line': location().start.line }; }
+  / instruction:Instruction
+  { return { 'label': null, 'instruction': instruction, 'line': location().start.line }; }
+  
 Instruction
-  = _ "stop" _
-  { return { 'operation': 'stop' }; }
-  / _ "compare" _ expr1:Expression _ "to" _ expr2:Expression _
-  { return { 'operation': 'compare' }; }
-  / _ "go" _ label:Label _ "if" _ cond:Condition _
-  { return { 'operation': 'branch', 'target': label, 'condition': cond }; }
-  / _ "go" _ label:Label _
-  { return { 'operation': 'branch', 'target': label, 'condition': true }; }
-  / _ arg1:Expression _ "->" _ arg2:MemoryLocation _
-  { return { 'operation': 'copy', 'label': null, 'arg1': arg1, 'arg2': arg2, }; }
-  / _ label:Label? _ ":" _ arg1:Expression _ "->" _ arg2:MemoryLocation _
-  { return { 'operation': 'copy', 'label': label, 'arg1': arg1, 'arg2': arg2, }; }
+  = "stop"
+  { return { 'action': 'stop' }; }
+  / "compare" _ expr1:Expression _ "to" _ expr2:Expression
+  { return { 'action': 'compare', 'expr1': expr1, 'expr2': expr2 }; }
+  / "go" _ label:Label _ "if" _ cond:Condition
+  { return { 'action': 'go', 'target': label, 'condition': cond }; }
+  / "go" _ label:Label
+  { return { 'action': 'branch', 'target': label, 'condition': true }; }
+  / expr:Expression _ "->" _ dest:MemoryLocation
+  { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
+  / expr:Expression _ "->" _ arg2:MemoryLocation
+  { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
 
 Label
   = char0:[a-zA-Z_] chars:[a-zA-Z0-9_]*
   { return (char0 + chars.join("")); }
 
 Condition
-  = "greater" / "greater_or_equal" / "smaller" / "smaller_or_equal"
+  = "equal" / "greater" / "greater_or_equal" / "smaller" / "smaller_or_equal"
     
 MemoryLocation
   = type:LocationType _ "[" _ index:Integer _ "]"
@@ -40,21 +46,48 @@ LocationType
   
 Expression
   = head:Term tail:(_ ("+" / "-") _ Term)*
-  { return [head].concat(tail); }
+  { return [head].concat(tail.map(function(e) { return [e[1],e[3]];} )); }
+  
+ExpressionZ
+  = head:Term _ tail:ExpressionTail+
+  { return { 'head': head, 'tail': tail } }
+  / term:Term
+  { return term; }
+  
+ExpressionTail
+  = op:("+" / "-") _ term:Term
+  { return { 'op': op, 'term': term }; }
   
 Term
   = head:Factor tail:(_ ("*" / "/") _ Factor)*
-  { return [head].concat(tail); }
+  { return [head].concat(tail.map(function(e) { return [e[1],e[3]];} )); }
 
 Factor
   = "(" _ expr:Expression _ ")"
   { return expr; }
-  / Integer
-  / MemoryLocation
+  / int:Integer
+  { return int; }
+  / memloc:MemoryLocation
+  { return memloc; }
 
 Integer "integer"
   = [0-9]+ { return parseInt(text(), 10); }
 
 _ "whitespace"
-  = [ \t\n\r]*
+  = ( whiteSpace / lineTerminator / enclosedComment / lineComment )*
+     { return []; }
 
+whiteSpace 
+  = [\t\v\f \u00A0\uFEFF] 
+
+lineTerminator 
+  = [\n\r] 
+
+enclosedComment 
+  = "/*" (!"*/" anyCharacter)* "*/" 
+
+lineComment 
+  = "//" (!lineTerminator anyCharacter)* 
+
+anyCharacter 
+  = . 

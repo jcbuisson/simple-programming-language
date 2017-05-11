@@ -15,7 +15,12 @@
             </b-nav-item-dropdown>
          </b-nav>
       </div>
-      <code-mirror v-bind:value="currentcode" v-bind:options="editorOptions" v-on:change="update" v-bind:selectedline="selectedline"></code-mirror>
+      <code-mirror v-bind:value="currentcode"
+                   v-bind:options="editorOptions"
+                   v-bind:styleactiveline="styleactiveline"
+                   v-bind:selectedline="selectedline"
+                   v-on:change="update"
+      ></code-mirror>
       <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
 
    </div>
@@ -37,6 +42,7 @@
       props: {
          title: String,
          initialcode: String,
+         styleactiveline: Boolean,
          selectedline: Number,
       },
       computed: {
@@ -82,7 +88,7 @@
             err: null,
             editorOptions: {
                mode: "text/BIDON",
-               styleActiveLine: true,
+               styleActiveLine: this.styleactiveline,
                lineWrapping: true,
                tabSize: 3,
                lineNumbers: true,
