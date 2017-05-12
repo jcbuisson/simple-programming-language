@@ -22,12 +22,12 @@
                   </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']">
-                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'" class="debug-btn play-btn">
+                  <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.stopped" class="debug-btn play-btn">
                      <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Step" :triggers="['hover']">
-                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok'" class="debug-btn">
+                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.running || state.stopped" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
                </b-popover>
@@ -107,6 +107,7 @@
             input_array: [0],
             numericOutput: 0,
             compareDifference: 0,
+            timerHandle: null,
          }
       },
       computed: {
@@ -121,26 +122,34 @@
       methods: {
          reset: function() {
             this.state.currentInstructionIndex = 0
+            this.state.running = false
+            this.state.stopped = false
+            clearInterval(this.timerHandle)
          },
          step: function() {
             // event.emit('select-line', 5)
-            if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
+            if (!this.state.stopped) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             }
+            /*if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
+               this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
+            }*/
          },
-         runstop: function() {
+         run_pause: function() {
             this.state.running = !this.state.running
             if (this.state.running) {
                this.run()
             } else {
-               this.stop()
+               this.pause()
             }
          },
          run: function() {
-            this.data_array = [999].concat(this.data_array.slice(1))
+            this.timerHandle = setInterval(function () {
+               this.step();
+            }.bind(this), 5);
          },
-         stop: function() {
-            this.data_array = [-999].concat(this.data_array.slice(1))
+         pause: function() {
+            this.stop()
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
@@ -153,7 +162,7 @@
                this.state = { 'tag': 'code-empty' }
             } else {
                if (this.state.tag !== 'code-ok') {
-                  this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false }
+                  this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false, 'stopped': false }
                }
             }
          },
@@ -193,6 +202,11 @@
                } else {
                   this.state.currentInstructionIndex += 1
                }
+
+            } else if (instruction.instruction.action === 'stop') {
+               this.state.running = false
+               this.state.stopped = true
+               clearInterval(this.timerHandle)
             }
          },
          evaluateExpression: function(expression) {
