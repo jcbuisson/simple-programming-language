@@ -70,12 +70,14 @@
          // note the use of lodash's debounce function to prevent immediate and too frequent parsing
          parseProgram: debounce(function(code) {
             try {
+               // syntactic analysis by PegJS
                let instructions = parser.parse(code)
+               // semantic analysis
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
                   this.status.ok = true
                   this.status.msg = '✓ No error'
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbolTable': result.symbols })
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
                } else {
                   this.status.ok = false
                   this.status.msg = result.errors.join('\n')
@@ -92,6 +94,7 @@
          semanticAnalysis: function(instructions) {
             let symbols = {}
             let errors = []
+            // check that no labels are defined twice and build a symbol table
             instructions.forEach(function(instruction, index) {
                if (instruction.label) {
                   let prevIndex = symbols[instruction.label]
@@ -99,6 +102,14 @@
                      errors.push('Line ' + instruction.line + ": symbol '" + instruction.label + "' already defined line " + instructions[prevIndex].line)
                   } else {
                      symbols[instruction.label] = index
+                  }
+               }
+            })
+            // then check that all labels referenced in 'go' instructions are defined
+            instructions.forEach(function(instruction, index) {
+               if (instruction.instruction.action === 'go') {
+                  if (!symbols.hasOwnProperty(instruction.instruction.target)) {
+                     errors.push('Line ' + instruction.line + ": symbol '<em>" + instruction.instruction.target + "</em>' does not exist")
                   }
                }
             })

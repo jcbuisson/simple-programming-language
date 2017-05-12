@@ -120,8 +120,7 @@
          step: function() {
             // event.emit('select-line', 5)
             if (this.state.currentInstructionIndex < this.state.program.instructions.length - 1) {
-               this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex])
-               this.state.currentInstructionIndex += 1
+               this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             }
          },
          runstop: function() {
@@ -156,7 +155,7 @@
          onProgramError: function() {
             this.state = { 'tag': 'code-error' }
          },
-         executeInstruction: function(instruction) {
+         executeInstruction: function(instruction, symbols) {
             if (instruction.instruction.action === 'copy') {
                let expr = instruction.instruction.expr
                let dest = instruction.instruction.dest
@@ -168,6 +167,14 @@
                } else if (dest.type === 'output') {
                   this.setOutputElementAt(dest.index, exprValue)
                }
+               this.state.currentInstructionIndex += 1
+
+            } else if (instruction.instruction.action === 'compare') {
+               this.state.currentInstructionIndex += 1
+
+            } else if (instruction.instruction.action === 'go') {
+               let target = instruction.instruction.target
+               this.state.currentInstructionIndex = symbols[target]
             }
          },
          evaluateExpression: function(expression) {
