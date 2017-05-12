@@ -8,7 +8,7 @@
             <code-editor v-bind:title="'Code'"
                          v-bind:initialcode="code"
                          v-bind:styleactiveline="codeStyleActiveLine"
-                         v-bind:selectedline="state.selectedLine"
+                         v-bind:selectedline="currentInstructionLine"
                          v-on:exampleLoaded="onExampleLoaded"
                          v-on:programParsed="onProgramParsed"
                          v-on:programError="onProgramError"
@@ -43,17 +43,17 @@
          <div class="input-output-panel">
             <div class="input0-output0-panel">
                <div class="card input0-panel">
-                  <div class="card-header">Number input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
+                  <div class="card-header">Numeric input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
                   <div class="card-block">
                      <input type="number" v-model="inputs[0]">
                   </div>
                </div>
                <div class="card output0-panel">
-                  <div class="card-header">Number output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
+                  <div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
                   <div class="card-block"><p>1234</p></div>
                </div>
                <div class="card compare-panel">
-                  <div class="card-header">Compare results</div>
+                  <div class="card-header">Last compare</div>
                   <div class="card-block"><p>1234</p></div>
                </div>
             </div>
@@ -97,26 +97,30 @@
             inputs: [],
             dataStyleActiveLine: false,
             running: false,
+            instructions: [],
          }
       },
       computed: {
          codeStyleActiveLine: function() {
-            if (this.state.tag === 'code-empty') {
-               return false;
-            } else if (this.state.tag === 'code-error') {
-               return false;
-            } else if (this.state.tag === 'code-ok') {
-               return true;
+            return true
+         },
+         currentInstructionLine: function() {
+            if (this.state.tag === 'code-ok') {
+               return this.instructions[this.state.currentInstructionIndex].line
+            } else {
+               return -1;
             }
          },
       },
       methods: {
          reset: function() {
+            this.state.currentInstructionIndex = 0
          },
          step: function() {
-            //this.darray = ["1111", "888", "666"]
-            this.state.selectedLine += 1
-            //event.emit('select-line', 5)
+            // event.emit('select-line', 5)
+            if (this.state.currentInstructionIndex < this.instructions.length - 1) {
+               this.state.currentInstructionIndex += 1
+            }
          },
          runstop: function() {
             this.running = !this.running
@@ -141,10 +145,13 @@
             this.sarray = example.stack
          },
          onProgramParsed: function(instructions) {
+            this.instructions = instructions
             if (instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
-               this.state = { 'tag': 'code-ok', 'selectedLine': 0 }
+               if (this.state.tag !== 'code-ok') {
+                  this.state = { 'tag': 'code-ok', 'currentInstructionIndex': 0 }
+               }
             }
          },
          onProgramError: function() {

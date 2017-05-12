@@ -9,6 +9,8 @@
    var CodeMirror = require('codemirror/lib/codemirror.js')
    require('codemirror/lib/codemirror.css')
    require('codemirror/addon/selection/active-line.js')
+   //require('codemirror/addon/search/searchcursor.js')
+   //require('codemirror/addon/selection/mark-selection.js')
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
@@ -27,6 +29,7 @@
                   lineWrapping: true,
                   tabSize: 3,
                   lineNumbers: true,
+                  //styleSelectedText: true,
                   firstLineNumber: 0,
                }
             }
@@ -54,8 +57,9 @@
              }
          },
          'selectedline': function(newVal, oldVal) {
-            let x = this.linenumbers;
-            this.editor.setCursor(newVal)
+            //this.editor.setCursor(newVal)
+            this.editor.removeLineClass(oldVal, "background", "styled-background")
+            this.editor.addLineClass(newVal, "background", "styled-background")
          },
          'styleactiveline': function(newVal, oldVal) {
             this.editor.setOption('styleActiveLine', newVal)
@@ -80,7 +84,17 @@
 
 <style>
   .CodeMirror-code {
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: 13px;
+     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+     font-size: 13px;
+  }
+
+  .CodeMirror-selected  {
+     background-color: blue !important;
+  }
+  .CodeMirror-selectedtext {
+     color: white;
+  }
+  .styled-background {
+     background-color: #abbffe;
   }
 </style>

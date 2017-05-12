@@ -94,6 +94,7 @@
                lineWrapping: true,
                tabSize: 3,
                lineNumbers: true,
+               //styleSelectedText: true,
                firstLineNumber: 0,
             }
          }

@@ -5,9 +5,9 @@ ProgramEx
 
 LabeledInstruction
   = label:Label _ ":" _ instruction:Instruction
-  { return { 'label': label, 'instruction': instruction, 'line': location().start.line }; }
+  { return { 'label': label, 'instruction': instruction, 'line': location().start.line - 1 }; }
   / instruction:Instruction
-  { return { 'label': null, 'instruction': instruction, 'line': location().start.line }; }
+  { return { 'label': null, 'instruction': instruction, 'line': location().start.line - 1 }; }
   
 Instruction
   = "stop"
