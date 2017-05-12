@@ -20,8 +20,6 @@ Instruction
   { return { 'action': 'branch', 'target': label, 'condition': true }; }
   / expr:Expression _ "->" _ dest:MemoryLocation
   { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
-  / expr:Expression _ "->" _ arg2:MemoryLocation
-  { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
 
 Label
   = char0:[a-zA-Z_] chars:[a-zA-Z0-9_]*

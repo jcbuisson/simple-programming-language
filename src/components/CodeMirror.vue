@@ -87,10 +87,6 @@
      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
      font-size: 13px;
   }
-
-  .CodeMirror-selected  {
-     background-color: blue !important;
-  }
   .CodeMirror-selectedtext {
      color: white;
   }

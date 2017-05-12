@@ -21,7 +21,7 @@
                    v-bind:selectedline="selectedline"
                    v-on:change="update"
       ></code-mirror>
-      <b-alert show v-bind:variant="variant"> {{ status }} </b-alert>
+      <b-alert show v-bind:variant="variant"> {{ status.msg }} </b-alert>
 
    </div>
 
@@ -50,7 +50,7 @@
             return this.initialcode
          },
          variant: function() {
-            return this.err ? 'warning' : 'success'
+            return this.status.ok ? 'success' : 'danger'
          },
       },
       mounted: function () {
@@ -66,28 +66,51 @@
             this.currentcode = newcontent
             this.parseProgram(newcontent)
          },
+
          // note the use of lodash's debounce function to prevent immediate and too frequent parsing
          parseProgram: debounce(function(code) {
             try {
-               let parsedProgram = parser.parse(code)
-               this.err = null
-               this.status = '✓ No error'
-               this.$emit('programParsed', parsedProgram)
+               let instructions = parser.parse(code)
+               let result = this.semanticAnalysis(instructions)
+               if (result.errors.length === 0) {
+                  this.status.ok = true
+                  this.status.msg = '✓ No error'
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbolTable': result.symbols })
+               } else {
+                  this.status.ok = false
+                  this.status.msg = result.errors.join('\n')
+                  this.$emit('programError')
+               }
             } catch(err) {
-               this.err = err
-               this.status = 'Line ' + err.location.start.line + ', column ' + err.location.start.column + ': ' + err.message
+               this.status.ok = false
+               this.status.msg = 'Line ' + (err.location.start.line - 1) + ', column ' + err.location.start.column + ': ' + err.message
                this.$emit('programError')
             }
             this.$forceUpdate()
          }, 500),
+
+         semanticAnalysis: function(instructions) {
+            let symbols = {}
+            let errors = []
+            instructions.forEach(function(instruction, index) {
+               if (instruction.label) {
+                  let prevIndex = symbols[instruction.label]
+                  if (prevIndex) {
+                     errors.push('Line ' + instruction.line + ": symbol '" + instruction.label + "' already defined line " + instructions[prevIndex].line)
+                  } else {
+                     symbols[instruction.label] = index
+                  }
+               }
+            })
+            return { 'symbols': symbols, 'errors': errors }
+         },
       },
       created: function() {
          this.parseProgram(this.initialcode)
       },
       data () {
          return {
-            status: '',
-            err: null,
+            status: { 'ok': true, 'msg': '' },
             editorOptions: {
                mode: "text/BIDON",
                styleActiveLine: this.styleactiveline,

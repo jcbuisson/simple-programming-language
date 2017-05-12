@@ -7,7 +7,7 @@
          <div class="code-editor-panel">
             <code-editor v-bind:title="'Code'"
                          v-bind:initialcode="code"
-                         v-bind:styleactiveline="codeStyleActiveLine"
+                         v-bind:styleactiveline="true"
                          v-bind:selectedline="currentInstructionLine"
                          v-on:exampleLoaded="onExampleLoaded"
                          v-on:programParsed="onProgramParsed"
@@ -23,7 +23,9 @@
                   <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok'"> <i class="fa fa-step-forward"></i> </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']">
-                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'"> <i class="fa" v-bind:class="{ 'fa-pause': running, 'fa-play': !running }"></i> </b-btn>
+                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'">
+                     <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
+                  </b-btn>
                </b-popover>
             </b-button-group>
          </div>
@@ -31,7 +33,7 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor :dataarray="darray" :title="'Data'" v-bind:styleactiveline="dataStyleActiveLine"></memory-editor>
+               <memory-editor :dataarray="darray" :title="'Data'" v-bind:styleactiveline="false"></memory-editor>
             </div>
             <div class="stack-panel" v-if="true">
                <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
@@ -50,11 +52,11 @@
                </div>
                <div class="card output0-panel">
                   <div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
-                  <div class="card-block"><p>1234</p></div>
+                  <div class="card-block"><h5>{{ numericOutput }}</h5></div>
                </div>
                <div class="card compare-panel">
                   <div class="card-header">Last compare</div>
-                  <div class="card-block"><p>1234</p></div>
+                  <div class="card-block"></div>
                </div>
             </div>
             <div class="screen-panel">SCREEN</div>
@@ -67,6 +69,7 @@
 
 
 <script>
+   import codemirror from '@/components/CodeMirror'
    import codeditor from '@/components/CodeEditor'
    import memoryeditor from '@/components/MemoryEditor'
    import screen from '@/components/Screen'
@@ -74,12 +77,15 @@
    //import { event } from '../utility/eventBus.js'
    //event.init()
 
-   import { store } from '../utility/store.js'
+   //import { store } from '../utility/store.js'
    import { examples } from '../utility/examples.js'
 
    import parser from '../utility/parser.js'
 
-   import codemirror from '@/components/CodeMirror'
+   import concat from 'lodash/concat'
+   import slice from 'lodash/slice'
+   import fill from 'lodash/fill'
+
 
    export default {
       components: {
@@ -94,19 +100,14 @@
             state: { 'code': 'code-empty' },
             darray: [],
             sarray: [],
-            inputs: [],
-            dataStyleActiveLine: false,
-            running: false,
-            instructions: [],
+            inputs: [0],
+            numericOutput: 0,
          }
       },
       computed: {
-         codeStyleActiveLine: function() {
-            return true
-         },
          currentInstructionLine: function() {
             if (this.state.tag === 'code-ok') {
-               return this.instructions[this.state.currentInstructionIndex].line
+               return this.state.program.instructions[this.state.currentInstructionIndex].line
             } else {
                return -1;
             }
@@ -118,24 +119,23 @@
          },
          step: function() {
             // event.emit('select-line', 5)
-            if (this.state.currentInstructionIndex < this.instructions.length - 1) {
+            if (this.state.currentInstructionIndex < this.state.program.instructions.length - 1) {
+               this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex])
                this.state.currentInstructionIndex += 1
             }
          },
          runstop: function() {
-            this.running = !this.running
-            if (this.running) {
+            this.state.running = !this.state.running
+            if (this.state.running) {
                this.run()
             } else {
                this.stop()
             }
          },
          run: function() {
-            this.state.selectedLine = 0
             this.darray = [999].concat(this.darray.slice(1))
          },
          stop: function() {
-            this.state.selectedLine = 0
             this.darray = [-999].concat(this.darray.slice(1))
          },
          onExampleLoaded: function(exampleName) {
@@ -144,18 +144,57 @@
             this.darray = example.data
             this.sarray = example.stack
          },
-         onProgramParsed: function(instructions) {
-            this.instructions = instructions
-            if (instructions.length === 0) {
+         onProgramParsed: function(program) {
+            if (program.instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
                if (this.state.tag !== 'code-ok') {
-                  this.state = { 'tag': 'code-ok', 'currentInstructionIndex': 0 }
+                  this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false }
                }
             }
          },
          onProgramError: function() {
             this.state = { 'tag': 'code-error' }
+         },
+         executeInstruction: function(instruction) {
+            if (instruction.instruction.action === 'copy') {
+               let expr = instruction.instruction.expr
+               let dest = instruction.instruction.dest
+               let exprValue = this.evaluateExpression(expr)
+               if (dest.type === 'data') {
+                  this.setDataElementAt(dest.index, exprValue)
+               } else if (dest.type === 'stack') {
+
+               } else if (dest.type === 'output') {
+                  this.setOutputElementAt(dest.index, exprValue)
+               }
+            }
+         },
+         evaluateExpression: function(expression) {
+            return this.inputs[0]
+         },
+         getDataElementAt: function(index) {
+            if (index >= this.darray.length) {
+               // add zeros up to index
+               let zeros = fill(Array(index-this.darray.length+1), 0)
+               this.darray = concat(this.darray, zeros)
+            }
+            return this.darray[index]
+         },
+         setDataElementAt: function(index, value) {
+            if (index >= this.darray.length) {
+               // add zeros up to index
+               let zeros = fill(Array(index-this.darray.length+1), 0)
+               this.darray = concat(this.darray, zeros)
+            }
+            let left = slice(this.darray, 0, index)
+            let right = slice(this.darray, index+1)
+            this.darray = concat(left, value, right)
+         },
+         setOutputElementAt: function(index, value) {
+            if (index === 0) {
+               this.numericOutput = value
+            }
          },
       },
    }
