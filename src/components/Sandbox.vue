@@ -15,16 +15,20 @@
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
-            <b-button-group>
+            <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']">
-                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'"> <i class="fa fa-stop"></i> </b-btn>
-               </b-popover>
-               <b-popover content="Step" :triggers="['hover']">
-                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok'"> <i class="fa fa-step-forward"></i> </b-btn>
+                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'" class="debug-btn">
+                     <i class="fa fa-stop"></i>
+                  </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']">
-                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'">
+                  <b-btn v-on:click="runstop" :disabled="state.tag !== 'code-ok'" class="debug-btn play-btn">
                      <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
+                  </b-btn>
+               </b-popover>
+               <b-popover content="Step" :triggers="['hover']">
+                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok'" class="debug-btn">
+                     <i class="fa fa-step-forward"></i>
                   </b-btn>
                </b-popover>
             </b-button-group>
@@ -119,7 +123,7 @@
          },
          step: function() {
             // event.emit('select-line', 5)
-            if (this.state.currentInstructionIndex < this.state.program.instructions.length - 1) {
+            if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             }
          },
@@ -178,7 +182,31 @@
             }
          },
          evaluateExpression: function(expression) {
-            return this.inputs[0]
+            if (typeof expression === "number") {
+               return expression
+            } else if (expression.hasOwnProperty('type')) {
+               let indexExpr = expression.index
+               let index = this.evaluateExpression(indexExpr)
+               if (expression.type === 'data') {
+                  return this.darray[index]
+               } else if (expression.type === 'stack') {
+                  return this.sarray[index]
+               } else if (expression.type === 'input') {
+                  return this.inputs[index]
+               }
+            } else if (expression.hasOwnProperty('op')) {
+               let t1 = this.evaluateExpression(expression.t1)
+               let t2 = this.evaluateExpression(expression.t2)
+               if (expression.op === '+') {
+                  return t1 + t2
+               } else if (expression.op === '-') {
+                  return t1 - t2
+               } else if (expression.op === '*') {
+                  return t1 * t2
+               } else if (expression.op === '/') {
+                  return t1 / t2
+               }
+            }
          },
          getDataElementAt: function(index) {
             if (index >= this.darray.length) {
@@ -263,8 +291,28 @@
 }
 
 .debug-toolbar-panel {
-   background: rgba(100, 100, 0, .1);
-   margin-top: 5px;
+   display: flex;
+   flex-direction: column;  
+   align-items: center;
+   justify-content: center;
+}
+
+.debug-btn-panel {
+   align-items: center;
+   justify-content: center;
+}
+
+.debug-btn {
+   text-align: center;
+}
+
+.play-btn {
+  width: 60px;
+  height: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 40px;
+  /*background: #aaffaa;*/
 }
 
 .main-panel-right {

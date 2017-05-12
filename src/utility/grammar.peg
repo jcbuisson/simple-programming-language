@@ -17,8 +17,8 @@ Instruction
   / "go" _ label:Label _ "if" _ cond:Condition
   { return { 'action': 'go', 'target': label, 'condition': cond }; }
   / "go" _ label:Label
-  { return { 'action': 'branch', 'target': label, 'condition': true }; }
-  / expr:Expression _ "->" _ dest:MemoryLocation
+  { return { 'action': 'go', 'target': label, 'condition': true }; }
+   / expr:Expression _ "->" _ dest:MemoryLocation
   { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
 
 Label
@@ -43,30 +43,20 @@ LocationType
   / "out" { return 'output'; }
   
 Expression
-  = head:Term tail:(_ ("+" / "-") _ Term)*
-  { return [head].concat(tail.map(function(e) { return [e[1],e[3]];} )); }
-  
-ExpressionZ
-  = head:Term tail:ExpressionTail+
-  { return { 'head': head, 'tail': tail } }
-  / term:Term
-  { return term; }
-  
-ExpressionTail
-  = _ op:("+" / "-") _ term:Term
-  { return { 'op': op, 'term': term }; }
+  = t1:Term _ op:("+"/"-") _ t2:Term
+  { return { 'op': op, 't1': t1, 't2': t2 }; }
+  / Term
   
 Term
-  = head:Factor tail:(_ ("*" / "/") _ Factor)*
-  { return [head].concat(tail.map(function(e) { return [e[1],e[3]];} )); }
-
+  = t1:Factor _ op:("*" / "/") _ t2:Factor
+  { return { 'op': op, 't1': t1, 't2': t2 }; }
+  / Factor
+  
 Factor
   = "(" _ expr:Expression _ ")"
   { return expr; }
-  / int:Integer
-  { return int; }
-  / memloc:MemoryLocation
-  { return memloc; }
+  / Integer
+  / MemoryLocation
 
 Integer "integer"
   = [0-9]+ { return parseInt(text(), 10); }

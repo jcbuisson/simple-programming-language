@@ -12,7 +12,7 @@ const examples = {
    sum_of_nth_first_integers: {
       code:
          "/* Compute the sum of the first integers\n" +
-         "   up to the value typed in the 'Numeric input' field.\n" +
+         "   up to the value entered in the 'Numeric input' field.\n" +
          "   The result is visible in the 'Numeric output' field\n" +
          "*/\n" +
          "      input[0] -> data[0]\n" +

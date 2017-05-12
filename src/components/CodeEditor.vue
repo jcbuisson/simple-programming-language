@@ -113,6 +113,8 @@
                   }
                }
             })
+            // then verify that 'input' is accessed read-only and 'output' write-only
+            // TODO
             return { 'symbols': symbols, 'errors': errors }
          },
       },
