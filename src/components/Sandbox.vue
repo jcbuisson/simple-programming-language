@@ -37,13 +37,13 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor :dataarray="darray" :title="'Data'" v-bind:styleactiveline="false"></memory-editor>
+               <memory-editor :numberarray="data_array" :title="'Data'" v-bind:styleactiveline="false"></memory-editor>
             </div>
             <div class="stack-panel" v-if="true">
-               <memory-editor :dataarray="sarray" :title="'Stack'"></memory-editor>
+               <memory-editor :numberarray="stack_array" :title="'Stack'"></memory-editor>
             </div>
             <div class="input-panel">
-               <memory-editor :dataarray="inputs" :title="'Input'"></memory-editor>
+               <memory-editor :numberarray="input_array" :title="'Input'"></memory-editor>
             </div>
          </div>
          <div class="input-output-panel">
@@ -51,7 +51,7 @@
                <div class="card input0-panel">
                   <div class="card-header">Numeric input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
                   <div class="card-block">
-                     <input type="number" v-model="inputs[0]">
+                     <input type="number" v-model="input_array[0]">
                   </div>
                </div>
                <div class="card output0-panel">
@@ -60,7 +60,7 @@
                </div>
                <div class="card compare-panel">
                   <div class="card-header">Last compare</div>
-                  <div class="card-block"></div>
+                  <div class="card-block">{{ compareDifference }}</div>
                </div>
             </div>
             <div class="screen-panel">SCREEN</div>
@@ -102,10 +102,11 @@
          return {
             code: '',
             state: { 'code': 'code-empty' },
-            darray: [],
-            sarray: [],
-            inputs: [0],
+            data_array: [],
+            stack_array: [],
+            input_array: [0],
             numericOutput: 0,
+            compareDifference: 0,
          }
       },
       computed: {
@@ -136,16 +137,16 @@
             }
          },
          run: function() {
-            this.darray = [999].concat(this.darray.slice(1))
+            this.data_array = [999].concat(this.data_array.slice(1))
          },
          stop: function() {
-            this.darray = [-999].concat(this.darray.slice(1))
+            this.data_array = [-999].concat(this.data_array.slice(1))
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
             this.code = example.code
-            this.darray = example.data
-            this.sarray = example.stack
+            this.data_array = example.data
+            this.stack_array = example.stack
          },
          onProgramParsed: function(program) {
             if (program.instructions.length === 0) {
@@ -174,11 +175,24 @@
                this.state.currentInstructionIndex += 1
 
             } else if (instruction.instruction.action === 'compare') {
+               let expr1Value = this.evaluateExpression(instruction.instruction.expr1)
+               let expr2Value = this.evaluateExpression(instruction.instruction.expr2)
+               this.compareDifference = expr1Value - expr2Value
                this.state.currentInstructionIndex += 1
 
             } else if (instruction.instruction.action === 'go') {
                let target = instruction.instruction.target
-               this.state.currentInstructionIndex = symbols[target]
+               if (instruction.instruction.condition === true ||
+                   (instruction.instruction.condition === 'equal' && this.compareDifference === 0) ||
+                   (instruction.instruction.condition === 'greater' && this.compareDifference > 0) ||
+                   (instruction.instruction.condition === 'greater_or_equal' && this.compareDifference >= 0) ||
+                   (instruction.instruction.condition === 'smaller' && this.compareDifference < 0) ||
+                   (instruction.instruction.condition === 'smaller_or_equal' && this.compareDifference <= 0)
+               ) {
+                  this.state.currentInstructionIndex = symbols[target]
+               } else {
+                  this.state.currentInstructionIndex += 1
+               }
             }
          },
          evaluateExpression: function(expression) {
@@ -188,11 +202,11 @@
                let indexExpr = expression.index
                let index = this.evaluateExpression(indexExpr)
                if (expression.type === 'data') {
-                  return this.darray[index]
+                  return this.getDataElementAt(index)
                } else if (expression.type === 'stack') {
-                  return this.sarray[index]
+                  return this.stack_array[index]
                } else if (expression.type === 'input') {
-                  return this.inputs[index]
+                  return this.getInputElementAt(index)
                }
             } else if (expression.hasOwnProperty('op')) {
                let t1 = this.evaluateExpression(expression.t1)
@@ -209,22 +223,27 @@
             }
          },
          getDataElementAt: function(index) {
-            if (index >= this.darray.length) {
+            if (index >= this.data_array.length) {
                // add zeros up to index
-               let zeros = fill(Array(index-this.darray.length+1), 0)
-               this.darray = concat(this.darray, zeros)
+               let zeros = fill(Array(index-this.data_array.length+1), 0)
+               this.data_array = concat(this.data_array, zeros)
             }
-            return this.darray[index]
+            return this.data_array[index]
          },
          setDataElementAt: function(index, value) {
-            if (index >= this.darray.length) {
+            if (index >= this.data_array.length) {
                // add zeros up to index
-               let zeros = fill(Array(index-this.darray.length+1), 0)
-               this.darray = concat(this.darray, zeros)
+               let zeros = fill(Array(index-this.data_array.length+1), 0)
+               this.data_array = concat(this.data_array, zeros)
             }
-            let left = slice(this.darray, 0, index)
-            let right = slice(this.darray, index+1)
-            this.darray = concat(left, value, right)
+            let left = slice(this.data_array, 0, index)
+            let right = slice(this.data_array, index+1)
+            this.data_array = concat(left, value, right)
+         },
+         getInputElementAt: function(index) {
+            if (index === 0) {
+               return parseInt(this.input_array[0])
+            }
          },
          setOutputElementAt: function(index, value) {
             if (index === 0) {
@@ -289,7 +308,7 @@
    background: rgba(100, 0, 100, .1);
    margin-bottom: 5px;
 }
-
+/*
 .debug-toolbar-panel {
    display: flex;
    flex-direction: column;  
@@ -312,9 +331,8 @@
   margin-left: 20px;
   margin-right: 20px;
   border-radius: 40px;
-  /*background: #aaffaa;*/
 }
-
+*/
 .main-panel-right {
    flex: 1;
 

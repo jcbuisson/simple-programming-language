@@ -27,12 +27,12 @@
       },
       props: {
          title: String,
-         dataarray: Array,
+         numberarray: Array,
          styleactiveline: Boolean,
       },
       computed: {
          textContent: function() {
-            return this.dataarray.join('\n')
+            return this.numberarray.join('\n')
          }
       },
       methods: {
