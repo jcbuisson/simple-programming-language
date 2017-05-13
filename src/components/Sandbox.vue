@@ -16,6 +16,9 @@
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
+            <b-alert class="code-status" show v-bind:variant="variant">
+                <div v-html="status.msg"></div>
+            </b-alert>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']">
                   <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'" class="debug-btn">
@@ -123,6 +126,7 @@
       data () {
          return {
             code: '',
+            status: { 'msg': "Dummy" },
             state: { 'code': 'code-empty' },
             data_array: [],
             stack_array: [],

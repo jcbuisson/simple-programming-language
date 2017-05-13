@@ -6,7 +6,8 @@
         <b-link class="navbar-brand" to="#">
            <span>Simple Programming Language</span>
            <span> <b-button v-on:click="setSandboxCurrent">sandbox</b-button> </span>
-           <span> <b-button v-on:click="setDocumentationCurrent">doc</b-button> </span>
+           <span> <b-button v-on:click="setTutorialCurrent">tutorial</b-button> </span>
+           <span> <b-button v-on:click="setDocumentationCurrent">reference</b-button> </span>
         </b-link>
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar class="ml-auto">
@@ -27,12 +28,14 @@
 
 <script>
    import sandbox from '@/components/Sandbox'
+   import tutorial from '@/components/Tutorial'
    import documentation from '@/components/Documentation'
 
    export default {
       name: 'app',
       components: {
          Sandbox: sandbox,
+         Tutorial: tutorial,
          Documentation: documentation,
       },
       data () {
@@ -47,6 +50,9 @@
          isSandboxCurrent: function() {
             return this.currentView === sandbox
          },
+         isTutorialCurrent: function() {
+            return this.currentView === tutorial
+         },
          isDocumentationCurrent: function() {
             return this.currentView === documentation
          },
@@ -54,6 +60,9 @@
       methods: {
          setSandboxCurrent: function() {
             this.currentView = sandbox
+         },
+         setTutorialCurrent: function() {
+            this.currentView = tutorial
          },
          setDocumentationCurrent: function() {
             this.currentView = documentation

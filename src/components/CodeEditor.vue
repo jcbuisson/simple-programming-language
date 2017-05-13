@@ -23,7 +23,9 @@
                       v-on:change="update"
          ></code-mirror>
       </div>
-      <b-alert class="code-editor-footer" show v-bind:variant="variant"> <div v-html="status.msg"></div> </b-alert>
+      <!--b-alert class="code-editor-footer" show v-bind:variant="variant">
+         <div v-html="status.msg"></div>
+      </b-alert-->
 
    </div>
 
