@@ -4,8 +4,8 @@
     
    <div class="main-panel">
       <div class="main-panel-left">
-         <div class="code-editor-panel" style="overflow: auto;">
-            <code-editor v-bind:title="'Code'"
+         <div class="code-editor-panel">
+            <code-editor v-bind:title="'Code'" class="editor"
                          v-bind:initialcode="code"
                          v-bind:styleactiveline="true"
                          v-bind:selectedline="currentInstructionLine"
@@ -185,6 +185,7 @@
             this.code = example.code
             this.data_array = example.data
             this.stack_array = example.stack
+            this.input_array = example.input
          },
          onProgramParsed: function(program) {
             if (program.instructions.length === 0) {
@@ -369,8 +370,18 @@
 
 .code-editor-panel {
    flex: 1;
-   background: rgba(100, 0, 100, .1);
-   margin-bottom: 5px;
+   background: rgba(100, 0, 100, .2);
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.editor {
+   flex: 1;
 }
 /*
 .debug-toolbar-panel {
@@ -426,20 +437,20 @@
 
 .data-panel {
    flex: 1;
-   background: rgba(100, 0, 0, .1);
+   /*background: rgba(100, 0, 0, .1);*/
    margin-right: 5px;
 }
 
 .stack-panel {
    flex: 1;
-   background: rgba(0, 100, 0, .1);
+   /*background: rgba(0, 100, 0, .1);*/
    margin-left: 5px;
    margin-right: 5px;
 }
 
 .input-panel {
    flex: 1;
-   background: rgba(0, 0, 100, .1);
+   /*background: rgba(0, 0, 100, .1);*/
    margin-left: 5px;
 }
 

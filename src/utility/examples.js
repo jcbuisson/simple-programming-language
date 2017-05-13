@@ -7,6 +7,7 @@ const examples = {
          "       go here",
       data: [0.5, 1],
       stack: [0],
+      input: [12]
    },
 
    sum_of_nth_first_integers: {
@@ -24,8 +25,9 @@ const examples = {
          "         go here\n" +
          "end:     data[1] -> output[0]\n" +
          "         stop",
-      data: [1000, 1001],
+      data: [],
       stack: [],
+      input: [5]
    },
 
 }

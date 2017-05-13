@@ -3,7 +3,7 @@
 
    <div class="code-editor card no-block">
 
-      <div class="card-header">
+      <div class="card-header code-editor-header">
          <b-nav>
             <div class="navbar-brand">{{ title }}</div>            
             <b-nav-item-dropdown text="Examples" right-alignment>
@@ -15,13 +15,15 @@
             </b-nav-item-dropdown>
          </b-nav>
       </div>
-      <code-mirror v-bind:value="currentcode"
-                   v-bind:options="editorOptions"
-                   v-bind:styleactiveline="styleactiveline"
-                   v-bind:selectedline="selectedline"
-                   v-on:change="update"
-      ></code-mirror>
-      <b-alert show v-bind:variant="variant"> {{ status.msg }} </b-alert>
+      <div class="code-editor-body" style="overflow: auto;">
+         <code-mirror v-bind:value="currentcode"
+                      v-bind:options="editorOptions"
+                      v-bind:styleactiveline="styleactiveline"
+                      v-bind:selectedline="selectedline"
+                      v-on:change="update"
+         ></code-mirror>
+      </div>
+      <b-alert class="code-editor-footer" show v-bind:variant="variant"> {{ status.msg }} </b-alert>
 
    </div>
 
@@ -140,4 +142,25 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.code-editor {
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.code-editor-body {
+   flex: 3;
+   background: rgba(100, 0, 100, .1);
+}
+
+.code-editor-header {
+   flex: 1;
+}
+
+.code-editor-footer {
+   flex: 1;
+}
 </style>
