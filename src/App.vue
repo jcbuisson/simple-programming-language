@@ -7,12 +7,13 @@
            <span>Simple Programming Language</span>
            <span> <b-button v-on:click="setSandboxCurrent">sandbox</b-button> </span>
            <span> <b-button v-on:click="setTutorialCurrent">tutorial</b-button> </span>
-           <span> <b-button v-on:click="setDocumentationCurrent">reference</b-button> </span>
+           <span> <b-button v-on:click="setReferenceCurrent">reference</b-button> </span>
         </b-link>
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav-item v-bind:active="isSandboxCurrent" v-on:click="setSandboxCurrent">Sandbox</b-nav-item>
-                <b-nav-item v-bind:active="isDocumentationCurrent" v-on:click="setDocumentationCurrent">Documentation</b-nav-item>
+                <b-nav-item v-bind:active="isTutorialCurrent" v-on:click="setTutorialCurrent">Tutorial</b-nav-item>
+                <b-nav-item v-bind:active="isReferenceCurrent" v-on:click="setReferenceCurrent">Reference</b-nav-item>
                 <b-nav-item><a class="a" href="https://github.com/jcbuisson/simple-programming-language" target="_blank">Development</a></b-nav-item>
             </b-nav>
         </b-collapse>
@@ -29,14 +30,14 @@
 <script>
    import sandbox from '@/components/Sandbox'
    import tutorial from '@/components/Tutorial'
-   import documentation from '@/components/Documentation'
+   import reference from '@/components/Reference'
 
    export default {
       name: 'app',
       components: {
          Sandbox: sandbox,
          Tutorial: tutorial,
-         Documentation: documentation,
+         Reference: reference,
       },
       data () {
          return {
@@ -53,8 +54,8 @@
          isTutorialCurrent: function() {
             return this.currentView === tutorial
          },
-         isDocumentationCurrent: function() {
-            return this.currentView === documentation
+         isReferenceCurrent: function() {
+            return this.currentView === reference
          },
       },
       methods: {
@@ -64,8 +65,8 @@
          setTutorialCurrent: function() {
             this.currentView = tutorial
          },
-         setDocumentationCurrent: function() {
-            this.currentView = documentation
+         setReferenceCurrent: function() {
+            this.currentView = reference
          },
       },
    }
