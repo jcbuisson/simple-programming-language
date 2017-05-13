@@ -23,7 +23,7 @@
                       v-on:change="update"
          ></code-mirror>
       </div>
-      <b-alert class="code-editor-footer" show v-bind:variant="variant"> {{ status.msg }} </b-alert>
+      <b-alert class="code-editor-footer" show v-bind:variant="variant"> <div v-html="status.msg"></div> </b-alert>
 
    </div>
 
@@ -78,11 +78,11 @@
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
                   this.status.ok = true
-                  this.status.msg = '✓ No error'
+                  this.status.msg = '✓ Ready to run!'
                   this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
                } else {
                   this.status.ok = false
-                  this.status.msg = result.errors.join('\n')
+                  this.status.msg = result.errors.join('<br/>')
                   this.$emit('programError')
                }
             } catch(err) {
@@ -152,15 +152,11 @@
 }
 
 .code-editor-body {
-   flex: 3;
+   flex: 1;
    background: rgba(100, 0, 100, .1);
 }
 
-.code-editor-header {
-   flex: 1;
-}
-
 .code-editor-footer {
-   flex: 1;
+   margin-bottom: 0px;
 }
 </style>
