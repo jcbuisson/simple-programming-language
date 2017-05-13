@@ -1,17 +1,18 @@
 
 <template>
-   <div class="card no-block">
+   <div class="card no-block memory-editor">
 
-      <div class="card-header">
+      <div class="card-header memory-editor-header">
          {{ title }}
       </div>
-      <code-mirror
-         v-bind:value="textContent"
-         v-bind:styleactiveline="styleactiveline"
-         v-bind:options="editorOptions"
-         v-on:change="contentChanged"
-      ></code-mirror>
-
+      <div class="memory-editor-body" style="overflow: auto;">
+         <code-mirror
+            v-bind:value="textContent"
+            v-bind:styleactiveline="styleactiveline"
+            v-bind:options="editorOptions"
+            v-on:change="contentChanged"
+         ></code-mirror>
+      </div>
    </div>
 </template>
 
@@ -59,7 +60,17 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-   title-editor {
-      overflow: auto;
-   }
+.memory-editor {
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+}
+
+.memory-editor-body {
+   flex: 1;
+   background: rgba(100, 0, 100, .1);
+}
 </style>

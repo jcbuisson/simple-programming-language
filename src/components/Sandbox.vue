@@ -4,8 +4,9 @@
     
    <div class="main-panel">
       <div class="main-panel-left">
-         <div class="code-editor-panel">
-            <code-editor v-bind:title="'Code'" class="editor"
+         <div class="code-panel">
+            <code-editor class="code-editor"
+                         v-bind:title="'Code'"
                          v-bind:initialcode="code"
                          v-bind:styleactiveline="true"
                          v-bind:selectedline="currentInstructionLine"
@@ -36,22 +37,27 @@
       </div>
       <div class="main-panel-right">
          <div class="memory-panel">
-            <div class="data-panel" style="overflow: auto;">
-               <memory-editor :numberarray="data_array"
+            <div class="data-panel">
+               <memory-editor class="data-editor"
+                              :numberarray="data_array"
                               :title="'Data'"
                               v-bind:styleactiveline="false"
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
-            <div class="stack-panel" v-if="true" style="overflow: auto;">
-               <memory-editor :numberarray="stack_array"
+            <div class="stack-panel" v-if="true">
+               <memory-editor class="stack-editor"
+                              :numberarray="stack_array"
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
                               v-on:memoryChange="stackEdited"
                ></memory-editor>
             </div>
-            <div class="input-panel" style="overflow: auto;">
-               <memory-editor :numberarray="input_array" :title="'Input'"></memory-editor>
+            <div class="input-panel">
+               <memory-editor class="input-editor"
+                              :numberarray="input_array"
+                              :title="'Input'"
+               ></memory-editor>
             </div>
          </div>
          <div class="input-output-panel">
@@ -368,7 +374,7 @@
    margin-bottom: 10px;
 }
 
-.code-editor-panel {
+.code-panel {
    flex: 1;
    background: rgba(100, 0, 100, .2);
 
@@ -380,7 +386,7 @@
    align-content: stretch;
 }
 
-.editor {
+.code-editor {
    flex: 1;
 }
 /*
@@ -437,21 +443,54 @@
 
 .data-panel {
    flex: 1;
-   /*background: rgba(100, 0, 0, .1);*/
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+
    margin-right: 5px;
+}
+
+.data-editor {
+    flex: 1;
 }
 
 .stack-panel {
    flex: 1;
-   /*background: rgba(0, 100, 0, .1);*/
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+
    margin-left: 5px;
    margin-right: 5px;
 }
 
+.stack-editor {
+    flex: 1;
+}
+
 .input-panel {
    flex: 1;
-   /*background: rgba(0, 0, 100, .1);*/
+
+   display: flex;
+   flex-direction: column;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
+
    margin-left: 5px;
+}
+
+.input-editor {
+    flex: 1;
 }
 
 .input-output-panel {
