@@ -504,4 +504,21 @@
    padding-bottom: 5px;
 }
 
+.fill-area {
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: flex-start; /* align items in Main Axis */
+    align-items: stretch; /* align items in Cross Axis */
+    align-content: stretch; /* Extra space in Cross Axis */
+    
+}
+.fill-area-content {
+    /*background: rgba(0, 0, 0, .3);
+    border: 1px solid #000000;*/
+    
+    /* Needed for when the area gets squished too far and there is content that can't be displayed */
+    overflow: auto; 
+}
+
 </style>
