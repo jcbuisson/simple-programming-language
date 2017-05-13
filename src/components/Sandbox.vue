@@ -58,7 +58,7 @@
                <div class="card output0-panel">
                   <!--div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div-->
                   <div class="card-header">Numeric output</div>
-                  <div class="card-block"><h5>{{ numericOutput }}</h5></div>
+                  <div class="card-block" style="font-size: 20px; font-weight: bold;">{{ numericOutput }}</div>
                </div>
                <div class="card compare-panel">
                   <div class="card-header">Last compare status</div>
@@ -196,7 +196,7 @@
                if (dest.type === 'data') {
                   this.setDataElementAt(dest.index, exprValue)
                } else if (dest.type === 'stack') {
-
+                  this.setStackElementAt(dest.index, exprValue)
                } else if (dest.type === 'output') {
                   this.setOutputElementAt(dest.index, exprValue)
                }
@@ -235,7 +235,7 @@
                if (expression.type === 'data') {
                   return this.getDataElementAt(index)
                } else if (expression.type === 'stack') {
-                  return this.stack_array[index]
+                  return this.getStackElementAt(index)
                } else if (expression.type === 'input') {
                   return this.getInputElementAt(index)
                }
@@ -270,6 +270,24 @@
             let left = slice(this.data_array, 0, index)
             let right = slice(this.data_array, index+1)
             this.data_array = concat(left, value, right)
+         },
+         getStackElementAt: function(index) {
+            if (index >= this.stack_array.length) {
+               // add zeros up to index
+               let zeros = fill(Array(index-this.stack_array.length+1), 0)
+               this.stack_array = concat(this.stack_array, zeros)
+            }
+            return this.stack_array[index]
+         },
+         setStackElementAt: function(index, value) {
+            if (index >= this.stack_array.length) {
+               // add zeros up to index
+               let zeros = fill(Array(index-this.stack_array.length+1), 0)
+               this.stack_array = concat(this.stack_array, zeros)
+            }
+            let left = slice(this.stack_array, 0, index)
+            let right = slice(this.stack_array, index+1)
+            this.stack_array = concat(left, value, right)
          },
          getInputElementAt: function(index) {
             if (index === 0) {
