@@ -126,7 +126,7 @@
       data () {
          return {
             code: '',
-            status: { 'msg': "Dummy" },
+            status: { 'ok': true, 'msg': '' },
             state: { 'code': 'code-empty' },
             data_array: [],
             stack_array: [],
@@ -143,6 +143,9 @@
             } else {
                return -1;
             }
+         },
+         variant: function() {
+            return this.status.ok ? 'success' : 'danger'
          },
          compareEqual: function() {
             return (this.compareDifference != null) && (this.compareDifference === 0)
@@ -198,13 +201,15 @@
             this.input_array = example.input
          },
          onProgramParsed: function(program) {
+            this.status = program.status
             if (program.instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
                this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false, 'stopped': false }
             }
          },
-         onProgramError: function() {
+         onProgramError: function(status) {
+            this.status = status
             this.state = { 'tag': 'code-error' }
          },
          executeInstruction: function(instruction, symbols) {
@@ -393,14 +398,20 @@
 .code-editor {
    flex: 1;
 }
-/*
+
 .debug-toolbar-panel {
    display: flex;
-   flex-direction: column;  
-   align-items: center;
-   justify-content: center;
+   flex-direction: row;  
+   justify-content: flex-start;
+
+   align-items: stretch;
+   align-content: stretch;
 }
 
+.code-status {
+   flex: 1;
+}
+/*
 .debug-btn-panel {
    align-items: center;
    justify-content: center;

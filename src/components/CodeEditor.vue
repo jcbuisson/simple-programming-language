@@ -53,9 +53,6 @@
          currentcode: function() {
             return this.initialcode
          },
-         variant: function() {
-            return this.status.ok ? 'success' : 'danger'
-         },
       },
       mounted: function () {
          /*event.on('select-line', function(lineno) {
@@ -81,7 +78,7 @@
                if (result.errors.length === 0) {
                   this.status.ok = true
                   this.status.msg = '✓ Program ok and ready to run!'
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'status': this.status })
                } else {
                   this.status.ok = false
                   this.status.msg = result.errors.join('<br/>')
@@ -90,7 +87,7 @@
             } catch(err) {
                this.status.ok = false
                this.status.msg = 'Line ' + (err.location.start.line - 1) + ', column ' + err.location.start.column + ': ' + err.message
-               this.$emit('programError')
+               this.$emit('programError', this.status)
             }
             this.$forceUpdate()
          }, 500),
