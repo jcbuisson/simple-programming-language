@@ -37,10 +37,18 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor :numberarray="data_array" :title="'Data'" v-bind:styleactiveline="false"></memory-editor>
+               <memory-editor :numberarray="data_array"
+                              :title="'Data'"
+                              v-bind:styleactiveline="false"
+                              v-on:memoryChange="dataEdited"
+               ></memory-editor>
             </div>
             <div class="stack-panel" v-if="true">
-               <memory-editor :numberarray="stack_array" :title="'Stack'"></memory-editor>
+               <memory-editor :numberarray="stack_array"
+                              :title="'Stack'"
+                              v-bind:styleactiveline="false"
+                              v-on:memoryChange="stackEdited"
+               ></memory-editor>
             </div>
             <div class="input-panel">
                <memory-editor :numberarray="input_array" :title="'Input'"></memory-editor>
@@ -299,6 +307,12 @@
             if (index === 0) {
                this.numericOutput = value
             }
+         },
+         dataEdited: function(newArray) {
+            this.data_array = newArray
+         },
+         stackEdited: function(newArray) {
+            this.stack_array = newArray
          },
       },
    }

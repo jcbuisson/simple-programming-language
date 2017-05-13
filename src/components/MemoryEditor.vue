@@ -38,6 +38,8 @@
       methods: {
          contentChanged: function(newContent) {
             //console.log('content changed : ' + newContent)
+            let newArray = newContent.split('\n').map(function(e) { let v = parseFloat(e); return isNaN(v) ? 0 : v })
+            this.$emit('memoryChange', newArray)
          }
       },
       data () {
