@@ -37,7 +37,7 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor :numberarray="data_array"
+               <memory-editor :numberarray="data_array" style="overflow-x: auto; overflow-y: auto"
                               :title="'Data'"
                               v-bind:styleactiveline="false"
                               v-on:memoryChange="dataEdited"
