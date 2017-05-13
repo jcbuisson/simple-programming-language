@@ -3,12 +3,8 @@
 <div class="sandbox">
     
    <div class="main-panel">
-
-    <!--div class="flexbox-item fill-area content flexbox-item-grow">
-        <div class="fill-area-content flexbox-item-grow"-->
-   
       <div class="main-panel-left">
-         <div class="code-editor-panel">
+         <div class="code-editor-panel" style="overflow: auto;">
             <code-editor v-bind:title="'Code'"
                          v-bind:initialcode="code"
                          v-bind:styleactiveline="true"
@@ -40,21 +36,21 @@
       </div>
       <div class="main-panel-right">
          <div class="memory-panel">
-            <div class="data-panel">
-               <memory-editor :numberarray="data_array" style="overflow-x: auto; overflow-y: auto"
+            <div class="data-panel" style="overflow: auto;">
+               <memory-editor :numberarray="data_array"
                               :title="'Data'"
                               v-bind:styleactiveline="false"
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
-            <div class="stack-panel" v-if="true">
+            <div class="stack-panel" v-if="true" style="overflow: auto;">
                <memory-editor :numberarray="stack_array"
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
                               v-on:memoryChange="stackEdited"
                ></memory-editor>
             </div>
-            <div class="input-panel">
+            <div class="input-panel" style="overflow: auto;">
                <memory-editor :numberarray="input_array" :title="'Input'"></memory-editor>
             </div>
          </div>
@@ -502,23 +498,6 @@
 .card .card-block {
    padding-top: 5px;
    padding-bottom: 5px;
-}
-
-.fill-area {
-    display: flex;
-    flex-direction: row;
-    
-    justify-content: flex-start; /* align items in Main Axis */
-    align-items: stretch; /* align items in Cross Axis */
-    align-content: stretch; /* Extra space in Cross Axis */
-    
-}
-.fill-area-content {
-    /*background: rgba(0, 0, 0, .3);
-    border: 1px solid #000000;*/
-    
-    /* Needed for when the area gets squished too far and there is content that can't be displayed */
-    overflow: auto; 
 }
 
 </style>
