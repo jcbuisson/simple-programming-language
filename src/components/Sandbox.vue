@@ -3,6 +3,10 @@
 <div class="sandbox">
     
    <div class="main-panel">
+
+    <!--div class="flexbox-item fill-area content flexbox-item-grow">
+        <div class="fill-area-content flexbox-item-grow"-->
+   
       <div class="main-panel-left">
          <div class="code-editor-panel">
             <code-editor v-bind:title="'Code'"
