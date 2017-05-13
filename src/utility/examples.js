@@ -15,15 +15,15 @@ const examples = {
          "   up to the value entered in the 'Numeric input' field.\n" +
          "   The result is visible in the 'Numeric output' field\n" +
          "*/\n" +
-         "      input[0] -> data[0]\n" +
-         "      data[0] -> data[1]\n" +
-         "here: data[0] + data[1] -> data[1]\n" +
-         "      data[0] - 1 -> data[0]\n" +
-         "      compare data[0] to 0\n" +
-         "      // the 'compare' instruction set the 'greater' boolean\n" +
-         "      go here if greater\n" +
-         "      data[1] -> output[0]\n" +
-         "      stop",
+         "         input[0] -> data[0]\n" +
+         "         0 -> data[1]\n" +
+         "here:    compare data[0] to 0\n" +
+         "         go end if smaller_or_equal\n" +
+         "         data[0] + data[1] -> data[1]\n" +
+         "         data[0] - 1 -> data[0]\n" +
+         "         go here\n" +
+         "end:     data[1] -> output[0]\n" +
+         "         stop",
       data: [1000, 1001],
       stack: [],
    },

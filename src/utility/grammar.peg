@@ -26,7 +26,7 @@ Label
   { return (char0 + chars.join("")); }
 
 Condition
-  = "equal" / "greater" / "greater_or_equal" / "smaller" / "smaller_or_equal"
+  = "equal" / "greater_or_equal" / "greater"  / "smaller_or_equal" / "smaller"
     
 MemoryLocation
   = type:LocationType _ "[" _ index:Integer _ "]"
@@ -43,12 +43,16 @@ LocationType
   / "out" { return 'output'; }
   
 Expression
-  = t1:Term _ op:("+"/"-") _ t2:Term
+  = t1:Factor _ op1:("+"/"-") _ t2:Factor _ op2:("+"/"-") _ t3:Factor
+  { return { 'op': op1, 't1': t1, 't2': { 'op': op2, 't1': t2, 't2': t3 } }; }
+  / t1:Term _ op:("+"/"-") _ t2:Term
   { return { 'op': op, 't1': t1, 't2': t2 }; }
   / Term
   
 Term
-  = t1:Factor _ op:("*" / "/") _ t2:Factor
+  = t1:Factor _ op1:("*" / "/") _ t2:Factor _ op2:("*" / "/") _ t3:Factor
+  { return { 'op': op1, 't1': t1, 't2': { 'op': op2, 't1': t2, 't2': t3 } }; }
+  / t1:Factor _ op:("*" / "/") _ t2:Factor
   { return { 'op': op, 't1': t1, 't2': t2 }; }
   / Factor
   

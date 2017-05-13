@@ -49,18 +49,26 @@
          <div class="input-output-panel">
             <div class="input0-output0-panel">
                <div class="card input0-panel">
-                  <div class="card-header">Numeric input (see <a href="#/documentation" target="_blank">input[0]</a>)</div>
+                  <!--div class="card-header">Numeric input (see <a href="#/documentation" target="_blank">input[0]</a>)</div-->
+                  <div class="card-header">Numeric input</div>
                   <div class="card-block">
                      <input type="number" v-model="input_array[0]">
                   </div>
                </div>
                <div class="card output0-panel">
-                  <div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div>
+                  <!--div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div-->
+                  <div class="card-header">Numeric output</div>
                   <div class="card-block"><h5>{{ numericOutput }}</h5></div>
                </div>
                <div class="card compare-panel">
-                  <div class="card-header">Last compare</div>
-                  <div class="card-block">{{ compareDifference }}</div>
+                  <div class="card-header">Last compare status</div>
+                  <div class="card-block compare-buttons-panel">
+                     <div class="btn-group">
+                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareSmaller }">smaller</a>
+                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareEqual }">equal</a>
+                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareGreater }">greater</a>
+                     </div>
+                  </div>
                </div>
             </div>
             <div class="screen-panel">SCREEN</div>
@@ -106,7 +114,7 @@
             stack_array: [],
             input_array: [0],
             numericOutput: 0,
-            compareDifference: 0,
+            compareDifference: null,
             timerHandle: null,
          }
       },
@@ -118,22 +126,29 @@
                return -1;
             }
          },
+         compareEqual: function() {
+            return (this.compareDifference != null) && (this.compareDifference === 0)
+         },
+         compareSmaller: function() {
+            return (this.compareDifference != null) && (this.compareDifference < 0)
+         },
+         compareGreater: function() {
+            return (this.compareDifference != null) && (this.compareDifference > 0)
+         },
       },
       methods: {
          reset: function() {
-            this.state.currentInstructionIndex = 0
             this.state.running = false
             this.state.stopped = false
+            this.compareDifference = null
             clearInterval(this.timerHandle)
+            this.state.currentInstructionIndex = 0
          },
          step: function() {
             // event.emit('select-line', 5)
             if (!this.state.stopped) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             }
-            /*if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
-               this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
-            }*/
          },
          run_pause: function() {
             this.state.running = !this.state.running
@@ -149,7 +164,13 @@
             }.bind(this), 5);
          },
          pause: function() {
-            this.stop()
+            this.state.running = false
+            clearInterval(this.timerHandle)
+         },
+         stop: function() {
+            this.state.running = false
+            this.state.stopped = true
+            clearInterval(this.timerHandle)
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
@@ -161,9 +182,7 @@
             if (program.instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
-               if (this.state.tag !== 'code-ok') {
-                  this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false, 'stopped': false }
-               }
+               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false, 'stopped': false }
             }
          },
          onProgramError: function() {
@@ -204,9 +223,7 @@
                }
 
             } else if (instruction.instruction.action === 'stop') {
-               this.state.running = false
-               this.state.stopped = true
-               clearInterval(this.timerHandle)
+               this.stop()
             }
          },
          evaluateExpression: function(expression) {
@@ -256,7 +273,8 @@
          },
          getInputElementAt: function(index) {
             if (index === 0) {
-               return parseInt(this.input_array[0])
+               let value = parseFloat(this.input_array[0])
+               return isNaN(value) ? 0 : value
             }
          },
          setOutputElementAt: function(index, value) {
@@ -425,6 +443,14 @@
    flex: 5;
 }
 
+.compare-buttons-panel {
+   display: flex;
+   flex-direction: row;  
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+}
+
 /*.keyboard-panel {
    background: rgba(100, 0, 0, .1);
    margin-top: 10px;
@@ -438,8 +464,8 @@
 }
 
 .card .card-block {
-   padding-top: 10px;
-   padding-bottom: 0px;
+   padding-top: 5px;
+   padding-bottom: 5px;
 }
 
 </style>
