@@ -1,34 +1,18 @@
 <template>
-   <div class="documentation">
+   <div class="body">
+      <div v-html="compiledMarkdown"></div>
+   </div>
 
-      <h3>Introduction</h3>
-      This plateform is a sandbox to make experiments with SPL, a simple programming language.
-      You'll be able to write programs in this language, and simulate their execution.
-
-
-      <h3>Language concepts</h3>
-
-      <h4>Program</h4>
-      <p>
-         A <em>program</em> is a list of <em>instructions</em> written in the <em>Code</em> area. You should not place more than one instruction per line.
-      </p>
-      <p>
-         This is an example of a valid program, composed of 2 instructions:
-         <pre>
-here:  input[0] * input[0] -> output[0]
-       go here
-         </pre>
-      </p>
-
+   <!--div class="documentation">
 
       <h4>Instructions</h4>
       <p>
-         An instruction is a line of text written in the <em>Code</em> area, which conforms to a specific syntax.
+         An instruction is a line of text written in the `Code` area, which conforms to a specific syntax.
       </p>
       <p>
          There are only 4 kinds of instruction:
          <ul>
-            <li>Assignment: <em>expression</em> -> <em>memory location</em></li>
+            <li>Assignment: `expression` -> `memory location`</li>
          </ul>
       </p>
 
@@ -68,34 +52,51 @@ here:  input[0] * input[0] -> output[0]
          </pre>
       </p>
 
-   </div>
+   </div-->
 </template>
 
 
 <script>
+   import debounce from 'lodash/debounce'
+   import marked from 'marked'
+
+   export default {
+      data () {
+         return {
+            input: [
+      "# Introduction",
+      
+      "This plateform is a sandbox to make experiments with SPL, a simple programming language.  ",
+      "You'll be able to write programs in this language, and simulate their execution.",
+
+      "## Language concepts",
+      "### Program",
+      "A program is a list of instructions written in the Code area. You should not place more than one instruction per line.",
+      "",
+      "This is an example of a valid program, composed of 2 instructions:",
+       "```",
+"here:  input[0] * input[0] -> output[0]",
+"       go here",
+      "```",
+      ].join('\n')
+         }
+      },
+      computed: {
+         compiledMarkdown: function () {
+            return marked(this.input, { sanitize: true })
+         }
+      },
+   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.documentation {
-    margin: 10px;
+.body {
+  margin: 20px;
 }
 
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+code {
+  color: #f66;
+  background: green;
 }
 </style>

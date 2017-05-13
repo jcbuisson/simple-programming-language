@@ -78,7 +78,7 @@
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
                   this.status.ok = true
-                  this.status.msg = '✓ Ready to run!'
+                  this.status.msg = '✓ Program ok and ready to run!'
                   this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
                } else {
                   this.status.ok = false

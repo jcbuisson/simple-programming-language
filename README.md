@@ -11,7 +11,9 @@ Uses:
 
 - Bootstrap-Vue = Boostrap4 elements as Vue2 components (https://bootstrap-vue.github.io)
 
-- FontAwesome (npm install font-awesome --save)
+- FontAwesome
+
+- marked (https://github.com/chjj/marked)
 
 
 ``` bash
