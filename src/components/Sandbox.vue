@@ -20,17 +20,17 @@
                 <div v-html="status.msg"></div>
             </b-alert>
             <b-button-group class="debug-btn-panel">
-               <b-popover content="Reset" :triggers="['hover']">
+               <b-popover content="Reset" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'" class="debug-btn">
                      <i class="fa fa-stop"></i>
                   </b-btn>
                </b-popover>
-               <b-popover content="Run/Pause" :triggers="['hover']">
+               <b-popover content="Run/Pause" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.stopped" class="debug-btn play-btn">
                      <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
                   </b-btn>
                </b-popover>
-               <b-popover content="Step" :triggers="['hover']">
+               <b-popover content="Step" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.running || state.stopped" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
