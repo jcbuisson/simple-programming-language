@@ -15,6 +15,8 @@ Uses:
 
 - marked (https://github.com/chjj/marked)
 
+- FileSaver (https://github.com/eligrey/FileSaver.js/)
+
 
 ``` bash
 # install dependencies
