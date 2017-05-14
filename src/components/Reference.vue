@@ -80,8 +80,7 @@ here:  input[0] * input[0] -> output[0]
 "|  1           |  Pen color",
 "|  2           |  Pen x-coordinate",
 "|  3           |  Pen y-coordinate",
-
-"|  7           |  Pen orientation (degree)",
+"|  4           |  Pen orientation (degree, clockwise, default is 0 = towards right)",
 
 "|  7           |  Pen font size in px",
 
@@ -89,14 +88,11 @@ here:  input[0] * input[0] -> output[0]
 "| Address      | Effect of writing *value* |",
 "| ------------ | ------------------------- |",
 "|  0           |  Display *value* in the numeric output field",
-"|  1           |  Pen color (0=black, 1=white)",
+"|  1           |  Set pen color (0=black, 1=white)",
 "|  2           |  Set pen x-coordinate to *value* (origin is left side)",
 "|  3           |  Set pen y-coordinate to *value* (origin is up side)",
-
-"|  3           |  Set pen orientation to *value* (in degree)",
-
-"|  4           |  Move pen along x-axis with *value* length (> 0: move right; < 0: move left)",
-"|  5           |  Move pen along y-axis to *value* (> 0: move down; < 0: move up)",
+"|  4           |  Set pen orientation to *value* (in degree)",
+"|  5           |  Move pen to an extend of *value* in the current pen direction",
 "|  6           |  Display character of code *value* at the current pen position. Pen is moved right after the character",
 "|  7           |  Set font size in px (default is 14)",
 
