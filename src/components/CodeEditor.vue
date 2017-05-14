@@ -4,17 +4,47 @@
    <div class="code-editor card no-block">
 
       <div class="card-header code-editor-header">
-         <b-nav>
-            <div class="navbar-brand">{{ title }}</div>            
-            <b-nav-item-dropdown text="Examples" right-alignment>
-               <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
-               <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
-               <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
-               <b-dropdown-divider></b-dropdown-divider>
-               <b-dropdown-item>Intermediate 1</b-dropdown-item>
-               <b-dropdown-item>Intermediate 2</b-dropdown-item>
-            </b-nav-item-dropdown>
-         </b-nav>
+
+         <!--b-nav>
+            <div class="navbar-brand">{{ title }}</div>       
+            <div class="navbar-nav">     
+               <b-nav-item-dropdown text="Examples" right-alignment>
+                  <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
+                  <b-dropdown-divider></b-dropdown-divider>
+                  <b-dropdown-item>Intermediate 1</b-dropdown-item>
+                  <b-dropdown-item>Intermediate 2</b-dropdown-item>
+               </b-nav-item-dropdown>
+            </div>
+            <span class="nav-item">
+               <b-btn v-on:click="save" :disabled="false">
+                  <i class="fa fa-save" style="font-size: 20px;"></i>
+               </b-btn>
+            </span>
+         </b-nav-->
+
+         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+            <div class="navbar-brand" href="#">Code</div>
+            <div class="collapse navbar-collapse">
+               <ul class="navbar-nav mr-auto">
+                        <b-nav-item-dropdown text="Examples" right-alignment>
+                           <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
+                           <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
+                           <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
+                           <b-dropdown-divider></b-dropdown-divider>
+                           <b-dropdown-item>Intermediate 1</b-dropdown-item>
+                           <b-dropdown-item>Intermediate 2</b-dropdown-item>
+                        </b-nav-item-dropdown>
+               </ul>
+               <span class="nav-item">
+                  <b-btn v-on:click="save" :disabled="false">
+                     <i class="fa fa-save" style="font-size: 20px;" v-on:click="save"></i>
+                  </b-btn>
+               </span>
+            </div>
+         </nav>
+
       </div>
       <div class="code-editor-body" style="overflow: auto;">
          <code-mirror v-bind:value="currentcode"
@@ -37,6 +67,8 @@
    import parser from '../utility/parser.js'
    import debounce from 'lodash/debounce'
 
+   import FileSaver from 'file-saver'
+
    //import { event } from '../utility/eventBus.js'
    //event.init()
 
@@ -55,6 +87,9 @@
             return this.initialcode
          },
       },
+      created: function() {
+         this.parseProgram(this.initialcode)
+      },
       mounted: function () {
          /*event.on('select-line', function(lineno) {
             console.log('select-line ' + lineno)
@@ -67,6 +102,10 @@
          update: function(newcontent) {
             this.currentcode = newcontent
             this.parseProgram(newcontent)
+         },
+         save: function() {
+            let blob = new Blob([this.currentcode], {type: "text/plain;charset=utf-8"});
+            FileSaver.saveAs(blob, "program.txt");
          },
 
          // note the use of lodash's debounce function to prevent immediate and too frequent parsing
@@ -119,9 +158,6 @@
             // TODO
             return { 'symbols': symbols, 'errors': errors }
          },
-      },
-      created: function() {
-         this.parseProgram(this.initialcode)
       },
       data () {
          return {

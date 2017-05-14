@@ -36,11 +36,6 @@
                   </b-btn>
                </b-popover>
             </b-button-group>
-            <b-button-group class="save-btn-panel">
-                <b-btn v-on:click="save" :disabled="state.tag !== 'code-ok'" class="debug-btn">
-                    <i class="fa fa-save"></i>
-                </b-btn>
-            </b-button-group>
          </div>
       </div>
       <div class="main-panel-right">
@@ -122,8 +117,6 @@
    import slice from 'lodash/slice'
    import fill from 'lodash/fill'
 
-   import FileSaver from 'file-saver'
-
 
    export default {
       components: {
@@ -186,10 +179,6 @@
          },
       },
       methods: {
-         save: function() {
-            let blob = new Blob([this.code], {type: "text/plain;charset=utf-8"});
-            FileSaver.saveAs(blob, "program.txt");
-         },
          reset: function() {
             this.state.running = false
             this.state.stopped = false

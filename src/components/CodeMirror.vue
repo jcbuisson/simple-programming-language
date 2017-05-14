@@ -33,7 +33,6 @@
       },
       created: function() {
          // adapted from https://github.com/codemirror/CodeMirror/blob/master/demo/simplemode.html
-         // slow on Chrome, fast on Firefox
          CodeMirror.defineSimpleMode("simplemode", {
             // The start state contains the rules that are intially used
             start: [
