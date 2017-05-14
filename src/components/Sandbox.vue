@@ -246,6 +246,24 @@
                   this.state.currentInstructionIndex += 1
                }
 
+            } else if (instruction.instruction.action === 'push') {
+               let exprValue = this.evaluateExpression(instruction.instruction.expr)
+               this.stack_array = [exprValue].concat(this.stack_array)
+               this.state.currentInstructionIndex += 1
+
+            } else if (instruction.instruction.action === 'pop') {
+               let dest = instruction.instruction.dest
+               if (dest) {
+                   this.setDataElementAt(dest.index, this.getStackElementAt(0))
+               }
+               if (this.stack_array.length > 0) {
+                  this.stack_array = this.stack_array.slice(1)
+               } else {
+                   // TODO: runtime error
+                   console.log("runtime error")
+               }
+               this.state.currentInstructionIndex += 1
+
             } else if (instruction.instruction.action === 'stop') {
                this.stop()
             }
@@ -410,6 +428,7 @@
 
 .code-status {
    flex: 1;
+   margin-bottom: 0px;
 }
 /*
 .debug-btn-panel {

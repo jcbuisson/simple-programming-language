@@ -5,7 +5,7 @@
 
    <!--div class="documentation">
 
-      <h4>Instructions</h4>
+      <h4>Instruction syntax</h4>
       <p>
          An instruction is a line of text written in the `Code` area, which conforms to a specific syntax.
       </p>
@@ -64,20 +64,23 @@ here:  input[0] * input[0] -> output[0]
       data () {
          return {
             input: [
-      "# Introduction",
-      
-      "This plateform is a sandbox to make experiments with SPL, a simple programming language.  ",
-      "You'll be able to write programs in this language, and simulate their execution.",
 
-      "## Language concepts",
-      "### Program",
-      "A program is a list of instructions written in the Code area. You should not place more than one instruction per line.",
-      "",
-      "This is an example of a valid program, composed of 2 instructions:",
-       "```",
-"here:  input[0] * input[0] -> output[0]",
-"       go here",
-      "```",
+"## Instruction syntax",
+"### Copy instructions",
+"### Compare instructions",
+"### go instructions",
+"### call / return instructions",
+"### Stack instructions",
+"### stop instruction",
+
+"## Input map",
+"| Address       | Value read    |",
+"| ------------- | ------------- |",
+"|  0            |  Value entered in the numeric input field  |",
+"|  1            |  Pen color  |",
+
+"## Output map",
+
       ].join('\n')
          }
       },

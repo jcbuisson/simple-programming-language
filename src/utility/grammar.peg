@@ -12,6 +12,12 @@ LabeledInstruction
 Instruction
   = "stop"
   { return { 'action': 'stop' }; }
+  / "push" _ expr:Expression
+  { return { 'action': 'push', 'expr': expr }; }
+  / "pop" _ dest:MemoryLocation
+  { return { 'action': 'pop', 'dest': dest }; }
+  / "pop" 
+  { return { 'action': 'pop', 'dest': null }; }
   / "compare" _ expr1:Expression _ "to" _ expr2:Expression
   { return { 'action': 'compare', 'expr1': expr1, 'expr2': expr2 }; }
   / "go" _ label:Label _ "if" _ cond:Condition
