@@ -65,13 +65,13 @@ here:  input[0] * input[0] -> output[0]
          return {
             input: [
 
-"## Instruction syntax",
-"### Copy instructions",
-"### Compare instructions",
-"### go instructions",
-"### call / return instructions",
-"### Stack instructions",
-"### stop instruction",
+"## Instructions",
+"### Copy",
+"### Compare",
+"### Go",
+"### Call / return",
+"### Push / pop",
+"### Stop",
 
 "## Input map",
 "| Address       | Value read    |",

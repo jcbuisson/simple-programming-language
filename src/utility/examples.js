@@ -5,8 +5,8 @@ const examples = {
       code:
          "here:  input[0] * input[0] -> output[0]\n" +
          "       go here",
-      data: [0.5, 1],
-      stack: [0],
+      data: [],
+      stack: [],
       input: [12]
    },
 

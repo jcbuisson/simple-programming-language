@@ -20,17 +20,17 @@
                 <div v-html="status.msg"></div>
             </b-alert>
             <b-button-group class="debug-btn-panel">
-               <b-popover content="Reset" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
+               <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'" class="debug-btn">
                      <i class="fa fa-stop"></i>
                   </b-btn>
                </b-popover>
-               <b-popover content="Run/Pause" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
+               <b-popover content="Run/Pause" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.stopped" class="debug-btn play-btn">
                      <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
                   </b-btn>
                </b-popover>
-               <b-popover content="Step" :triggers="['click', 'hover']" :delay="{show: 500, hide: 0}">
+               <b-popover content="Step" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.running || state.stopped" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
@@ -93,7 +93,9 @@
                   </div>
                </div>
             </div>
-            <div class="screen-panel">SCREEN</div>
+            <div class="screen-panel">
+               <canvas class="canvas" style="border:1px solid #BBB;" v-insert-message="canvasCommands"></canvas>
+            </div>
          </div>
       </div>
    </div>
@@ -130,6 +132,24 @@
          Screen: screen,
          CodeMirror: codemirror,
       },
+      directives: {
+         insertMessage: function(canvasElement, binding) {
+            // Get canvas context
+            var ctx = canvasElement.getContext("2d")
+            // Clear the canvas
+            ctx.clearRect(0, 0, 300, 150)
+            // Insert stuff into canvas
+            ctx.fillStyle = "black"
+            ctx.font = "20px Georgia"
+            let commands = binding.value
+            commands.forEach(function(command) {
+               if (command.type === 'char') {
+                  let c = String.fromCharCode(command.value)
+                  ctx.fillText(c, 10, 50);
+               }
+            })
+         }
+      },
       data () {
          return {
             code: '',
@@ -141,6 +161,7 @@
             numericOutput: 0,
             compareDifference: null,
             timerHandle: null,
+            canvasCommands: [],
          }
       },
       computed: {
@@ -351,6 +372,8 @@
          setOutputElementAt: function(index, value) {
             if (index === 0) {
                this.numericOutput = value
+            } else if (index === 1) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'char', 'value': value }])
             }
          },
          dataEdited: function(newArray) {
@@ -578,15 +601,9 @@
    align-content: center;
 }
 
-/*.keyboard-panel {
-   background: rgba(100, 0, 0, .1);
-   margin-top: 10px;
-   margin-bottom: 5px;
-}*/
-
 .screen-panel {
    flex: 1;
-   background: rgba(0, 100, 0, .1);
+   /*background: rgba(0, 100, 0, .1);*/
    margin-top: 5px;
 }
 
