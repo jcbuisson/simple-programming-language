@@ -7,6 +7,7 @@
          <b-nav>
             <div class="navbar-brand">{{ title }}</div>            
             <b-nav-item-dropdown text="Examples" right-alignment>
+               <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
                <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
                <b-dropdown-divider></b-dropdown-divider>

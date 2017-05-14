@@ -74,12 +74,31 @@ here:  input[0] * input[0] -> output[0]
 "### Stop",
 
 "## Input map",
-"| Address       | Value read    |",
-"| ------------- | ------------- |",
-"|  0            |  Value entered in the numeric input field  |",
-"|  1            |  Pen color  |",
+"| Address      | Value read    |",
+"| ------------ | ------------- |",
+"|  0           |  Number (integer or real) entered in the numeric input field",
+"|  1           |  Pen color",
+"|  2           |  Pen x-coordinate",
+"|  3           |  Pen y-coordinate",
+
+"|  7           |  Pen orientation (degree)",
+
+"|  7           |  Pen font size in px",
 
 "## Output map",
+"| Address      | Effect of writing *value* |",
+"| ------------ | ------------------------- |",
+"|  0           |  Display *value* in the numeric output field",
+"|  1           |  Pen color (0=black, 1=white)",
+"|  2           |  Set pen x-coordinate to *value* (origin is left side)",
+"|  3           |  Set pen y-coordinate to *value* (origin is up side)",
+
+"|  3           |  Set pen orientation to *value* (in degree)",
+
+"|  4           |  Move pen along x-axis with *value* length (> 0: move right; < 0: move left)",
+"|  5           |  Move pen along y-axis to *value* (> 0: move down; < 0: move up)",
+"|  6           |  Display character of code *value* at the current pen position. Pen is moved right after the character",
+"|  7           |  Set font size in px (default is 14)",
 
       ].join('\n')
          }

@@ -30,6 +30,20 @@ const examples = {
       input: [5]
    },
 
+   hello_world: {
+      code: [
+         "			2 -> data[0]",
+         "next:   compare data[data[0]] to 0",
+         "			go end if equal",
+         "			data[data[0]] -> output[1]",
+         "			go next",
+         "end:    stop"
+      ].join('\n'),
+      data: [0, 0, 97, 98, 99, 0],
+      stack: [],
+      input: []
+   },
+
 }
 
 export { examples };
