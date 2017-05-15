@@ -35,7 +35,8 @@ const examples = {
          "			2 -> data[0]",
          "next:   compare data[data[0]] to 0",
          "			go end if equal",
-         "			data[data[0]] -> output[1]",
+         "			data[data[0]] -> output[6]",
+         "			data[0] + 1 -> data[0]",
          "			go next",
          "end:    stop"
       ].join('\n'),

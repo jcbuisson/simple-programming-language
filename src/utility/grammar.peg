@@ -35,7 +35,7 @@ Condition
   = "equal" / "greater_or_equal" / "greater"  / "smaller_or_equal" / "smaller"
     
 MemoryLocation
-  = type:LocationType _ "[" _ index:Integer _ "]"
+  = type:LocationType _ "[" _ index:Expression _ "]"
   { return { 'type': type, 'index': index, }; }
 
 LocationType
