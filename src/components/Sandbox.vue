@@ -45,6 +45,7 @@
                               :numberarray="data_array"
                               :title="'Data'"
                               v-bind:styleactiveline="false"
+                              v-bind:readonly="false"
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
@@ -53,12 +54,14 @@
                               :numberarray="stack_array"
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
+                              v-bind:readonly="true"
                               v-on:memoryChange="stackEdited"
                ></memory-editor>
             </div>
             <div class="input-panel">
                <memory-editor class="input-editor"
                               :numberarray="input_array"
+                              v-bind:readonly="true"
                               :title="'Input'"
                ></memory-editor>
             </div>

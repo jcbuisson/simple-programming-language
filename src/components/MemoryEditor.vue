@@ -30,6 +30,7 @@
          title: String,
          numberarray: Array,
          styleactiveline: Boolean,
+         readonly: Boolean,
       },
       computed: {
          textContent: function() {
@@ -49,6 +50,7 @@
                mode: "text/BIDON",
                styleActiveLine: this.styleactiveline,
                lineWrapping: true,
+               readOnly: this.readonly,
                tabSize: 3,
                lineNumbers: true,
                firstLineNumber: 0,

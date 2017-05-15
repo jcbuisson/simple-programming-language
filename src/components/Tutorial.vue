@@ -1,6 +1,6 @@
 <template>
    <div class="body">
-      <div v-html="compiledMarkdown"></div>
+      <div v-html="compiledMarkdown" class="md"></div>
    </div>
 </template>
 
@@ -39,13 +39,13 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .body {
   margin: 20px;
 }
 
-code {
-  color: #f66;
-  background: green;
+.md pre {
+  color: #86F;
+  background: #eee;
 }
 </style>
