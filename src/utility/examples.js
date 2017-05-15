@@ -48,8 +48,8 @@ const examples = {
    fibonacci: {
       code: [
 "/* Fibonacci series: 1, 1, 2, 3, 5, 8,...",
-"   Next value is the sum of the two previous one",
-"   Computes and displays continuously the series values */",
+"   Each value is the sum of the two previous ones",
+"   Values are computed and displayed continuously */",
 "",
 "         1 -> data[0]",
 "         1 -> data[1]",

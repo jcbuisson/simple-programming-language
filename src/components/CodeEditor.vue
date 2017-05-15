@@ -6,9 +6,9 @@
       <div class="card-header code-editor-header">
 
          <b-nav>
-            <div class="navbar-brand">{{ title }}</div>       
+            <div class="navbar-brand">Code</div>       
             <div class="navbar-nav">     
-               <b-nav-item-dropdown text="Examples" right-alignment>
+               <b-nav-item-dropdown text="Examples">
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
@@ -16,11 +16,6 @@
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                </b-nav-item-dropdown>
             </div>
-            <span class="nav-item">
-               <b-btn :disabled="false">
-                  <i class="fa fa-paper-plane" v-on:click="save" style="font-size: 20px;" ></i>
-               </b-btn>
-            </span>
          </b-nav>
 
          <!--nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -39,6 +34,7 @@
                   <b-btn v-on:click="save" :disabled="false">
                      <i class="fa fa-save" style="font-size: 20px;" v-on:click="save"></i>
                   </b-btn>
+                  <filedropbutton></filedropbutton>
                </span>
             </div>
          </nav-->
@@ -49,7 +45,7 @@
                       v-bind:options="editorOptions"
                       v-bind:styleactiveline="styleactiveline"
                       v-bind:selectedline="selectedline"
-                      v-on:change="update"
+                      v-on:change="updatecode"
          ></code-mirror>
       </div>
 
@@ -59,10 +55,10 @@
 
 <script>
    import codemirror from '@/components/CodeMirror'
-   import parser from '../utility/parser.js'
-   import debounce from 'lodash/debounce'
 
-   import FileSaver from 'file-saver'
+   import parser from '../utility/parser.js'
+
+   import debounce from 'lodash/debounce'
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
@@ -94,13 +90,9 @@
          example: function(exampleName) {
             this.$emit('exampleLoaded', exampleName)
          },
-         update: function(newcontent) {
+         updatecode: function(newcontent) {
             this.currentcode = newcontent
             this.parseProgram(newcontent)
-         },
-         save: function() {
-            let blob = new Blob([this.currentcode], {type: "text/plain;charset=utf-8"});
-            FileSaver.saveAs(blob, "program.txt");
          },
 
          // note the use of lodash's debounce function to prevent immediate and too frequent parsing

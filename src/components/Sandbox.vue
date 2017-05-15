@@ -16,6 +16,8 @@
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
+            <file-drop-button v-on:backup="onBackup" v-on:restore="onRestore">
+            </file-drop-button>
             <b-alert class="code-status" show v-bind:variant="messageColor" v-if="state.tag !== 'code-empty'">
                 <div v-html="state.msg"></div>
             </b-alert>
@@ -107,14 +109,16 @@
    import codeditor from '@/components/CodeEditor'
    import memoryeditor from '@/components/MemoryEditor'
    import screen from '@/components/Screen'
+   import filedropbutton from '@/components/FileDropButton'
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
 
-   //import { store } from '../utility/store.js'
    import { examples } from '../utility/examples.js'
 
    import parser from '../utility/parser.js'
+
+   import FileSaver from 'file-saver'
 
    import concat from 'lodash/concat'
    import slice from 'lodash/slice'
@@ -127,6 +131,7 @@
          MemoryEditor: memoryeditor,
          Screen: screen,
          CodeMirror: codemirror,
+         FileDropButton: filedropbutton,
       },
       data () {
          return {
@@ -250,6 +255,14 @@
             let example = examples[exampleName]
             this.currentExample = example
             this.loadExample(example)
+         },
+         onBackup: function() {
+            let content = JSON.stringify({ 'code': this.code, 'data': this.data_array, 'stack': this.stack_array, 'input': this.input_array })
+            let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+            FileSaver.saveAs(blob, "program.txt");
+         },
+         onRestore: function(jsonDump) {
+            this.loadExample(JSON.parse(jsonDump))
          },
          loadExample: function(example) {
             this.code = example.code

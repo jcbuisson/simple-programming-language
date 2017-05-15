@@ -58,8 +58,8 @@
                {regex: /\/\*/, token: "comment", next: "comment"},
                {regex: /[-+\/*=<>!]+/, token: "operator"},
                // indent and dedent properties guide autoindentation
-               {regex: /[\{\[\(]/, indent: true},
-               {regex: /[\}\]\)]/, dedent: true},
+               //{regex: /[\{\[\(]/, indent: true},
+               //{regex: /[\}\]\)]/, dedent: true},
                //{regex: /[a-z$][\w$]*/, token: "variable"},
                // You can embed other modes with the mode property. This rule
                // causes all code between << and >> to be highlighted with the XML
@@ -93,7 +93,7 @@
             }
          })
 
-        this.editor.setOption('mode', 'simplemode')
+         this.editor.setOption('mode', 'simplemode')
          
       },
       watch: {
