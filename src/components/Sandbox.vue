@@ -16,22 +16,22 @@
             ></code-editor>
          </div>
          <div class="debug-toolbar-panel">
-            <b-alert class="code-status" show v-bind:variant="variant">
-                <div v-html="status.msg"></div>
+            <b-alert class="code-status" show v-bind:variant="messageColor" v-if="state.tag !== 'code-empty'">
+                <div v-html="state.msg"></div>
             </b-alert>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok'" class="debug-btn">
+                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'running'" class="debug-btn">
                      <i class="fa fa-stop"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.stopped" class="debug-btn play-btn">
-                     <i class="fa" v-bind:class="{ 'fa-pause': state.running, 'fa-play': !state.running }"></i>
+                  <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'runtime-error'" class="debug-btn play-btn">
+                     <i class="fa" v-bind:class="{ 'fa-pause': (state.runningstatus === 'running'), 'fa-play': (state.runningstatus !== 'running') }"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Step" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.running || state.stopped" class="debug-btn">
+                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.runningstatus !== 'pause'" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
                </b-popover>
@@ -125,6 +125,57 @@
          Screen: screen,
          CodeMirror: codemirror,
       },
+      data () {
+         return {
+            code: '',
+            state: { 'code': 'code-empty' },
+            data_array: [],
+            stack_array: [],
+            callstack_array: [],
+            input_array: [0],
+            numericOutput: 0,
+            currentExample: null,
+            compareDifference: null,
+            timerHandle: null,
+            canvasCommands: [],
+         }
+      },
+      computed: {
+         currentInstructionLine: function() {
+            if (this.state.tag === 'code-ok') {
+               if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
+                  return this.state.program.instructions[this.state.currentInstructionIndex].line
+               } else {
+                  this.state.msg = "Runtime error: execution went past end of program"
+                  this.state.runningstatus = 'runtime-error'
+                  clearInterval(this.timerHandle)
+                  return this.state.program.instructions[this.state.program.instructions.length-1].line + 1
+               }
+            } else {
+               return -1
+            }
+         },
+         compareEqual: function() {
+            return (this.compareDifference != null) && (this.compareDifference === 0)
+         },
+         compareSmaller: function() {
+            return (this.compareDifference != null) && (this.compareDifference < 0)
+         },
+         compareGreater: function() {
+            return (this.compareDifference != null) && (this.compareDifference > 0)
+         },
+         messageColor: function() {
+            if (this.state.tag === 'code-ok') {
+                if (this.state.runningstatus === 'runtime-error') {
+                   return 'danger'
+                } else {
+                   return 'success'
+                }
+            } else {
+                return 'warning'
+            }
+         },
+      },
       directives: {
          insertMessage: function(canvasElement, binding) {
             // Get canvas context
@@ -143,52 +194,10 @@
             })
          }
       },
-      data () {
-         return {
-            code: '',
-            status: { 'ok': true, 'msg': '' },
-            state: { 'code': 'code-empty' },
-            data_array: [],
-            stack_array: [],
-            input_array: [0],
-            numericOutput: 0,
-            currentExample: null,
-            compareDifference: null,
-            timerHandle: null,
-            canvasCommands: [],
-         }
-      },
-      computed: {
-         currentInstructionLine: function() {
-            if (this.state.tag === 'code-ok') {
-               if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
-                  return this.state.program.instructions[this.state.currentInstructionIndex].line
-               } else {
-                  console.log("runtime error!")
-                  return -1
-               }
-
-            } else {
-               return -1
-            }
-         },
-         variant: function() {
-            return this.status.ok ? 'success' : 'danger'
-         },
-         compareEqual: function() {
-            return (this.compareDifference != null) && (this.compareDifference === 0)
-         },
-         compareSmaller: function() {
-            return (this.compareDifference != null) && (this.compareDifference < 0)
-         },
-         compareGreater: function() {
-            return (this.compareDifference != null) && (this.compareDifference > 0)
-         },
-      },
       methods: {
          reset: function() {
-            this.state.running = false
-            this.state.stopped = false
+            this.state.runningstatus = 'pause'
+            this.state.msg = this.state.program.status.msg
             this.numericOutput = 0
             this.compareDifference = null
             this.canvasCommands = []
@@ -196,19 +205,29 @@
             this.state.currentInstructionIndex = 0
             if (this.currentExample) {
                this.loadExample(this.currentExample)
+            } else {
+               this.data_array = []
+               this.stack_array = []
+               this.callstack_array = []
+               this.input_array = [0]
             }
          },
          step: function() {
             // event.emit('select-line', 5)
-            if (!this.state.stopped) {
+            if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
+            } else {
+               this.state.msg = "Runtime error: execution went past end of program"
+               this.state.runningstatus = 'runtime-error'
+               clearInterval(this.timerHandle)
             }
          },
          run_pause: function() {
-            this.state.running = !this.state.running
-            if (this.state.running) {
+            if (this.state.runningstatus === 'pause') {
+               this.state.runningstatus = 'running'
                this.run()
             } else {
+               this.state.runningstatus = 'pause'
                this.pause()
             }
          },
@@ -218,12 +237,11 @@
             }.bind(this), 5);
          },
          pause: function() {
-            this.state.running = false
+            this.state.runningstatus = 'pause'
             clearInterval(this.timerHandle)
          },
          stop: function() {
-            this.state.running = false
-            this.state.stopped = true
+            this.state.runningstatus = 'stopped'
             clearInterval(this.timerHandle)
          },
          onExampleLoaded: function(exampleName) {
@@ -238,16 +256,14 @@
             this.input_array = example.input
          },
          onProgramParsed: function(program) {
-            this.status = program.status
             if (program.instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
-               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'running': false, 'stopped': false }
+               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'runningstatus': 'pause', 'msg': program.status.msg }
             }
          },
          onProgramError: function(status) {
-            this.status = status
-            this.state = { 'tag': 'code-error' }
+            this.state = { 'tag': 'code-error', 'msg': status.msg }
          },
          executeInstruction: function(instruction, symbols) {
             if (instruction.instruction.action === 'copy') {
@@ -296,8 +312,9 @@
                if (this.stack_array.length > 0) {
                   this.stack_array = this.stack_array.slice(1)
                } else {
-                   // TODO: runtime error
-                   console.log("runtime error")
+                  this.state.msg = "Runtime error: stack is empty"
+                  this.state.runningstatus = 'runtime-error'
+                  clearInterval(this.timerHandle)
                }
                this.state.currentInstructionIndex += 1
 
