@@ -51,7 +51,7 @@
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
-            <div class="stack-panel" v-if="true">
+            <div class="stack-panel" v-if="state.tag === 'code-ok' && state.program.useStack">
                <memory-editor class="stack-editor"
                               :numberarray="stack_array"
                               :title="'Stack'"

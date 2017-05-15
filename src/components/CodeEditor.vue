@@ -103,7 +103,7 @@
                // semantic analysis
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'useStack': result.useStack })
                } else {
                   let msg = result.errors.join('<br/>')
                   this.$emit('programError', msg)
@@ -139,7 +139,36 @@
             })
             // then verify that 'input' is accessed read-only and 'output' write-only
             // TODO
-            return { 'symbols': symbols, 'errors': errors }
+
+            // then check whether stack is used or not
+            let doNotUseStack = instructions.every(this.instructionDoNotUseStack);
+            return { 'symbols': symbols, 'errors': errors, 'useStack': !doNotUseStack }
+         },
+         instructionDoNotUseStack: function(instruction) {
+            if (instruction.instruction.action === 'copy') {
+               return this.expressionDoNotUseStack(instruction.instruction.expr) && this.expressionDoNotUseStack(instruction.instruction.dest)
+            } else if (instruction.instruction.action === 'push') {
+               return false
+            } else if (instruction.instruction.action === 'pop') {
+               return false
+            } else if (instruction.instruction.action === 'compare') {
+               return this.expressionDoNotUseStack(instruction.instruction.expr1) && this.expressionDoNotUseStack(instruction.instruction.expr2)
+            } else {
+               return true
+            }
+         },
+         expressionDoNotUseStack: function(expr) {
+            if (typeof expr === 'number') {
+               return true;
+            } else if (expr.hasOwnProperty('type')) {
+               if (expr.type === 'stack') {
+                  return false
+               } else {
+                  return this.expressionDoNotUseStack(expr.index)
+               }
+            } else {
+               return this.expressionDoNotUseStack(expr.t1) && this.expressionDoNotUseStack(expr.t2)
+            }
          },
       },
       data () {
