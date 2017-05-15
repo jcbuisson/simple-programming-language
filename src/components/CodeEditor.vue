@@ -5,7 +5,7 @@
 
       <div class="card-header code-editor-header">
 
-         <!--b-nav>
+         <b-nav>
             <div class="navbar-brand">{{ title }}</div>       
             <div class="navbar-nav">     
                <b-nav-item-dropdown text="Examples" right-alignment>
@@ -13,18 +13,17 @@
                   <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
-                  <b-dropdown-item>Intermediate 1</b-dropdown-item>
-                  <b-dropdown-item>Intermediate 2</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                </b-nav-item-dropdown>
             </div>
             <span class="nav-item">
-               <b-btn v-on:click="save" :disabled="false">
-                  <i class="fa fa-save" style="font-size: 20px;"></i>
+               <b-btn :disabled="false">
+                  <i class="fa fa-paper-plane" v-on:click="save" style="font-size: 20px;" ></i>
                </b-btn>
             </span>
-         </b-nav-->
+         </b-nav>
 
-         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+         <!--nav class="navbar navbar-toggleable-md navbar-light bg-faded">
             <div class="navbar-brand" href="#">Code</div>
             <div class="collapse navbar-collapse">
                <ul class="navbar-nav mr-auto">
@@ -42,7 +41,7 @@
                   </b-btn>
                </span>
             </div>
-         </nav>
+         </nav-->
 
       </div>
       <div class="code-editor-body" style="overflow: auto;">
