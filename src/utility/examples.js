@@ -47,11 +47,17 @@ const examples = {
 
    fibonacci: {
       code: [
-"/* fibonacci series */",
+"/* Fibonacci series: 1, 1, 2, 3, 5, 8,...",
+"   Next value is the sum of the two previous one",
+"   Computes and displays continuously the series values */",
+"",
 "         1 -> data[0]",
 "         1 -> data[1]",
+"         // compute next value",
 "loop:    data[0] + data[1] -> data[2]",
+"         // display value in 'Numeric output' box",
 "         data[2] -> output[0]",
+"         // shift last two values",
 "         data[1] -> data[0]",
 "         data[2] -> data[1]",
 "         go loop",
