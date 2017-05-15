@@ -52,9 +52,6 @@
                       v-on:change="update"
          ></code-mirror>
       </div>
-      <!--b-alert class="code-editor-footer" show v-bind:variant="variant">
-         <div v-html="status.msg"></div>
-      </b-alert-->
 
    </div>
 
@@ -114,18 +111,14 @@
                // semantic analysis
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
-                  this.status.ok = true
-                  this.status.msg = '✓ Program ok and ready to run!'
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'status': this.status })
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols })
                } else {
-                  this.status.ok = false
-                  this.status.msg = result.errors.join('<br/>')
-                  this.$emit('programError')
+                  let msg = result.errors.join('<br/>')
+                  this.$emit('programError', msg)
                }
             } catch(err) {
-               this.status.ok = false
-               this.status.msg = 'Line ' + (err.location.start.line - 1) + ', column ' + err.location.start.column + ': ' + err.message
-               this.$emit('programError', this.status)
+               let msg = 'Line ' + (err.location.start.line - 1) + ', column ' + err.location.start.column + ': ' + err.message
+               this.$emit('programError', msg)
             }
             this.$forceUpdate()
          }, 500),
@@ -159,7 +152,6 @@
       },
       data () {
          return {
-            status: { 'ok': true, 'msg': '' },
             editorOptions: {
                mode: "text/BIDON",
                styleActiveLine: this.styleactiveline,
