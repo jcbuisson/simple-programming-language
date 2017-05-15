@@ -197,7 +197,6 @@
       methods: {
          reset: function() {
             this.state.runningstatus = 'pause'
-            this.state.msg = this.state.program.status.msg
             this.numericOutput = 0
             this.compareDifference = null
             this.canvasCommands = []
@@ -259,11 +258,12 @@
             if (program.instructions.length === 0) {
                this.state = { 'tag': 'code-empty' }
             } else {
-               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'runningstatus': 'pause', 'msg': program.status.msg }
+               let msg = '✓ Program ok and ready to run!'
+               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'runningstatus': 'pause', 'msg': msg }
             }
          },
-         onProgramError: function(status) {
-            this.state = { 'tag': 'code-error', 'msg': status.msg }
+         onProgramError: function(errorMessage) {
+            this.state = { 'tag': 'code-error', 'msg': errorMessage }
          },
          executeInstruction: function(instruction, symbols) {
             if (instruction.instruction.action === 'copy') {

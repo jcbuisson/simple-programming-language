@@ -11,7 +11,7 @@
                <button type="button" class="btn btn-success" v-bind:class="{ active: isSandboxCurrent }" v-on:click="setSandboxCurrent">Sandbox</button>
                <button type="button" class="btn btn-success" v-bind:class="{ active: isTutorialCurrent }" v-on:click="setTutorialCurrent">Tutorial</button>
                <button type="button" class="btn btn-success" v-bind:class="{ active: isReferenceCurrent }" v-on:click="setReferenceCurrent">Reference</button>
-               <button type="button" class="btn btn-success" v-on:click="xxx">Home</button>
+               <button type="button" class="btn btn-success">Home</button>
             </div>
          </b-nav>
       </b-navbar>
