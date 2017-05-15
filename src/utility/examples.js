@@ -44,6 +44,22 @@ const examples = {
       input: []
    },
 
+   fibonacci: {
+      code: [
+"/* fibonacci series */",
+"         1 -> data[0]",
+"         1 -> data[1]",
+"loop:    data[0] + data[1] -> data[2]",
+"         data[2] -> output[0]",
+"         data[1] -> data[0]",
+"         data[2] -> data[1]",
+"         go loop",
+      ].join('\n'),
+      data: [],
+      stack: [],
+      input: []
+   }
+
 }
 
 export { examples };

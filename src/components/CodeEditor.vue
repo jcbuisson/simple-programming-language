@@ -33,8 +33,7 @@
                            <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
                            <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
                            <b-dropdown-divider></b-dropdown-divider>
-                           <b-dropdown-item>Intermediate 1</b-dropdown-item>
-                           <b-dropdown-item>Intermediate 2</b-dropdown-item>
+                           <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                         </b-nav-item-dropdown>
                </ul>
                <span class="nav-item">

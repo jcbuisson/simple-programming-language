@@ -8,7 +8,7 @@
             <code-editor class="code-editor"
                          v-bind:title="'Code'"
                          v-bind:initialcode="code"
-                         v-bind:styleactiveline="true"
+                         v-bind:styleactiveline="false"
                          v-bind:selectedline="currentInstructionLine"
                          v-on:exampleLoaded="onExampleLoaded"
                          v-on:programParsed="onProgramParsed"
@@ -152,6 +152,7 @@
             stack_array: [],
             input_array: [0],
             numericOutput: 0,
+            currentExample: null,
             compareDifference: null,
             timerHandle: null,
             canvasCommands: [],
@@ -160,9 +161,15 @@
       computed: {
          currentInstructionLine: function() {
             if (this.state.tag === 'code-ok') {
-               return this.state.program.instructions[this.state.currentInstructionIndex].line
+               if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
+                  return this.state.program.instructions[this.state.currentInstructionIndex].line
+               } else {
+                  console.log("runtime error!")
+                  return -1
+               }
+
             } else {
-               return -1;
+               return -1
             }
          },
          variant: function() {
@@ -182,9 +189,14 @@
          reset: function() {
             this.state.running = false
             this.state.stopped = false
+            this.numericOutput = 0
             this.compareDifference = null
+            this.canvasCommands = []
             clearInterval(this.timerHandle)
             this.state.currentInstructionIndex = 0
+            if (this.currentExample) {
+               this.loadExample(this.currentExample)
+            }
          },
          step: function() {
             // event.emit('select-line', 5)
@@ -216,6 +228,10 @@
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
+            this.currentExample = example
+            this.loadExample(example)
+         },
+         loadExample: function(example) {
             this.code = example.code
             this.data_array = example.data
             this.stack_array = example.stack
@@ -361,7 +377,8 @@
          setOutputElementAt: function(index, value) {
             if (index === 0) {
                this.numericOutput = value
-            } else if (index === 1) {
+
+            } else if (index === 6) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'char', 'value': value }])
             }
          },

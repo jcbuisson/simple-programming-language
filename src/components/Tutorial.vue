@@ -18,9 +18,11 @@
       "You'll be able to write programs in this language, and simulate their execution.",
 
       "### What's a program?",
-      "It is a list of instructions written in the Code area. You should not place more than one instruction per line.",
+      "It is a list of instructions written in the *Code* area. You should not place more than one instruction per line.  ",
+      "Instructions are executed in the order in which they appear in the program, the only exception being the *go* instruction",
+      "which may cause a *jump* to an instruction other than the next one.",
       "",
-      "This is an example of a valid program, composed of 2 instructions:",
+      "Here is an example of a valid program, composed of 2 instructions:",
        "```",
 "here:  input[0] * input[0] -> output[0]",
 "       go here",
