@@ -153,7 +153,7 @@
                return false
             } else if (instruction.instruction.action === 'compare') {
                return this.expressionDoNotUseStack(instruction.instruction.expr1) && this.expressionDoNotUseStack(instruction.instruction.expr2)
-            } else {
+            } else { // stop, go
                return true
             }
          },

@@ -15,12 +15,14 @@
                          v-on:programError="onProgramError"
             ></code-editor>
          </div>
-         <div class="debug-toolbar-panel">
-            <file-drop-button v-on:backup="onBackup" v-on:restore="onRestore">
-            </file-drop-button>
+         <div>
             <b-alert class="code-status" show v-bind:variant="messageColor" v-if="state.tag !== 'code-empty'">
                 <div v-html="state.msg"></div>
             </b-alert>
+         </div>
+         <div class="debug-toolbar-panel">
+            <file-drop-button v-on:backup="onBackup" v-on:restore="onRestore">
+            </file-drop-button>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'running'" class="debug-btn">
@@ -142,7 +144,7 @@
             callstack_array: [],
             input_array: [0],
             numericOutput: 0,
-            currentExample: null,
+            initialContext: null,
             compareDifference: null,
             timerHandle: null,
             canvasCommands: [],
@@ -210,8 +212,8 @@
             this.canvasCommands = []
             clearInterval(this.timerHandle)
             this.state.currentInstructionIndex = 0
-            if (this.currentExample) {
-               this.loadExample(this.currentExample)
+            if (this.initialContext) {
+               this.loadContext(this.initialContext)
             } else {
                this.data_array = []
                this.stack_array = []
@@ -253,8 +255,8 @@
          },
          onExampleLoaded: function(exampleName) {
             let example = examples[exampleName]
-            this.currentExample = example
-            this.loadExample(example)
+            this.initialContext = example
+            this.loadContext(example)
          },
          onBackup: function() {
             let content = JSON.stringify({ 'code': this.code, 'data': this.data_array, 'stack': this.stack_array, 'input': this.input_array })
@@ -262,9 +264,10 @@
             FileSaver.saveAs(blob, "program.txt");
          },
          onRestore: function(jsonDump) {
-            this.loadExample(JSON.parse(jsonDump))
+            this.loadContext(JSON.parse(jsonDump))
          },
-         loadExample: function(example) {
+         loadContext: function(example) {
+            this.initialContext = example
             this.code = example.code
             this.data_array = example.data
             this.stack_array = example.stack
