@@ -5,7 +5,7 @@ Uses:
 
 - VueJS 2
 
-- Webpack 2
+- Webpack
 
 - CodeMirror
 

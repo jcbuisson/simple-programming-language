@@ -242,7 +242,6 @@
          },
          step: function() {
             // event.emit('select-line', 5)
-            this.state.runningstatus = 'pause'
             if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             } else {

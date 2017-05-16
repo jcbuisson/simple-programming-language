@@ -11,7 +11,7 @@
                <button type="button" class="btn btn-success" v-bind:class="{ active: isSandboxCurrent }" v-on:click="setSandboxCurrent">Sandbox</button>
                <button type="button" class="btn btn-success" v-bind:class="{ active: isTutorialCurrent }" v-on:click="setTutorialCurrent">Tutorial</button>
                <button type="button" class="btn btn-success" v-bind:class="{ active: isReferenceCurrent }" v-on:click="setReferenceCurrent">Reference</button>
-               <button type="button" class="btn btn-success">Home</button>
+               <button type="button" class="btn btn-success" v-bind:class="{ active: isHomeCurrent }" v-on:click="setHomeCurrent">Home</button>
             </div>
          </b-nav>
       </b-navbar>
@@ -28,6 +28,7 @@
    import sandbox from '@/components/Sandbox'
    import tutorial from '@/components/Tutorial'
    import reference from '@/components/Reference'
+   import home from '@/components/Home'
 
    export default {
       name: 'app',
@@ -35,6 +36,7 @@
          Sandbox: sandbox,
          Tutorial: tutorial,
          Reference: reference,
+         Home: home,
       },
       data () {
          return {
@@ -54,6 +56,9 @@
          isReferenceCurrent: function() {
             return this.currentView === reference
          },
+         isHomeCurrent: function() {
+            return this.currentView === home
+         },
       },
       methods: {
          setSandboxCurrent: function() {
@@ -64,6 +69,9 @@
          },
          setReferenceCurrent: function() {
             this.currentView = reference
+         },
+         setHomeCurrent: function() {
+            this.currentView = home
          },
       },
    }
