@@ -1,8 +1,9 @@
 <template>
    <div>
       <button @dragover.prevent class="btn btn-secondary" v-on:click="backup">
-         <div class="droparea">click here to backup</div>
-         <div class="droparea">drop here to restore</div>
+         <!--div class="droparea">click here to backup</div>
+         <div class="droparea">drop here to restore</div-->
+         <div class="droparea">click here to backup / drop here to restore</div>
       </button>
    </div>
 </template>

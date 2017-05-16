@@ -16,13 +16,15 @@
             ></code-editor>
          </div>
          <div>
-            <b-alert class="code-status" show v-bind:variant="messageColor" v-if="state.tag !== 'code-empty'">
+            <b-alert class="code-status" show
+                     v-bind:variant="messageColor"
+                     v-if="statusBarVisibility">
                 <div v-html="state.msg"></div>
             </b-alert>
          </div>
          <div class="debug-toolbar-panel">
-            <file-drop-button v-on:backup="onBackup" v-on:restore="onRestore">
-            </file-drop-button>
+            <file-drop-button class="file-drop-panel" v-on:backup="onBackup" v-on:restore="onRestore"></file-drop-button>
+            <div class="debug-empty-panel"></div>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'running'" class="debug-btn">
@@ -30,12 +32,12 @@
                   </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="run_pause" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'runtime-error'" class="debug-btn play-btn">
+                  <b-btn v-on:click="run_pause" :disabled="!isRunningPossible" class="debug-btn play-btn">
                      <i class="fa" v-bind:class="{ 'fa-pause': (state.runningstatus === 'running'), 'fa-play': (state.runningstatus !== 'running') }"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Step" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="step" :disabled="state.tag !== 'code-ok' || state.runningstatus !== 'pause'" class="debug-btn">
+                  <b-btn v-on:click="step" :disabled="!isRunningPossible" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
                </b-popover>
@@ -185,6 +187,22 @@
                 return 'warning'
             }
          },
+         statusBarVisibility: function() {
+             if (this.state.tag === 'code-error') {
+                 return true
+             } else if (this.state.tag === 'code-ok') {
+                 return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'stopped' || this.state.runningstatus === 'runtime-error')
+             } else {
+                 return false
+             }
+         },
+         isRunningPossible: function() {
+             if (this.state.tag === 'code-ok') {
+                 return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause' || this.state.runningstatus === 'running')
+             } else {
+                 return false
+             }
+         },
       },
       directives: {
          insertMessage: function(canvasElement, binding) {
@@ -206,7 +224,8 @@
       },
       methods: {
          reset: function() {
-            this.state.runningstatus = 'pause'
+            this.state.msg = "Program reset and ready to run!"
+            this.state.runningstatus = 'idle'
             this.numericOutput = 0
             this.compareDifference = null
             this.canvasCommands = []
@@ -223,6 +242,7 @@
          },
          step: function() {
             // event.emit('select-line', 5)
+            this.state.runningstatus = 'pause'
             if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                this.executeInstruction(this.state.program.instructions[this.state.currentInstructionIndex], this.state.program.symbols)
             } else {
@@ -232,7 +252,7 @@
             }
          },
          run_pause: function() {
-            if (this.state.runningstatus === 'pause') {
+            if (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause') {
                this.state.runningstatus = 'running'
                this.run()
             } else {
@@ -250,6 +270,7 @@
             clearInterval(this.timerHandle)
          },
          stop: function() {
+            this.state.msg = "Program stopped"
             this.state.runningstatus = 'stopped'
             clearInterval(this.timerHandle)
          },
@@ -278,7 +299,7 @@
                this.state = { 'tag': 'code-empty' }
             } else {
                let msg = '✓ Program ok and ready to run!'
-               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'runningstatus': 'pause', 'msg': msg }
+               this.state = { 'tag': 'code-ok', 'program': program, 'currentInstructionIndex': 0, 'runningstatus': 'idle', 'msg': msg }
             }
          },
          onProgramError: function(errorMessage) {
@@ -500,6 +521,10 @@
 
    align-items: stretch;
    align-content: stretch;
+}
+
+.debug-empty-panel {
+   flex: 1;
 }
 
 .code-status {

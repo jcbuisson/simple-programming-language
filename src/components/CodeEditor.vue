@@ -10,8 +10,8 @@
             <div class="navbar-nav">     
                <b-nav-item-dropdown text="Examples">
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
-                  <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
-                  <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('input_output')">Input/output</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum of the nth first integers</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                </b-nav-item-dropdown>
