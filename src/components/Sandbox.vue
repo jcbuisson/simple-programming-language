@@ -98,7 +98,10 @@
                </div>
             </div>
             <div class="screen-panel">
-               <screen v-bind:title="'Screen'" v-bind:commands="canvasCommands"></screen>
+               <screen v-bind:title="'Screen'"
+                       v-bind:commands="canvasCommands"
+                       v-on:penmoved="onPenMoved"
+               ></screen>
             </div>
          </div>
       </div>
@@ -149,7 +152,7 @@
             initialContext: { 'code': '', 'data': [], 'stack': [], 'input': [] },
             compareDifference: null,
             timerHandle: null,
-            canvasCommands: [],
+            penPosition: { 'x': 0, 'y': 0 },
          }
       },
       computed: {
@@ -410,8 +413,13 @@
             if (index === 0) {
                this.numericOutput = value
 
+            } else if (index === 1) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-x', 'value': value }])
+            } else if (index === 2) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-y', 'value': value }])
+
             } else if (index === 6) {
-               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'char', 'value': value }])
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'write-char', 'value': value }])
             }
          },
          dataEdited: function(newArray) {
@@ -420,6 +428,10 @@
          stackEdited: function(newArray) {
             this.stack_array = newArray
          },
+         onPenMoved: function(penPosition) {
+            console.log('pen moved ' + penPosition)
+            this.penPosition = penPosition
+         }
       },
    }
 </script>
@@ -645,7 +657,6 @@
 
 .screen-panel {
    flex: 1;
-   /*background: rgba(0, 100, 0, .1);*/
    margin-top: 5px;
 }
 

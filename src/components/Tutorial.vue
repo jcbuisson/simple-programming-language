@@ -6,7 +6,6 @@
 
 
 <script>
-   import debounce from 'lodash/debounce'
    import marked from 'marked'
 
    export default {

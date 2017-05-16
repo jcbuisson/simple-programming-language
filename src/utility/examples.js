@@ -14,6 +14,7 @@ const examples = {
       code:
          "/* Compute the sum of the first integers\n" +
          "   up to the value entered in the 'Numeric input' field.\n" +
+         "   Ex: 5 -> 1 + 2 + 3 + 4 + 5 = 15\n" +
          "   The result is visible in the 'Numeric output' field\n" +
          "*/\n" +
          "         input[0] -> data[0]\n" +
@@ -32,15 +33,26 @@ const examples = {
 
    hello_world: {
       code: [
-         "			2 -> data[0]",
+         "/* Display the string 'Hello World!' in the 'Screen' area\n" +
+         "   at coordinates (30, 30)\n" +
+         "   The string is in the data array, starting at address 2\n" +
+         "   It is composed of ascii codes, ended by a zero\n" +
+         "*/\n" +
+         "			// data[0] holds current character address",
+         "			1 -> data[0]",
+         "			// set pen position to (30, 30)",
+         "			30 -> output[1]",
+         "			30 -> output[2]",
          "next:   compare data[data[0]] to 0",
+         "			// check end of string",
          "			go end if equal",
+         "			// write current character",
          "			data[data[0]] -> output[6]",
          "			data[0] + 1 -> data[0]",
          "			go next",
          "end:    stop"
       ].join('\n'),
-      data: [0, 0, 97, 98, 99, 0],
+      data: [0, 72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33, 0],
       stack: [],
       input: []
    },

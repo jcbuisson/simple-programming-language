@@ -57,7 +57,6 @@ here:  input[0] * input[0] -> output[0]
 
 
 <script>
-   import debounce from 'lodash/debounce'
    import marked from 'marked'
 
    export default {
@@ -65,22 +64,29 @@ here:  input[0] * input[0] -> output[0]
          return {
             input: [
 
+"## Expressions",
+
 "## Instructions",
+
 "### Copy",
+
 "### Compare",
+
 "### Go",
+
 "### Call / return",
+
 "### Push / pop",
+
 "### Stop",
 
 "## Input map",
 "| Address      | Value read    |",
 "| ------------ | ------------- |",
 "|  0           |  Number (integer or real) entered in the numeric input field",
-"|  1           |  Pen color",
-"|  2           |  Pen x-coordinate",
-"|  3           |  Pen y-coordinate",
-"|  4           |  Pen orientation (degree, clockwise, default is 0 = towards right)",
+"|  1           |  Pen x-coordinate",
+"|  2           |  Pen y-coordinate",
+"|  3           |  Pen orientation (degree, clockwise, default is 0 = towards right)",
 
 "|  7           |  Pen font size in px",
 
@@ -88,11 +94,11 @@ here:  input[0] * input[0] -> output[0]
 "| Address      | Effect of writing *value* |",
 "| ------------ | ------------------------- |",
 "|  0           |  Display *value* in the numeric output field",
-"|  1           |  Set pen color (0=black, 1=white)",
-"|  2           |  Set pen x-coordinate to *value* (origin is left side)",
-"|  3           |  Set pen y-coordinate to *value* (origin is up side)",
-"|  4           |  Set pen orientation to *value* (in degree)",
-"|  5           |  Move pen to an extend of *value* in the current pen direction",
+"|  1           |  Set pen x-coordinate to *value* (origin is left side)",
+"|  2           |  Set pen y-coordinate to *value* (origin is up side)",
+"|  3           |  Set pen orientation to *value* (in degree)",
+"|  4           |  Move pen to an extend of *value* in the current pen direction",
+
 "|  6           |  Display character of code *value* at the current pen position. Pen is moved right after the character",
 "|  7           |  Set font size in px (default is 14)",
 
