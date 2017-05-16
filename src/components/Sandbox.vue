@@ -98,7 +98,7 @@
                </div>
             </div>
             <div class="screen-panel">
-               <canvas class="canvas" style="border:1px solid #BBB;" v-insert-message="canvasCommands"></canvas>
+               <screen v-bind:title="'Screen'" v-bind:commands="canvasCommands"></screen>
             </div>
          </div>
       </div>
@@ -146,7 +146,7 @@
             callstack_array: [],
             input_array: [0],
             numericOutput: 0,
-            initialContext: null,
+            initialContext: { 'code': '', 'data': [], 'stack': [], 'input': [] },
             compareDifference: null,
             timerHandle: null,
             canvasCommands: [],
@@ -204,41 +204,12 @@
              }
          },
       },
-      directives: {
-         insertMessage: function(canvasElement, binding) {
-            // Get canvas context
-            var ctx = canvasElement.getContext("2d")
-            // Clear the canvas
-            ctx.clearRect(0, 0, 300, 150)
-            // Insert stuff into canvas
-            ctx.fillStyle = "black"
-            ctx.font = "20px Georgia"
-            let commands = binding.value
-            commands.forEach(function(command) {
-               if (command.type === 'char') {
-                  let c = String.fromCharCode(command.value)
-                  ctx.fillText(c, 10, 50);
-               }
-            })
-         }
-      },
       methods: {
          reset: function() {
+            this.loadContext(this.initialContext)
             this.state.msg = "Program reset and ready to run!"
             this.state.runningstatus = 'idle'
-            this.numericOutput = 0
-            this.compareDifference = null
-            this.canvasCommands = []
-            clearInterval(this.timerHandle)
             this.state.currentInstructionIndex = 0
-            if (this.initialContext) {
-               this.loadContext(this.initialContext)
-            } else {
-               this.data_array = []
-               this.stack_array = []
-               this.callstack_array = []
-               this.input_array = [0]
-            }
          },
          step: function() {
             // event.emit('select-line', 5)
@@ -286,12 +257,17 @@
          onRestore: function(jsonDump) {
             this.loadContext(JSON.parse(jsonDump))
          },
-         loadContext: function(example) {
-            this.initialContext = example
-            this.code = example.code
-            this.data_array = example.data
-            this.stack_array = example.stack
-            this.input_array = example.input
+         loadContext: function(context) {
+            this.initialContext = context
+            this.code = context.code
+            this.data_array = context.data
+            this.stack_array = context.stack
+            this.input_array = context.input
+            // reset other parts
+            this.numericOutput = 0
+            this.compareDifference = null
+            this.canvasCommands = []
+            clearInterval(this.timerHandle)
          },
          onProgramParsed: function(program) {
             if (program.instructions.length === 0) {

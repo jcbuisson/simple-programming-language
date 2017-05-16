@@ -1,5 +1,9 @@
 
-Client-only web-application
+A web platform allowing to write and debug programs written in "Simple Programming Language"
+
+It is client side only web-application
+
+Living demo: [http://formation.buissons.fr]
 
 Uses:
 
