@@ -63,7 +63,7 @@ here:  input[0] * input[0] -> output[0]
       data () {
          return {
             input: [
-
+/*
 "## Expressions",
 
 "## Instructions",
@@ -79,8 +79,8 @@ here:  input[0] * input[0] -> output[0]
 "### Push / pop",
 
 "### Stop",
-
-"## Input map",
+*/
+"## Input[] map",
 "| Address      | Value read    |",
 "| ------------ | ------------- |",
 "|  0           |  Number (integer or real) entered in the numeric input field",
@@ -90,13 +90,13 @@ here:  input[0] * input[0] -> output[0]
 
 "|  7           |  Pen font size in px",
 
-"## Output map",
+"## Output[] map",
 "| Address      | Effect of writing *value* |",
 "| ------------ | ------------------------- |",
 "|  0           |  Display *value* in the numeric output field",
 "|  1           |  Set pen x-coordinate to *value* (origin is left side)",
 "|  2           |  Set pen y-coordinate to *value* (origin is up side)",
-"|  3           |  Set pen orientation to *value* (in degree)",
+"|  3           |  Turn: add *value* to current pen orientation (in degree)",
 "|  4           |  Move pen to an extend of *value* in the current pen direction",
 
 "|  6           |  Display character of code *value* at the current pen position. Pen is moved right after the character",
@@ -114,13 +114,10 @@ here:  input[0] * input[0] -> output[0]
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+
 .body {
   margin: 20px;
 }
 
-code {
-  color: #f66;
-  background: green;
-}
 </style>

@@ -55,13 +55,21 @@
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
-            <div class="stack-panel" v-if="state.tag === 'code-ok' && state.program.useStack">
+            <div class="stack-panel" v-if="state.tag === 'code-ok' && (state.program.useStack || state.program.useCall)">
                <memory-editor class="stack-editor"
+                              v-if="state.program.useStack"
                               :numberarray="stack_array"
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
                               v-bind:readonly="true"
                               v-on:memoryChange="stackEdited"
+               ></memory-editor>
+               <memory-editor class="callstack-editor"
+                              v-if="true || state.program.useCall"
+                              :numberarray="callstack_array"
+                              :title="'Call stack'"
+                              v-bind:styleactiveline="false"
+                              v-bind:readonly="true"
                ></memory-editor>
             </div>
             <div class="input-panel">
@@ -152,6 +160,7 @@
             initialContext: { 'code': '', 'data': [], 'stack': [], 'input': [] },
             compareDifference: null,
             timerHandle: null,
+            canvasCommands: [],
             penPosition: { 'x': 0, 'y': 0 },
          }
       },
@@ -336,6 +345,21 @@
                }
                this.state.currentInstructionIndex += 1
 
+            } else if (instruction.instruction.action === 'call') {
+               let target = instruction.instruction.target
+               this.callstack_array = [this.state.currentInstructionIndex+1].concat(this.callstack_array)
+               this.state.currentInstructionIndex = symbols[target]
+
+            } else if (instruction.instruction.action === 'return') {
+               if (this.callstack_array.length > 0) {
+                  this.state.currentInstructionIndex = this.callstack_array[0]
+                  this.callstack_array = this.callstack_array.slice(1)
+               } else {
+                  this.state.msg = "Runtime error: call stack is empty"
+                  this.state.runningstatus = 'runtime-error'
+                  clearInterval(this.timerHandle)
+               }
+
             } else if (instruction.instruction.action === 'stop') {
                this.stop()
             }
@@ -418,7 +442,7 @@
             } else if (index === 2) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-y', 'value': value }])
             } else if (index === 3) {
-               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'orientation', 'value': value }])
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'turn', 'value': value }])
             } else if (index === 4) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'move', 'value': value }])
 
@@ -599,6 +623,10 @@
 }
 
 .stack-editor {
+    flex: 2;
+}
+
+.callstack-editor {
     flex: 1;
 }
 

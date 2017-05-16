@@ -77,7 +77,36 @@ const examples = {
       data: [],
       stack: [],
       input: []
-   }
+   },
+
+   spiral: {
+      code: [
+"/* Draw a spiral */",
+"",
+"         // move pen to (30, 30)",
+"         60 -> out[1]",
+"         60 -> out[2]",
+"         // d[0]: counter",
+"         20 -> d[0]",
+"         // d[1]: line length",
+"         10 -> d[1]",
+"         // move pen with length d[1]",
+"loop:    d[1] -> out[4]",
+"         // add 5 to length",
+"         d[1] + 5 -> d[1]",
+"         // turn 90 degrees",
+"         90 -> out[3]",
+"         // decrement d[0]",
+"         d[0] - 1 -> d[0]",
+"         // counter zero ?",
+"         compare d[0] to 0",
+"         go loop if greater",
+"         stop",
+      ].join('\n'),
+      data: [],
+      stack: [],
+      input: []
+   },
 
 }
 

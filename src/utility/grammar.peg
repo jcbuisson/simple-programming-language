@@ -24,6 +24,10 @@ Instruction
   { return { 'action': 'go', 'target': label, 'condition': cond }; }
   / "go" _ label:Label
   { return { 'action': 'go', 'target': label, 'condition': true }; }
+  / "call" _ label:Label
+  { return { 'action': 'call', 'target': label }; }
+  / "return"
+  { return { 'action': 'return' }; }
    / expr:Expression _ "->" _ dest:MemoryLocation
   { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
 

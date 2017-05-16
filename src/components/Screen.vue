@@ -40,8 +40,8 @@
                } else if (command.type === 'pen-position-y') {
                   penPosition.y = command.value
                   ctx.moveTo(penPosition.x, penPosition.y)
-               } else if (command.type === 'orientation') {
-                  penOrientation = command.value
+               } else if (command.type === 'turn') {
+                  penOrientation += command.value
                } else if (command.type === 'move') {
                   let length = command.value
                   penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)

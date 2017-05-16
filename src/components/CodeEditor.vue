@@ -14,6 +14,7 @@
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('spiral')">Spiral</b-dropdown-item>
                </b-nav-item-dropdown>
             </div>
          </b-nav>
@@ -103,7 +104,7 @@
                // semantic analysis
                let result = this.semanticAnalysis(instructions)
                if (result.errors.length === 0) {
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'useStack': result.useStack })
+                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'useStack': result.useStack, 'useCall': result.useCall })
                } else {
                   let msg = result.errors.join('<br/>')
                   this.$emit('programError', msg)
@@ -142,7 +143,8 @@
 
             // then check whether stack is used or not
             let doNotUseStack = instructions.every(this.instructionDoNotUseStack);
-            return { 'symbols': symbols, 'errors': errors, 'useStack': !doNotUseStack }
+            let doNotUseCall = instructions.every(this.instructionDoNotUseCall);
+            return { 'symbols': symbols, 'errors': errors, 'useStack': !doNotUseStack, 'useCall': !doNotUseCall }
          },
          instructionDoNotUseStack: function(instruction) {
             if (instruction.instruction.action === 'copy') {
@@ -156,6 +158,9 @@
             } else { // stop, go
                return true
             }
+         },
+         instructionDoNotUseCall: function(instruction) {
+            return (instruction.instruction.action !== 'call' && instruction.instruction.action !== 'return')
          },
          expressionDoNotUseStack: function(expr) {
             if (typeof expr === 'number') {

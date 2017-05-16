@@ -13,8 +13,7 @@
          return {
             input: [
       "# Tutorial",
-      "This plateform is a sandbox to make experiments with SPL, a simple programming language.  ",
-      "You'll be able to write programs in this language, and simulate their execution.",
+      "This plateform is a sandbox to write programs and experiment with SPL, a Simple Programming Language.  ",
 
       "### What's a program?",
       "It is a list of instructions written in the *Code* area. You should not place more than one instruction per line.  ",
