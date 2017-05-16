@@ -28,6 +28,7 @@
             ctx.font = "14px"
             let commands = binding.value
             let penPosition = { 'x': 0, 'y': 0 }
+            let penOrientation = 0.
             commands.forEach(function(command) {
                if (command.type === 'write-char') {
                   let c = String.fromCharCode(command.value)
@@ -35,8 +36,18 @@
                   penPosition.x += ctx.measureText(c).width
                } else if (command.type === 'pen-position-x') {
                   penPosition.x = command.value
+                  ctx.moveTo(penPosition.x, penPosition.y)
                } else if (command.type === 'pen-position-y') {
                   penPosition.y = command.value
+                  ctx.moveTo(penPosition.x, penPosition.y)
+               } else if (command.type === 'orientation') {
+                  penOrientation = command.value
+               } else if (command.type === 'move') {
+                  let length = command.value
+                  penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)
+                  penPosition.y += length * Math.sin(penOrientation*2.*Math.PI/360.)
+                  ctx.lineTo(penPosition.x, penPosition.y)
+                  ctx.stroke()
                }
             })
             //this.$emit('penmoved', penPosition)

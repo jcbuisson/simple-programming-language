@@ -417,6 +417,10 @@
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-x', 'value': value }])
             } else if (index === 2) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-y', 'value': value }])
+            } else if (index === 3) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'orientation', 'value': value }])
+            } else if (index === 4) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'move', 'value': value }])
 
             } else if (index === 6) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'write-char', 'value': value }])
