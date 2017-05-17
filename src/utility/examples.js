@@ -110,11 +110,10 @@ const examples = {
 
    recursive_factorial: {
       code: [
-"           push 7",
+"           push input[0]",
 "           call fact",
 "           pop out[0]",
 "           stop",
-"",
 "",
 "fact:      compare stack[0] to 1",
 "           go term if smaller_or_equal",
@@ -128,7 +127,7 @@ const examples = {
       ].join('\n'),
       data: [],
       stack: [],
-      input: []
+      input: [5]
    },
 
 }

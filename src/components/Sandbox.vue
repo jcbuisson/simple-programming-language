@@ -62,7 +62,6 @@
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
                               v-bind:readonly="true"
-                              v-on:memoryChange="stackEdited"
                ></memory-editor>
                <memory-editor class="callstack-editor"
                               v-if="true || state.program.useCall"
