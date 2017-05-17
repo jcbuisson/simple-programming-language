@@ -100,6 +100,7 @@
          'value': function (newVal, oldVal) {
              var editorValue = this.editor.getValue()
              if (newVal !== editorValue) {
+                this.editor.removeLineClass(oldVal, "background", "styled-background")
                 var scrollInfo = this.editor.getScrollInfo()
                 this.editor.setValue(newVal)
                 this.editor.scrollTo(scrollInfo.left, scrollInfo.top)

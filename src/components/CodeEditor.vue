@@ -15,6 +15,8 @@
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('spiral')">Spiral</b-dropdown-item>
+                  <b-dropdown-divider></b-dropdown-divider>
+                  <b-dropdown-item v-on:click="example('recursive_factorial')">Recursive factorial</b-dropdown-item>
                </b-nav-item-dropdown>
             </div>
          </b-nav>

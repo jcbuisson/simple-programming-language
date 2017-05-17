@@ -292,18 +292,21 @@
          onProgramError: function(errorMessage) {
             this.state = { 'tag': 'code-error', 'msg': errorMessage }
          },
+         setArrayElementAt: function(type, index, value) {
+            if (type === 'data') {
+                this.setDataElementAt(index, value)
+            } else if (type === 'stack') {
+                this.setStackElementAt(index, value)
+            } else if (type === 'output') {
+                this.setOutputElementAt(index, value)
+            }
+         },
          executeInstruction: function(instruction, symbols) {
             if (instruction.instruction.action === 'copy') {
                let expr = instruction.instruction.expr
                let dest = instruction.instruction.dest
                let exprValue = this.evaluateExpression(expr)
-               if (dest.type === 'data') {
-                  this.setDataElementAt(dest.index, exprValue)
-               } else if (dest.type === 'stack') {
-                  this.setStackElementAt(dest.index, exprValue)
-               } else if (dest.type === 'output') {
-                  this.setOutputElementAt(dest.index, exprValue)
-               }
+               this.setArrayElementAt(dest.type, dest.index, exprValue)
                this.state.currentInstructionIndex += 1
 
             } else if (instruction.instruction.action === 'compare') {
@@ -334,7 +337,7 @@
             } else if (instruction.instruction.action === 'pop') {
                let dest = instruction.instruction.dest
                if (dest) {
-                   this.setDataElementAt(dest.index, this.getStackElementAt(0))
+                  this.setArrayElementAt(dest.type, dest.index, this.getStackElementAt(0))
                }
                if (this.stack_array.length > 0) {
                   this.stack_array = this.stack_array.slice(1)

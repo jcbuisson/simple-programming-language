@@ -3,7 +3,7 @@
    <div class="screen">
       <b-alert show class="title"> {{ title }} </b-alert>
       <div class="area">
-         <canvas v-insert-message="commands"></canvas>
+         <canvas class="canvas-area" v-insert-message="commands"></canvas>
       </div>
    </div>
 </template>
@@ -61,13 +61,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
    .screen {
-      width="400"
-      height="200" 
-      
-      background-color: #fcfcfc;
-      /*width: 100%;
-      height: 100%;*/
-
       display: flex;
       flex-direction: column;  
       justify-content: flex-start;
@@ -84,9 +77,11 @@
 
    .area {
       flex: 1;
-      /*width: 100%;
-      hheight: 100%;*/
-
       border:1px solid #BBB;
+   }
+
+   .cccanvas-area {
+      width: 400;
+      height: 300; 
    }
 </style>

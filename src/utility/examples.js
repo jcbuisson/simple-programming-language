@@ -35,7 +35,7 @@ const examples = {
       code: [
          "/* Display the string 'Hello World!' in the 'Screen' area\n" +
          "   at coordinates (30, 30)\n" +
-         "   The string is in the data array, starting at address 2\n" +
+         "   The string is in the data array, starting at address 1\n" +
          "   It is composed of ascii codes, ended by a zero\n" +
          "*/\n" +
          "			// data[0] holds current character address",
@@ -102,6 +102,29 @@ const examples = {
 "         compare d[0] to 0",
 "         go loop if greater",
 "         stop",
+      ].join('\n'),
+      data: [],
+      stack: [],
+      input: []
+   },
+
+   recursive_factorial: {
+      code: [
+"           push 3",
+"           call fact",
+"           pop out[0]",
+"           stop",
+"",
+"",
+"fact:      compare stack[0] to 1",
+"           go term if smaller_or_equal",
+"           push stack[0] - 1",
+"           call fact",
+"           stack[0] * stack[1] -> stack[1]",
+"           pop",
+"           go end",
+"term:      1 -> stack[0]",
+"end:       return",
       ].join('\n'),
       data: [],
       stack: [],
