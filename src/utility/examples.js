@@ -83,7 +83,7 @@ const examples = {
       code: [
 "/* Draw a spiral */",
 "",
-"         // move pen to (30, 30)",
+"         // move pen to (60, 60)",
 "         60 -> out[1]",
 "         60 -> out[2]",
 "         // d[0]: counter",

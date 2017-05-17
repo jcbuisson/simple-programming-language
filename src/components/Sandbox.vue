@@ -690,6 +690,7 @@
 .screen-panel {
    flex: 1;
    margin-top: 5px;
+   /*background-color: #f88;*/
 }
 
 .card .card-block {
