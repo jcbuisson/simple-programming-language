@@ -4,7 +4,7 @@
     <div class="card screen">
         <div class="card-header">Screen</div>
         <div class="card-block area">
-          <canvas height="100px" class="canvas-area" v-insert-message="commands"></canvas>
+          <canvas height="200px" class="canvas-area" v-insert-message="commands"></canvas>
         </div>
     </div>
 

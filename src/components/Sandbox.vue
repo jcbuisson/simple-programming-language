@@ -79,36 +79,34 @@
                ></memory-editor>
             </div>
          </div>
-         <div class="input-output-panel">
-            <div class="input0-output0-panel">
-               <div class="card input0-panel">
-                  <div class="card-header">Numeric input</div>
-                  <div class="card-block">
-                     <input type="number" v-model="input_array[0]">
-                  </div>
-               </div>
-               <div class="card output0-panel">
-                  <!--div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div-->
-                  <div class="card-header">Numeric output</div>
-                  <div class="card-block" style="font-size: 20px; font-weight: bold;">{{ numericOutput }}</div>
-               </div>
-               <div class="card compare-panel">
-                  <div class="card-header">Last compare status</div>
-                  <div class="card-block compare-buttons-panel">
-                     <div class="btn-group">
-                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareSmaller }">smaller</a>
-                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareEqual }">equal</a>
-                        <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareGreater }">greater</a>
-                     </div>
-                  </div>
-               </div>
+         <div class="input0-output0-panel">
+            <div class="card input0-panel">
+                <div class="card-header">Numeric input</div>
+                <div class="card-block">
+                    <input type="number" v-model="input_array[0]">
+                </div>
             </div>
-            <div class="screen-panel">
-               <screen v-bind:title="'Screen'"
-                       v-bind:commands="canvasCommands"
-                       v-on:penmoved="onPenMoved"
-               ></screen>
+            <div class="card output0-panel">
+                <!--div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div-->
+                <div class="card-header">Numeric output</div>
+                <div class="card-block" style="font-size: 20px; font-weight: bold;">{{ numericOutput }}</div>
             </div>
+            <div class="card compare-panel">
+                <div class="card-header">Last compare status</div>
+                <div class="card-block compare-buttons-panel">
+                    <div class="btn-group">
+                    <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareSmaller }">smaller</a>
+                    <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareEqual }">equal</a>
+                    <a href="#" class="btn btn-info btn-sm" v-bind:class="{ active: compareGreater }">greater</a>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="screen-panel">
+            <screen v-bind:title="'Screen'"
+                    v-bind:commands="canvasCommands"
+                    v-on:penmoved="onPenMoved"
+            ></screen>
          </div>
       </div>
    </div>
@@ -582,7 +580,7 @@
 }
 
 .memory-panel {
-   flex: 3;
+   flex: 5;
 
    display: flex;
    flex-direction: row;  
@@ -648,18 +646,8 @@
     flex: 1;
 }
 
-.input-output-panel {
-   flex: 5;
-
-   display: flex;
-   flex-direction: column;  
-   justify-content: flex-start;
-
-   align-items: stretch;
-   align-content: stretch;
-}
-
 .input0-output0-panel {
+   
    display: flex;
    flex-direction: row;  
    justify-content: flex-start;
