@@ -1,11 +1,13 @@
 
 <template>
-   <div class="screen">
-      <b-alert show class="title"> {{ title }} </b-alert>
-      <div class="area">
-         <canvas class="canvas-area" v-insert-message="commands"></canvas>
-      </div>
-   </div>
+
+    <div class="card screen">
+        <div class="card-header">Screen</div>
+        <div class="card-block area">
+          <canvas height="100px" class="canvas-area" v-insert-message="commands"></canvas>
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -24,7 +26,7 @@
             // Get canvas context
             var ctx = canvasElement.getContext("2d")
             // Clear the canvas
-            ctx.clearRect(0, 0, 300, 150)
+            ctx.clearRect(0, 0, 1000, 1000)
             // Insert stuff into canvas
             ctx.fillStyle = "black"
             ctx.font = "14px"
@@ -60,28 +62,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-   .screen {
-      display: flex;
-      flex-direction: column;  
-      justify-content: flex-start;
-
-      align-items: stretch;
-      align-content: stretch;
-   }
-
-   .title {
-      margin-bottom: 0;
-      padding-top: 6px;
-      padding-bottom: 6px;
-   }
-
-   .area {
-      flex: 1;
-      border:1px solid #BBB;
-   }
-
-   .cccanvas-area {
-      width: 400;
-      height: 300; 
-   }
 </style>

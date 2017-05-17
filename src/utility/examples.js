@@ -110,7 +110,7 @@ const examples = {
 
    recursive_factorial: {
       code: [
-"           push 3",
+"           push 7",
 "           call fact",
 "           pop out[0]",
 "           stop",

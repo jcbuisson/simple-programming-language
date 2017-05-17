@@ -83,7 +83,6 @@
          <div class="input-output-panel">
             <div class="input0-output0-panel">
                <div class="card input0-panel">
-                  <!--div class="card-header">Numeric input (see <a href="#/documentation" target="_blank">input[0]</a>)</div-->
                   <div class="card-header">Numeric input</div>
                   <div class="card-block">
                      <input type="number" v-model="input_array[0]">
@@ -691,14 +690,8 @@
 }
 
 .screen-panel {
-   flex: 1;
+   flex: 3;
    margin-top: 5px;
    /*background-color: #f88;*/
 }
-
-.card .card-block {
-   padding-top: 5px;
-   padding-bottom: 5px;
-}
-
 </style>
