@@ -79,7 +79,7 @@
                ></memory-editor>
             </div>
          </div>
-         <div class="input0-output0-panel">
+         <div class="input0-output0-panel" style="max-height: 120px;">
             <div class="card input0-panel">
                 <div class="card-header">Numeric input</div>
                 <div class="card-block">
@@ -514,7 +514,7 @@
 
 .code-panel {
    flex: 1;
-   background: rgba(100, 0, 100, .2);
+   /*background: rgba(100, 0, 100, .2);*/
 
    display: flex;
    flex-direction: column;  
