@@ -208,10 +208,10 @@
             return (this.state.tag === 'code-ok')
          },
          isCodeUsingStack: function() {
-            return (state.program && state.program.useStack)
+            return (this.state.program && this.state.program.useStack)
          },
          isCodeUsingCallStack: function() {
-            return (state.program && state.program.useCall)
+            return (this.state.program && this.state.program.useCall)
          },
          isRunningPossible: function() {
             if (this.state.tag === 'code-ok') {
