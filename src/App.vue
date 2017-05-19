@@ -1,7 +1,7 @@
 <template>
    <div id="app">
 
-      <b-navbar toggleable fixed="true" sticky="true" type="inverse" variant="success">
+      <!--b-navbar toggleable fixed="true" sticky="true" type="inverse" variant="success">
          <b-nav-toggle target="nav_collapse"></b-nav-toggle>
          <b-link class="navbar-brand" to="#">
             <span>Simple Programming Language</span>
@@ -14,11 +14,11 @@
                <button type="button" class="btn btn-success" v-bind:class="{ active: isHomeCurrent }" v-on:click="setHomeCurrent">Home</button>
             </div>
          </b-nav>
-      </b-navbar>
+      </b-navbar-->
 
       <!--router-view></router-view-->
       <keep-alive>
-         <component v-bind:is="currentView"></component>
+         <component v-bind:is="currentView" v-on:changeview="setCurrentView"></component>
       </keep-alive>
 
    </div>
@@ -61,6 +61,18 @@
          },
       },
       methods: {
+         setCurrentView: function(viewName) {
+            if (viewName === 'sandbox') {
+               this.currentView = sandbox
+            } else if (viewName === 'tutorial') {
+               this.currentView = tutorial
+            } else if (viewName === 'reference') {
+               this.currentView = reference
+            } else if (viewName === 'home') {
+               this.currentView = home
+            }
+         },
+
          setSandboxCurrent: function() {
             this.currentView = sandbox
          },

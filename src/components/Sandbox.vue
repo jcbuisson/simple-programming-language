@@ -1,6 +1,8 @@
 <template>
 
 <div class="sandbox">
+
+   <top-bar v-bind:name="'sandbox'" v-on:buttonclick="onButtonClick"></top-bar>
     
    <div class="main-panel">
       <div class="main-panel-left">
@@ -121,6 +123,7 @@
    import memoryeditor from '@/components/MemoryEditor'
    import screen from '@/components/Screen'
    import filedropbutton from '@/components/FileDropButton'
+   import topbar from '@/components/TopBar'
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
@@ -143,6 +146,7 @@
          Screen: screen,
          CodeMirror: codemirror,
          FileDropButton: filedropbutton,
+         TopBar: topbar,
       },
       data () {
          return {
@@ -162,7 +166,7 @@
       },
       computed: {
          currentInstructionLine: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                   return this.state.program.instructions[this.state.currentInstructionIndex].line
                } else {
@@ -185,7 +189,7 @@
             return (this.compareDifference != null) && (this.compareDifference > 0)
          },
          messageColor: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                 if (this.state.runningstatus === 'runtime-error') {
                    return 'danger'
                 } else {
@@ -196,9 +200,9 @@
             }
          },
          statusBarVisibility: function() {
-             if (this.state.tag === 'code-error') {
+             if (this.isCodeKo) {
                  return true
-             } else if (this.state.tag === 'code-ok') {
+             } else if (this.isCodeOk) {
                  return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'stopped' || this.state.runningstatus === 'runtime-error')
              } else {
                  return false
@@ -207,14 +211,17 @@
          isCodeOk: function() {
             return (this.state.tag === 'code-ok')
          },
+         isCodeKo: function() {
+            return (this.state.tag === 'code-error')
+         },
          isCodeUsingStack: function() {
-            return (state.program && state.program.useStack)
+            return (this.state.program && this.state.program.useStack)
          },
          isCodeUsingCallStack: function() {
-            return (state.program && state.program.useCall)
+            return (this.state.program && this.state.program.useCall)
          },
          isRunningPossible: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause' || this.state.runningstatus === 'running')
             } else {
                return false
@@ -225,6 +232,9 @@
          }
       },
       methods: {
+         onButtonClick: function(name) {
+            this.$emit('changeview', name)
+         },
          reset: function() {
             this.loadContext(this.initialContext)
             this.state.msg = "Program reset and ready to run!"
