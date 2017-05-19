@@ -196,11 +196,11 @@ module.exports = /*
         peg$c52 = "]",
         peg$c53 = peg$literalExpectation("]", false),
         peg$c54 = function(type, index) { return { 'type': type, 'index': index, }; },
-        peg$c55 = "data",
-        peg$c56 = peg$literalExpectation("data", false),
-        peg$c57 = function() { return 'data'; },
-        peg$c58 = "d",
-        peg$c59 = peg$literalExpectation("d", false),
+        peg$c55 = "memory",
+        peg$c56 = peg$literalExpectation("memory", false),
+        peg$c57 = function() { return 'memory'; },
+        peg$c58 = "m",
+        peg$c59 = peg$literalExpectation("m", false),
         peg$c60 = "stack",
         peg$c61 = peg$literalExpectation("stack", false),
         peg$c62 = function() { return 'stack'; },
@@ -994,9 +994,9 @@ module.exports = /*
       var s0, s1;
 
       s0 = peg$currPos;
-      if (input.substr(peg$currPos, 4) === peg$c55) {
+      if (input.substr(peg$currPos, 6) === peg$c55) {
         s1 = peg$c55;
-        peg$currPos += 4;
+        peg$currPos += 6;
       } else {
         s1 = peg$FAILED;
         if (peg$silentFails === 0) { peg$fail(peg$c56); }
@@ -1008,7 +1008,7 @@ module.exports = /*
       s0 = s1;
       if (s0 === peg$FAILED) {
         s0 = peg$currPos;
-        if (input.charCodeAt(peg$currPos) === 100) {
+        if (input.charCodeAt(peg$currPos) === 109) {
           s1 = peg$c58;
           peg$currPos++;
         } else {

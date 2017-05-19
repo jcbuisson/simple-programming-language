@@ -45,7 +45,7 @@
                // no ambiguity between this one and the one above
                //{regex: /(?:function|var|return|if|for|while|else|do|this)\b/, token: "keyword"},
 
-               {regex: /(?:data|stack|input|output)\b/, token: "keyword"},
+               {regex: /(?:memory|stack|input|output)\b/, token: "keyword"},
 
                //{regex: /true|false|null|undefined/, token: "atom"},
                {regex: /go|compare|push|pop|call|return|stop/, token: "atom"},

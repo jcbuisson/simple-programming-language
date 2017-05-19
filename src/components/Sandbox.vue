@@ -1,6 +1,8 @@
 <template>
 
 <div class="sandbox">
+
+   <top-bar v-bind:name="'sandbox'" v-on:buttonclick="onButtonClick"></top-bar>
     
    <div class="main-panel">
       <div class="main-panel-left">
@@ -47,13 +49,13 @@
       <div class="main-panel-right">
          <div class="memory-panel">
             <div class="data-panel">
-               <memory-editor class="data-editor"
+               <memory-editor class="memory-editor"
                               v-if="isCodeUsingMemory"
-                              :numberarray="data_array"
-                              :title="'Data'"
+                              :numberarray="memory_array"
+                              :title="'Memory'"
                               v-bind:styleactiveline="false"
                               v-bind:readonly="false"
-                              v-on:memoryChange="dataEdited"
+                              v-on:memoryChange="memoryEdited"
                ></memory-editor>
             </div>
             <div class="stack-panel" v-if="isCodeOk && (isCodeUsingStack || isCodeUsingCallStack)">
@@ -123,6 +125,7 @@
    import memoryeditor from '@/components/MemoryEditor'
    import screen from '@/components/Screen'
    import filedropbutton from '@/components/FileDropButton'
+   import topbar from '@/components/TopBar'
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
@@ -145,17 +148,18 @@
          Screen: screen,
          CodeMirror: codemirror,
          FileDropButton: filedropbutton,
+         TopBar: topbar,
       },
       data () {
          return {
             code: '',
             state: { 'code': 'code-empty' },
-            data_array: [],
+            memory_array: [],
             stack_array: [],
             callstack_array: [],
             input_array: [0],
             numericOutput: 0,
-            initialContext: { 'code': '', 'data': [], 'stack': [], 'input': [] },
+            initialContext: { 'code': '', 'memory': [], 'stack': [], 'input': [] },
             compareDifference: null,
             timerHandle: null,
             canvasCommands: [],
@@ -164,7 +168,7 @@
       },
       computed: {
          currentInstructionLine: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                   return this.state.program.instructions[this.state.currentInstructionIndex].line
                } else {
@@ -187,7 +191,7 @@
             return (this.compareDifference != null) && (this.compareDifference > 0)
          },
          messageColor: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                 if (this.state.runningstatus === 'runtime-error') {
                    return 'danger'
                 } else {
@@ -198,9 +202,9 @@
             }
          },
          statusBarVisibility: function() {
-             if (this.state.tag === 'code-error') {
+             if (this.isCodeKo) {
                  return true
-             } else if (this.state.tag === 'code-ok') {
+             } else if (this.isCodeOk) {
                  return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'stopped' || this.state.runningstatus === 'runtime-error')
              } else {
                  return false
@@ -215,6 +219,9 @@
          isCodeUsingInput: function() {
             return true
          },
+         isCodeKo: function() {
+            return (this.state.tag === 'code-error')
+         },
          isCodeUsingStack: function() {
             return (this.state.program && this.state.program.useStack)
          },
@@ -222,7 +229,7 @@
             return (this.state.program && this.state.program.useCall)
          },
          isRunningPossible: function() {
-            if (this.state.tag === 'code-ok') {
+            if (this.isCodeOk) {
                return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause' || this.state.runningstatus === 'running')
             } else {
                return false
@@ -233,6 +240,9 @@
          }
       },
       methods: {
+         onButtonClick: function(name) {
+            this.$emit('changeview', name)
+         },
          reset: function() {
             this.loadContext(this.initialContext)
             this.state.msg = "Program reset and ready to run!"
@@ -278,7 +288,7 @@
             this.loadContext(example)
          },
          onBackup: function() {
-            let content = JSON.stringify({ 'code': this.code, 'data': this.data_array, 'stack': this.stack_array, 'input': this.input_array })
+            let content = JSON.stringify({ 'code': this.code, 'memory': this.memory_array, 'stack': this.stack_array, 'input': this.input_array })
             let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             FileSaver.saveAs(blob, "program.txt");
          },
@@ -288,7 +298,7 @@
          loadContext: function(context) {
             this.initialContext = context
             this.code = context.code
-            this.data_array = context.data
+            this.memory_array = context.memory
             this.stack_array = context.stack
             this.input_array = context.input
             // reset other parts
@@ -309,8 +319,8 @@
             this.state = { 'tag': 'code-error', 'msg': errorMessage }
          },
          setArrayElementAt: function(type, index, value) {
-            if (type === 'data') {
-                this.setDataElementAt(index, value)
+            if (type === 'memory') {
+                this.setmemoryElementAt(index, value)
             } else if (type === 'stack') {
                 this.setStackElementAt(index, value)
             } else if (type === 'output') {
@@ -389,8 +399,8 @@
             } else if (expression.hasOwnProperty('type')) {
                let indexExpr = expression.index
                let index = this.evaluateExpression(indexExpr)
-               if (expression.type === 'data') {
-                  return this.getDataElementAt(index)
+               if (expression.type === 'memory') {
+                  return this.getmemoryElementAt(index)
                } else if (expression.type === 'stack') {
                   return this.getStackElementAt(index)
                } else if (expression.type === 'input') {
@@ -410,23 +420,23 @@
                }
             }
          },
-         getDataElementAt: function(index) {
-            if (index >= this.data_array.length) {
+         getmemoryElementAt: function(index) {
+            if (index >= this.memory_array.length) {
                // add zeros up to index
-               let zeros = fill(Array(index-this.data_array.length+1), 0)
-               this.data_array = concat(this.data_array, zeros)
+               let zeros = fill(Array(index-this.memory_array.length+1), 0)
+               this.memory_array = concat(this.memory_array, zeros)
             }
-            return this.data_array[index]
+            return this.memory_array[index]
          },
-         setDataElementAt: function(index, value) {
-            if (index >= this.data_array.length) {
+         setmemoryElementAt: function(index, value) {
+            if (index >= this.memory_array.length) {
                // add zeros up to index
-               let zeros = fill(Array(index-this.data_array.length+1), 0)
-               this.data_array = concat(this.data_array, zeros)
+               let zeros = fill(Array(index-this.memory_array.length+1), 0)
+               this.memory_array = concat(this.memory_array, zeros)
             }
-            let left = slice(this.data_array, 0, index)
-            let right = slice(this.data_array, index+1)
-            this.data_array = concat(left, value, right)
+            let left = slice(this.memory_array, 0, index)
+            let right = slice(this.memory_array, index+1)
+            this.memory_array = concat(left, value, right)
          },
          getStackElementAt: function(index) {
             if (index >= this.stack_array.length) {
@@ -469,8 +479,8 @@
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'write-char', 'value': value }])
             }
          },
-         dataEdited: function(newArray) {
-            this.data_array = newArray
+         memoryEdited: function(newArray) {
+            this.memory_array = newArray
          },
          stackEdited: function(newArray) {
             this.stack_array = newArray
@@ -623,7 +633,7 @@
    margin-right: 5px;
 }
 
-.data-editor {
+.memory-editor {
     flex: 1;
 }
 
