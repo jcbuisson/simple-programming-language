@@ -27,6 +27,10 @@
       "This tutorial will teach you how to write and execute programs in the Simple Programming Language (SPL).  ",
       "In the *Sandbox* you can see all the internals of a program while it is executed. You can fully understand what happens",
       "when an instruction is executed. It is then up to you to write and organize instructions in a meaningful way.  ",
+
+      "## Level 1",
+
+
       "After a short description of preliminary concepts, we'll describe examples in detail, from the most simple to more complex ones.",
 
       "## Preliminary concepts",
