@@ -48,6 +48,7 @@
          <div class="memory-panel">
             <div class="data-panel">
                <memory-editor class="data-editor"
+                              v-if="isCodeUsingMemory"
                               :numberarray="data_array"
                               :title="'Data'"
                               v-bind:styleactiveline="false"
@@ -73,6 +74,7 @@
             </div>
             <div class="input-panel">
                <memory-editor class="input-editor"
+                              v-if="isCodeUsingInput"
                               :numberarray="input_array"
                               v-bind:readonly="true"
                               :title="'Input'"
@@ -206,6 +208,12 @@
          },
          isCodeOk: function() {
             return (this.state.tag === 'code-ok')
+         },
+         isCodeUsingMemory: function() {
+            return true
+         },
+         isCodeUsingInput: function() {
+            return true
          },
          isCodeUsingStack: function() {
             return (this.state.program && this.state.program.useStack)
