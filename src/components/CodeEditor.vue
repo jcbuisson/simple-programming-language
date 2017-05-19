@@ -9,38 +9,17 @@
             <div class="navbar-brand">Code</div>       
             <div class="navbar-nav">     
                <b-nav-item-dropdown text="Examples">
-                  <b-dropdown-item v-on:click="example('input_output')">Input/output</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum of the nth first integers</b-dropdown-item>
-                  <b-dropdown-divider></b-dropdown-divider>
-                  <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
+                  <b-dropdown-divider></b-dropdown-divider>
+                  <b-dropdown-item v-on:click="example('input_output')">Input/output</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('spiral')">Spiral</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item v-on:click="example('recursive_factorial')">Recursive factorial</b-dropdown-item>
                </b-nav-item-dropdown>
             </div>
          </b-nav>
-
-         <!--nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-            <div class="navbar-brand" href="#">Code</div>
-            <div class="collapse navbar-collapse">
-               <ul class="navbar-nav mr-auto">
-                        <b-nav-item-dropdown text="Examples" right-alignment>
-                           <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
-                           <b-dropdown-item v-on:click="example('input_output')">input/output</b-dropdown-item>
-                           <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">sum of the nth first integers</b-dropdown-item>
-                           <b-dropdown-divider></b-dropdown-divider>
-                           <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
-                        </b-nav-item-dropdown>
-               </ul>
-               <span class="nav-item">
-                  <b-btn v-on:click="save" :disabled="false">
-                     <i class="fa fa-save" style="font-size: 20px;" v-on:click="save"></i>
-                  </b-btn>
-                  <filedropbutton></filedropbutton>
-               </span>
-            </div>
-         </nav-->
 
       </div>
       <div class="code-editor-body" style="overflow: auto;">

@@ -27,17 +27,17 @@
             <div class="debug-empty-panel"></div>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="reset" :disabled="state.tag !== 'code-ok' || state.runningstatus === 'running'" class="debug-btn">
+                  <b-btn v-on:click="reset" :disabled="!isCodeOk || isRunning" class="debug-btn">
                      <i class="fa fa-stop"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Run/Pause" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="run_pause" :disabled="!isRunningPossible" class="debug-btn play-btn">
-                     <i class="fa" v-bind:class="{ 'fa-pause': (state.runningstatus === 'running'), 'fa-play': (state.runningstatus !== 'running') }"></i>
+                     <i class="fa" v-bind:class="{ 'fa-pause': isRunning, 'fa-play': !isRunning }"></i>
                   </b-btn>
                </b-popover>
                <b-popover content="Step" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="step" :disabled="!isRunningPossible" class="debug-btn">
+                  <b-btn v-on:click="step" :disabled="!isRunningPossible || isRunning" class="debug-btn">
                      <i class="fa fa-step-forward"></i>
                   </b-btn>
                </b-popover>
@@ -55,16 +55,16 @@
                               v-on:memoryChange="dataEdited"
                ></memory-editor>
             </div>
-            <div class="stack-panel" v-if="state.tag === 'code-ok' && (state.program.useStack || state.program.useCall)">
+            <div class="stack-panel" v-if="isCodeOk && (isCodeUsingStack || isCodeUsingCallStack)">
                <memory-editor class="stack-editor"
-                              v-if="state.program.useStack"
+                              v-if="isCodeUsingStack"
                               :numberarray="stack_array"
                               :title="'Stack'"
                               v-bind:styleactiveline="false"
                               v-bind:readonly="true"
                ></memory-editor>
                <memory-editor class="callstack-editor"
-                              v-if="true || state.program.useCall"
+                              v-if="isCodeUsingCallStack"
                               :numberarray="callstack_array"
                               :title="'Call stack'"
                               v-bind:styleactiveline="false"
@@ -204,13 +204,25 @@
                  return false
              }
          },
-         isRunningPossible: function() {
-             if (this.state.tag === 'code-ok') {
-                 return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause' || this.state.runningstatus === 'running')
-             } else {
-                 return false
-             }
+         isCodeOk: function() {
+            return (this.state.tag === 'code-ok')
          },
+         isCodeUsingStack: function() {
+            return (state.program && state.program.useStack)
+         },
+         isCodeUsingCallStack: function() {
+            return (state.program && state.program.useCall)
+         },
+         isRunningPossible: function() {
+            if (this.state.tag === 'code-ok') {
+               return (this.state.runningstatus === 'idle' || this.state.runningstatus === 'pause' || this.state.runningstatus === 'running')
+            } else {
+               return false
+            }
+         },
+         isRunning: function() {
+             return (this.state.runningstatus === 'running')
+         }
       },
       methods: {
          reset: function() {

@@ -1,7 +1,7 @@
 <template>
    <div id="app">
 
-      <b-navbar toggleable type="inverse" variant="success">
+      <b-navbar toggleable fixed="true" sticky="true" type="inverse" variant="success">
          <b-nav-toggle target="nav_collapse"></b-nav-toggle>
          <b-link class="navbar-brand" to="#">
             <span>Simple Programming Language</span>
@@ -103,14 +103,6 @@ html, body {
 
 .a {
   color: #aedcae;
-}
-
-.header {
-
-}
-
-.main {
-  flex: 1;
 }
 
 </style>
