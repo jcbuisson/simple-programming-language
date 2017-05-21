@@ -43,14 +43,17 @@ MemoryLocation
   { return { 'type': type, 'index': index, }; }
 
 LocationType
-  = "data" { return 'data'; }
-  / "d" { return 'data'; }
+  = "memory" { return 'memory'; }
+  / "mem" { return 'memory'; }
+  / "m" { return 'memory'; }
   / "stack" { return 'stack'; }
   / "s" { return 'stack'; }
   / "input" { return 'input'; }
   / "in" { return 'input'; }
+  / "i" { return 'input'; }
   / "output" { return 'output'; }
   / "out" { return 'output'; }
+  / "o" { return 'output'; }
   
 Expression
   = t1:Factor _ op1:("+"/"-") _ t2:Factor _ op2:("+"/"-") _ t3:Factor

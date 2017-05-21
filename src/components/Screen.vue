@@ -30,6 +30,7 @@
             // Insert stuff into canvas
             ctx.fillStyle = "black"
             ctx.font = "14px"
+            ctx.beginPath()
             let commands = binding.value
             let penPosition = { 'x': 0, 'y': 0 }
             let penOrientation = 0.

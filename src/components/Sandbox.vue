@@ -29,7 +29,7 @@
             <div class="debug-empty-panel"></div>
             <b-button-group class="debug-btn-panel">
                <b-popover content="Reset" :triggers="['hover']" :delay="{show: 500, hide: 0}">
-                  <b-btn v-on:click="reset" :disabled="!isCodeOk || isRunning" class="debug-btn">
+                  <b-btn v-on:click="reset" :disabled="!isCodeOk" class="debug-btn">
                      <i class="fa fa-stop"></i>
                   </b-btn>
                </b-popover>
@@ -84,18 +84,18 @@
             </div>
          </div>
          <div class="input0-output0-panel" style="max-height: 120px;">
-            <div class="card input0-panel">
+            <div class="card input0-panel" v-if="isCodeUsingInput">
                 <div class="card-header">Numeric input</div>
                 <div class="card-block">
                     <input type="number" v-model="input_array[0]">
                 </div>
             </div>
-            <div class="card output0-panel">
+            <div class="card output0-panel" v-if="isCodeUsingOutput">
                 <!--div class="card-header">Numeric output (see <a href="#/documentation" target="_blank">output[0]</a>)</div-->
                 <div class="card-header">Numeric output</div>
                 <div class="card-block" style="font-size: 20px; font-weight: bold;">{{ numericOutput }}</div>
             </div>
-            <div class="card compare-panel">
+            <div class="card compare-panel" v-if="isCodeUsingCompare">
                 <div class="card-header">Last compare status</div>
                 <div class="card-block compare-buttons-panel">
                     <div class="btn-group">
@@ -106,7 +106,7 @@
                 </div>
             </div>
          </div>
-         <div class="screen-panel">
+         <div class="screen-panel" v-if="isCodeUsingOutput">
             <screen v-bind:title="'Screen'"
                     v-bind:commands="canvasCommands"
                     v-on:penmoved="onPenMoved"
@@ -172,7 +172,7 @@
                if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
                   return this.state.program.instructions[this.state.currentInstructionIndex].line
                } else {
-                  this.state.msg = "Runtime error: execution went past end of program"
+                  this.state.msg = "Runtime error: execution went past end of program: don't forget to put a 'stop' instruction"
                   this.state.runningstatus = 'runtime-error'
                   clearInterval(this.timerHandle)
                   return this.state.program.instructions[this.state.program.instructions.length-1].line + 1
@@ -213,20 +213,29 @@
          isCodeOk: function() {
             return (this.state.tag === 'code-ok')
          },
-         isCodeUsingMemory: function() {
-            return true
-         },
-         isCodeUsingInput: function() {
-            return true
-         },
          isCodeKo: function() {
             return (this.state.tag === 'code-error')
          },
+         isCodeUsingMemory: function() {
+            return (this.state.program && this.state.program.arrayTypes.indexOf('memory') !== -1)
+         },
+         isCodeUsingInput: function() {
+            return (this.state.program && this.state.program.arrayTypes.indexOf('input') !== -1)
+         },
+         isCodeUsingOutput: function() {
+            return (this.state.program && this.state.program.arrayTypes.indexOf('output') !== -1)
+         },
          isCodeUsingStack: function() {
-            return (this.state.program && this.state.program.useStack)
+            return (this.state.program && (this.state.program.arrayTypes.indexOf('stack') !== -1 ||
+                                           this.state.program.operations.indexOf('push') !== -1 ||
+                                           this.state.program.operations.indexOf('pop') !== -1))
          },
          isCodeUsingCallStack: function() {
-            return (this.state.program && this.state.program.useCall)
+            return (this.state.program && (this.state.program.operations.indexOf('call') !== -1 ||
+                                           this.state.program.operations.indexOf('return') !== -1))
+         },
+         isCodeUsingCompare: function() {
+            return (this.state.program && this.state.program.operations.indexOf('compare') !== -1)
          },
          isRunningPossible: function() {
             if (this.isCodeOk) {

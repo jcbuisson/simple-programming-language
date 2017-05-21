@@ -9,8 +9,8 @@
             <div class="navbar-brand">Code</div>       
             <div class="navbar-nav">     
                <b-nav-item-dropdown text="Examples">
+                  <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci sequence</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum of the nth first integers</b-dropdown-item>
-                  <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci series</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item v-on:click="example('input_output')">Input/output</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>
@@ -41,6 +41,8 @@
    import parser from '../utility/parser.js'
 
    import debounce from 'lodash/debounce'
+   import union from 'lodash/union'
+   import assign from 'lodash/assign'
 
    //import { event } from '../utility/eventBus.js'
    //event.init()
@@ -84,8 +86,9 @@
                let instructions = parser.parse(code)
                // semantic analysis
                let result = this.semanticAnalysis(instructions)
+               console.log(result.arrayTypes)
                if (result.errors.length === 0) {
-                  this.$emit('programParsed', { 'instructions': instructions, 'symbols': result.symbols, 'useStack': result.useStack, 'useCall': result.useCall })
+                  this.$emit('programParsed', assign(result, { 'instructions': instructions }))
                } else {
                   let msg = result.errors.join('<br/>')
                   this.$emit('programError', msg)
@@ -122,40 +125,49 @@
             // then verify that 'input' is accessed read-only and 'output' write-only
             // TODO
 
-            // then check whether stack is used or not
-            let doNotUseStack = instructions.every(this.instructionDoNotUseStack);
-            let doNotUseCall = instructions.every(this.instructionDoNotUseCall);
-            return { 'symbols': symbols, 'errors': errors, 'useStack': !doNotUseStack, 'useCall': !doNotUseCall }
+            // collect of types of arrays used in the program
+            let this_ = this
+            let arrayTypes = instructions.reduce(function(accu, instruction) {
+               return union(accu, this_.instructionArrayTypes(instruction))
+            }, [])
+
+            // collect of code operations used in the program
+            let operations = instructions.reduce(function(accu, instruction) {
+               return union(accu, [instruction.instruction.action])
+            }, [])
+
+            let useCallStack = instructions.some(function(instruction) { return this_.instructionUseCallStack(instruction) })
+
+            return { 'symbols': symbols, 'errors': errors, 'arrayTypes': arrayTypes, 'operations': operations }
          },
-         instructionDoNotUseStack: function(instruction) {
-            if (instruction.instruction.action === 'copy') {
-               return this.expressionDoNotUseStack(instruction.instruction.expr) && this.expressionDoNotUseStack(instruction.instruction.dest)
-            } else if (instruction.instruction.action === 'push') {
-               return false
-            } else if (instruction.instruction.action === 'pop') {
-               return false
-            } else if (instruction.instruction.action === 'compare') {
-               return this.expressionDoNotUseStack(instruction.instruction.expr1) && this.expressionDoNotUseStack(instruction.instruction.expr2)
-            } else { // stop, go
-               return true
-            }
-         },
-         instructionDoNotUseCall: function(instruction) {
+
+         instructionUseCallStack: function(instruction) {
             return (instruction.instruction.action !== 'call' && instruction.instruction.action !== 'return')
          },
-         expressionDoNotUseStack: function(expr) {
+
+         expressionArrayTypes: function(expr) {
             if (typeof expr === 'number') {
-               return true;
+               return [];
             } else if (expr.hasOwnProperty('type')) {
-               if (expr.type === 'stack') {
-                  return false
-               } else {
-                  return this.expressionDoNotUseStack(expr.index)
-               }
+               return [expr.type]
             } else {
-               return this.expressionDoNotUseStack(expr.t1) && this.expressionDoNotUseStack(expr.t2)
+               return union(this.expressionArrayTypes(expr.t1), this.expressionArrayTypes(expr.t2))
             }
          },
+         instructionArrayTypes : function(instruction) {
+            if (instruction.instruction.action === 'copy') {
+               return union(this.expressionArrayTypes(instruction.instruction.expr), this.expressionArrayTypes(instruction.instruction.dest))
+            } else if (instruction.instruction.action === 'push') {
+               return this.expressionArrayTypes(instruction.instruction.expr)
+            } else if (instruction.instruction.action === 'pop' && instruction.instruction.dest) {
+               return this.expressionArrayTypes(instruction.instruction.dest)
+            } else if (instruction.instruction.action === 'compare') {
+               return union(this.expressionArrayTypes(instruction.instruction.expr1), this.expressionArrayTypes(instruction.instruction.expr2))
+            } else {
+               return []
+            }
+         },
+         
       },
       data () {
          return {
