@@ -4,10 +4,14 @@ ProgramEx
   { return instructions.map(function(e) { return e[0]; }); }
 
 LabeledInstruction
-  = label:Label _ ":" _ instruction:Instruction
-  { return { 'label': label, 'instruction': instruction, 'line': location().start.line - 1 }; }
-  / instruction:Instruction
-  { return { 'label': null, 'instruction': instruction, 'line': location().start.line - 1 }; }
+  = label:Label _ ":" _ instruction:InstructionWithLine
+  { return { 'label': label, 'instruction': instruction }; }
+  / instruction:InstructionWithLine
+  { return { 'label': null, 'instruction': instruction }; }
+ 
+InstructionWithLine
+  = instruction:Instruction
+  { instruction.line = location().start.line - 1; return instruction }
   
 Instruction
   = "stop"

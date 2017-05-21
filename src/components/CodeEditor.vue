@@ -86,7 +86,6 @@
                let instructions = parser.parse(code)
                // semantic analysis
                let result = this.semanticAnalysis(instructions)
-               console.log(result.arrayTypes)
                if (result.errors.length === 0) {
                   this.$emit('programParsed', assign(result, { 'instructions': instructions }))
                } else {
@@ -108,7 +107,8 @@
                if (instruction.label) {
                   let prevIndex = symbols[instruction.label]
                   if (prevIndex) {
-                     errors.push('Line ' + instruction.line + ": symbol '" + instruction.label + "' already defined line " + instructions[prevIndex].line)
+                     errors.push('Line ' + instruction.instruction.line + ": symbol '" + instruction.label +
+                                 "' already defined line " + instructions[prevIndex].instruction.line)
                   } else {
                      symbols[instruction.label] = index
                   }
@@ -118,7 +118,7 @@
             instructions.forEach(function(instruction, index) {
                if (instruction.instruction.action === 'go') {
                   if (!symbols.hasOwnProperty(instruction.instruction.target)) {
-                     errors.push('Line ' + instruction.line + ": symbol '<em>" + instruction.instruction.target + "</em>' does not exist")
+                     errors.push('Line ' + instruction.instruction.line + ": symbol '<em>" + instruction.instruction.target + "</em>' does not exist")
                   }
                }
             })

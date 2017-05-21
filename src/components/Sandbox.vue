@@ -170,12 +170,12 @@
          currentInstructionLine: function() {
             if (this.isCodeOk) {
                if (this.state.currentInstructionIndex < this.state.program.instructions.length) {
-                  return this.state.program.instructions[this.state.currentInstructionIndex].line
+                  return this.state.program.instructions[this.state.currentInstructionIndex].instruction.line
                } else {
                   this.state.msg = "Runtime error: execution went past end of program: don't forget to put a 'stop' instruction"
                   this.state.runningstatus = 'runtime-error'
                   clearInterval(this.timerHandle)
-                  return this.state.program.instructions[this.state.program.instructions.length-1].line + 1
+                  return this.state.program.instructions[this.state.program.instructions.length-1].instruction.line + 1
                }
             } else {
                return -1
