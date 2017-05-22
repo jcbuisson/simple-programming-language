@@ -10,6 +10,28 @@ const examples = {
       input: [12]
    },
 
+   fibonacci: {
+      code: [
+"/* Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8,...",
+"   Each value is the sum of the two previous ones",
+"   Values are computed and displayed continuously */",
+"",
+"         0 -> memory[0]",
+"         1 -> memory[1]",
+"loop:    // compute next value",
+"         memory[0] + memory[1] -> memory[2]",
+"         // display value in 'Numeric output' box",
+"         memory[2] -> output[0]",
+"         // shift last two values",
+"         memory[1] -> memory[0]",
+"         memory[2] -> memory[1]",
+"         go loop",
+      ].join('\n'),
+      memory: [],
+      stack: [],
+      input: []
+   },
+
    sum_of_nth_first_integers: {
       code:
          "/* Compute the sum of the first integers\n" +
@@ -30,6 +52,27 @@ const examples = {
       stack: [],
       input: [5]
    },
+
+
+   polygon: {
+      code: [
+"          100 -> o[1]",
+"          40 -> o[2]",
+"          i[0] -> m[0]",
+"          360 / i[0] -> m[1]",
+"          500 / i[0] -> m[2]",
+"loop:     m[2] -> o[4]",
+"          m[1] -> o[3]",
+"          m[0] - 1 -> m[0]",
+"          compare m[0] to 0",
+"          go loop if greater",
+"          stop",
+      ].join('\n'),
+      memory: [],
+      stack: [],
+      input: [6]
+   },
+
 
    hello_world: {
       code: [
@@ -55,28 +98,6 @@ const examples = {
          "end:    stop"
       ].join('\n'),
       memory: [0, 72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33, 0],
-      stack: [],
-      input: []
-   },
-
-   fibonacci: {
-      code: [
-"/* Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8,...",
-"   Each value is the sum of the two previous ones",
-"   Values are computed and displayed continuously */",
-"",
-"         0 -> memory[0]",
-"         1 -> memory[1]",
-"loop:    // compute next value",
-"         memory[0] + memory[1] -> memory[2]",
-"         // display value in 'Numeric output' box",
-"         memory[2] -> output[0]",
-"         // shift last two values",
-"         memory[1] -> memory[0]",
-"         memory[2] -> memory[1]",
-"         go loop",
-      ].join('\n'),
-      memory: [],
       stack: [],
       input: []
    },

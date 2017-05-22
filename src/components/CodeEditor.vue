@@ -11,6 +11,7 @@
                <b-nav-item-dropdown text="Examples">
                   <b-dropdown-item v-on:click="example('fibonacci')">Fibonacci sequence</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('sum_of_nth_first_integers')">Sum of the nth first integers</b-dropdown-item>
+                  <b-dropdown-item v-on:click="example('polygon')">Polygon</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item v-on:click="example('input_output')">Input/output</b-dropdown-item>
                   <b-dropdown-item v-on:click="example('hello_world')">Hello world</b-dropdown-item>

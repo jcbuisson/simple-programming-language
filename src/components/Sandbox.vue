@@ -164,6 +164,7 @@
             timerHandle: null,
             canvasCommands: [],
             penPosition: { 'x': 0, 'y': 0 },
+            penOrientation: 0,
          }
       },
       computed: {
@@ -469,6 +470,12 @@
             if (index === 0) {
                let value = parseFloat(this.input_array[0])
                return isNaN(value) ? 0 : value
+            } else if (index === 1) {
+               return this.penPosition.x;
+            } else if (index === 2) {
+               return this.penPosition.Y;
+            } else if (index === 3) {
+               return this.penOrientation;
             }
          },
          setOutputElementAt: function(index, value) {
@@ -495,9 +502,11 @@
             this.stack_array = newArray
          },
          onPenMoved: function(penPosition) {
-            console.log('pen moved ' + penPosition)
             this.penPosition = penPosition
-         }
+         },
+         onPenTurned: function(penOrientation) {
+            this.penPospenOrientationition = penOrientation
+         },
       },
    }
 </script>
