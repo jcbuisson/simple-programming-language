@@ -29,7 +29,7 @@
             ctx.clearRect(0, 0, 1000, 1000)
             // Insert stuff into canvas
             ctx.fillStyle = "black"
-            ctx.font = "14px"
+            ctx.font = "24px"
             ctx.beginPath()
             let commands = binding.value
             let penPosition = { 'x': 0, 'y': 0 }
@@ -39,15 +39,14 @@
                   let c = String.fromCharCode(command.value)
                   ctx.fillText(c, penPosition.x, penPosition.y);
                   penPosition.x += ctx.measureText(c).width
-               } else if (command.type === 'pen-position-x') {
-                  penPosition.x = command.value
-                  ctx.moveTo(penPosition.x, penPosition.y)
-               } else if (command.type === 'pen-position-y') {
-                  penPosition.y = command.value
-                  ctx.moveTo(penPosition.x, penPosition.y)
                } else if (command.type === 'turn') {
                   penOrientation += command.value
                } else if (command.type === 'move') {
+                  let length = command.value
+                  penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)
+                  penPosition.y += length * Math.sin(penOrientation*2.*Math.PI/360.)
+                  ctx.lineTo(penPosition.x, penPosition.y)
+               } else if (command.type === 'draw') {
                   let length = command.value
                   penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)
                   penPosition.y += length * Math.sin(penOrientation*2.*Math.PI/360.)

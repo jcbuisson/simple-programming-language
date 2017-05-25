@@ -40,7 +40,7 @@
                </b-popover>
                <b-popover content="Step" :triggers="['hover']" :delay="{show: 500, hide: 0}">
                   <b-btn v-on:click="step" :disabled="!isRunningPossible || isRunning" class="debug-btn">
-                     <i class="fa fa-step-forward"></i>
+                     <i class="fa fa-share"></i>
                   </b-btn>
                </b-popover>
             </b-button-group>
@@ -483,15 +483,12 @@
                this.numericOutput = value
 
             } else if (index === 1) {
-               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-x', 'value': value }])
-            } else if (index === 2) {
-               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'pen-position-y', 'value': value }])
-            } else if (index === 3) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'turn', 'value': value }])
-            } else if (index === 4) {
+            } else if (index === 2) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'move', 'value': value }])
-
-            } else if (index === 6) {
+            } else if (index === 3) {
+               this.canvasCommands = this.canvasCommands.concat([{ 'type': 'draw', 'value': value }])
+            } else if (index === 4) {
                this.canvasCommands = this.canvasCommands.concat([{ 'type': 'write-char', 'value': value }])
             }
          },

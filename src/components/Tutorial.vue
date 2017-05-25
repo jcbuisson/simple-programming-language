@@ -29,7 +29,7 @@
       "The *Sandbox* shows you all the internals of a program, so you can fully understand what happens",
       "when an instruction is executed. Programming is a matter of writing and organizing instructions in a meaningful way.  ",
 
-      "## Level 1",
+      "## Part 1",
 
       "#### Memory",
       "Go to the *Sandbox* and copy/paste the two following lines in the *Code* area:",
@@ -165,6 +165,11 @@
       "",
       "As an exercice, you should be able to write a similar program which computes the factorial of a number `n`, that is the product",
       "of all integers from 1 to `n`. For example, fact(5) = 1 x 2 x 3 x 4 x 5 = 120",
+
+
+      "## Part 2",
+
+      "",
 
 
       ].join('\n')

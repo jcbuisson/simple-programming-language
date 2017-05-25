@@ -45,6 +45,18 @@ Condition
 MemoryLocation
   = type:LocationType _ "[" _ index:Expression _ "]"
   { return { 'type': type, 'index': index, }; }
+  / 'input'
+  { return { 'type': 'input', 'index': 0, }; }
+  / 'output'
+  { return { 'type': 'output', 'index': 0, }; }
+  / 'pen_turn'
+  { return { 'type': 'output', 'index': 1, }; }
+  / 'pen_move'
+  { return { 'type': 'output', 'index': 2, }; }
+  / 'pen_draw'
+  { return { 'type': 'output', 'index': 3, }; }
+  / 'pen_write_char'
+  { return { 'type': 'output', 'index': 4, }; }
 
 LocationType
   = "memory" { return 'memory'; }
@@ -80,7 +92,7 @@ Factor
   / MemoryLocation
 
 Integer "integer"
-  = [0-9]+ { return parseInt(text(), 10); }
+  = '-'?[0-9]+ { return parseInt(text(), 10); }
 
 _ "whitespace"
   = ( whiteSpace / lineTerminator / enclosedComment / lineComment )*
