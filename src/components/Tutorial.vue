@@ -29,7 +29,29 @@
       "The *Sandbox* shows you all the internals of a program, so you can fully understand what happens",
       "when an instruction is executed. Programming is a matter of writing and organizing instructions in a meaningful way.  ",
 
-      "## Part 1",
+      "## Part 1: instructions",
+      "Go to the *Sandbox* and choose the 'Cube calculator' example. You should see the following lines in the *Code* area:",
+       "```",
+         "0        // compute cube of input",
+         "1        input * input * input -> output",
+         "2        stop",
+      "```",
+      "Now run it by clicking on the 'Run/Pause' button at the bottom, or on the 'Step' button twice:  ",
+      "",
+      "![](static/cube.png)",
+      "",
+      "Everything written after `//` is ignored and used to write comments, so there are only two instructions, at lines 1 and 2.  ",
+      "At the beginning the control (visible with the dark blue line) is situated on the first instruction, at line 1.",
+      "`input` represents the number wich have been typed in the 'Numeric input' field, `12` in this case. Whenever this value is changed by hand,",
+      "the value of `input` in a program is changed occordingly. The expression `input * input * input` is computed (it makes `343`)",
+      "and the arrow `->` indicates that it is to be copied into `output`.  ",
+      "The 'Numeric output' field has been designed to permanently reflect the content of what has been copied into `output`,",
+      "so executing instruction at line 1 writes `343` into 'Numeric output'.  ",
+      "When this first instruction is executed, control goes to next instruction at line 2. Its execution stops the program.",
+      "",
+
+
+      "## Part 2: algorithms",
 
       "#### Memory",
       "Go to the *Sandbox* and copy/paste the two following lines in the *Code* area:",
@@ -167,7 +189,7 @@
       "of all integers from 1 to `n`. For example, fact(5) = 1 x 2 x 3 x 4 x 5 = 120",
 
 
-      "## Part 2",
+      "## Part 3",
 
       "",
 

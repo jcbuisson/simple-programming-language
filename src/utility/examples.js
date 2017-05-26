@@ -1,10 +1,12 @@
 
 const examples = {
 
-   input_output: {
-      code:
-         "here:  input[0] * input[0] -> output[0]\n" +
-         "       go here",
+   cube: {
+      code: [
+         "        // compute cube of input",
+         "        input * input * input -> output",
+         "        stop",
+      ].join('\n'),
       memory: [],
       stack: [],
       input: [12]
@@ -21,7 +23,7 @@ const examples = {
 "loop:    // compute next value",
 "         memory[0] + memory[1] -> memory[2]",
 "         // display value in 'Numeric output' box",
-"         memory[2] -> output[0]",
+"         memory[2] -> output",
 "         // shift last two values",
 "         memory[1] -> memory[0]",
 "         memory[2] -> memory[1]",
@@ -39,14 +41,14 @@ const examples = {
          "   Ex: 5 -> 1 + 2 + 3 + 4 + 5 = 15\n" +
          "   The result is visible in the 'Numeric output' field\n" +
          "*/\n" +
-         "         input[0] -> memory[0]\n" +
+         "         input -> memory[0]\n" +
          "         0 -> memory[1]\n" +
          "here:    compare memory[0] to 0\n" +
          "         go end if smaller_or_equal\n" +
          "         memory[0] + memory[1] -> memory[1]\n" +
          "         memory[0] - 1 -> memory[0]\n" +
          "         go here\n" +
-         "end:     memory[1] -> output[0]\n" +
+         "end:     memory[1] -> output\n" +
          "         stop",
       memory: [],
       stack: [],
@@ -57,15 +59,15 @@ const examples = {
    polygon: {
       code: [
 "          // move pen towards center",
-"          30 -> pen_turn",
-"          80 -> pen_move",
-"          -30 -> pen_turn",
+"          pen_turn 30",
+"          pen_move 80",
+"          pen_turn -30",
 "          // put side count (n) in memory[0] ",
 "          input -> memory[0]",
 "loop:     // draw with pen for length = 500 / n",
-"          500 / input[0] -> pen_draw",
+"          pen_draw 500 / input",
 "          // turn pen of an angle 360/n",
-"          360 / input[0] -> pen_turn",
+"          pen_turn 360 / input",
 "          // decrement n",
 "          memory[0] - 1 -> memory[0]",
 "          // leave loop when zero",
@@ -88,15 +90,15 @@ const examples = {
          "*/\n" +
          "        // memory[0] holds current character address",
          "        1 -> memory[0]",
-         "        // set pen position towards center",
-         "        30 -> pen_turn",
-         "        80 -> pen_move",
+         "        // move pen to screen center",
+         "        pen_turn 30",
+         "        pen_move 80",
          "next:   // last character?",
          "        compare memory[memory[0]] to 0",
          "        // check end of string",
          "        go end if equal",
          "        // write current character",
-         "        memory[memory[0]] -> pen_write_char",
+         "        pen_write_char memory[memory[0]]",
          "        // increment address of current character",
          "        memory[0] + 1 -> memory[0]",
          "        go next",
@@ -109,27 +111,28 @@ const examples = {
 
    spiral: {
       code: [
-"         /* Draws a spiral */",
-"",
-"         // move pen to (60, 60)",
-"         60 -> output[1]",
-"         60 -> output[2]",
-"         // memory[0]: counter",
-"         20 -> memory[0]",
-"         // memory[1]: line length",
-"         10 -> memory[1]",
-"loop:    // move pen with length memory[1]",
-"         memory[1] -> output[4]",
-"         // add 5 to length",
-"         memory[1] + 5 -> memory[1]",
-"         // turn 90 degrees",
-"         90 -> output[3]",
-"         // decrement memory[0]",
-"         memory[0] - 1 -> memory[0]",
-"         // counter zero ?",
-"         compare memory[0] to 0",
-"         go loop if greater",
-"         stop",
+         "         /* Draws a spiral */",
+         "",
+         "         // move pen to screen center",
+         "         pen_turn 30",
+         "         pen_move 80",
+         "         pen_turn -30",
+         "         // memory[0]: counter",
+         "         20 -> memory[0]",
+         "         // memory[1]: line length",
+         "         10 -> memory[1]",
+         "loop:    // draw line with length memory[1]",
+         "         pen_draw memory[1]",
+         "         // add 5 to length",
+         "         memory[1] + 5 -> memory[1]",
+         "         // turn 90 degrees",
+         "         pen_turn 90",
+         "         // decrement memory[0]",
+         "         memory[0] - 1 -> memory[0]",
+         "         // counter zero ?",
+         "         compare memory[0] to 0",
+         "         go loop if greater",
+         "         stop",
       ].join('\n'),
       memory: [],
       stack: [],
@@ -138,9 +141,9 @@ const examples = {
 
    recursive_factorial: {
       code: [
-"           push input[0]",
+"           push input",
 "           call fact",
-"           pop output[0]",
+"           pop output",
 "           stop",
 "",
 "fact:      // check if argument is terminal case 0 or 1",

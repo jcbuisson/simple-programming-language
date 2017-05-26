@@ -27,6 +27,12 @@
 
 "### Instructions",
 
+"##### -> (copy)",
+"```",
+"       <expression> -> <destination>",
+"```",
+"Copies the value of <expression> into <destination>",
+
 "##### call",
 "```",
 "       call <label>",
@@ -57,6 +63,35 @@
 "```",
 "Go to the `label` in the program, if <condition> is true. <condition> can be `smaller`, `smaller_or_equal`, `equal`, `greater`, `greater_or_equal`.",
 
+"##### pen_draw",
+"```",
+"       pen_draw <expression>",
+"```",
+"Draw a line from current pen position, in the current pen orientation, of length <expression>.",
+
+"##### pen_move",
+"```",
+"       pen_move <expression>",
+"```",
+"Move pen, in the current pen orientation, of length <expression>.",
+
+"##### pen_turn",
+"```",
+"       pen_turn <expression>",
+"```",
+"Add <expression> to the pen orientation (in degrees). Pen orientation is initially of 0, that is towards right. Angle are counted clockwise.",
+
+"##### pen_write_char",
+"```",
+"       pen_write_char <expression>",
+"```",
+"Write charcter of code <expression> at current pen position. Pen position is then moved past the character.",
+
+"```",
+"       pop",
+"```",
+"Pull the value situated on top of the stack, but does not copy it anywhere.",
+
 "##### pop",
 "```",
 "       pop <destination>",
@@ -85,36 +120,6 @@
 "       stop",
 "```",
 "Stops the execution of the program.",
-
-"### Input / Output addresses",
-
-"##### Input array (read-only)",
-"Reading in the *input[]* array at specific addresses gives information from the outside world.",
-"The specifics of each address are described in the following table:  ",
-
-"| Address      | Value read    |",
-"| ------------ | ------------- |",
-"|  0           |  Number (integer or real) entered in the numeric input field",
-"|  1           |  Pen x-coordinate",
-"|  2           |  Pen y-coordinate",
-"|  3           |  Pen orientation (degree, clockwise, default is 0 = towards right)",
-
-"|  7           |  Pen font size in px",
-
-"##### Output array (write-only)",
-"Writing into the *output[]* array at specific addresses act on the outside world.",
-"The specifics of each address are described in the following table:  ",
-
-"| Address      | Effect of writing *value* |",
-"| ------------ | ------------------------- |",
-"|  0           |  Display *value* in the numeric output field",
-"|  1           |  Set pen x-coordinate to *value* (origin is left side)",
-"|  2           |  Set pen y-coordinate to *value* (origin is up side)",
-"|  3           |  Turn: add *value* to current pen orientation (in degree)",
-"|  4           |  Move pen to an extend of *value* in the current pen direction",
-
-"|  6           |  Display character of code *value* at the current pen position. Pen is moved right after the character",
-"|  7           |  Set font size in px (default is 14)",
 
       ].join('\n')
          }

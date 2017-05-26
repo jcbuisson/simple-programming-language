@@ -74,14 +74,14 @@
                               v-bind:readonly="true"
                ></memory-editor>
             </div>
-            <div class="input-panel">
+            <!--div class="input-panel">
                <memory-editor class="input-editor"
                               v-if="isCodeUsingInput"
                               :numberarray="input_array"
                               v-bind:readonly="true"
                               :title="'Input'"
                ></memory-editor>
-            </div>
+            </div-->
          </div>
          <div class="input0-output0-panel" style="max-height: 120px;">
             <div class="card input0-panel" v-if="isCodeUsingInput">

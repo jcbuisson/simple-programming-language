@@ -32,7 +32,15 @@ Instruction
   { return { 'action': 'call', 'target': label }; }
   / "return"
   { return { 'action': 'return' }; }
-   / expr:Expression _ "->" _ dest:MemoryLocation
+  / "pen_turn" _ expr:Expression
+  { return { 'action': 'copy', 'expr': expr, 'dest': { 'type': 'output', 'index': 1, }, }; }
+  / "pen_move" _ expr:Expression
+  { return { 'action': 'copy', 'expr': expr, 'dest': { 'type': 'output', 'index': 2, }, }; }
+  / "pen_draw" _ expr:Expression
+  { return { 'action': 'copy', 'expr': expr, 'dest': { 'type': 'output', 'index': 3, }, }; }
+  / "pen_write_char" _ expr:Expression
+  { return { 'action': 'copy', 'expr': expr, 'dest': { 'type': 'output', 'index': 4, }, }; }
+  / expr:Expression _ "->" _ dest:MemoryLocation
   { return { 'action': 'copy', 'expr': expr, 'dest': dest, }; }
 
 Label
