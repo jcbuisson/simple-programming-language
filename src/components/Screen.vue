@@ -30,7 +30,7 @@
             // Insert stuff into canvas
             ctx.fillStyle = "black"
             ctx.font = "24px"
-            ctx.beginPath()
+            ctx.beginPath();
             let commands = binding.value
             let penPosition = { 'x': 0, 'y': 0 }
             let penOrientation = 0.
@@ -45,15 +45,15 @@
                   let length = command.value
                   penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)
                   penPosition.y += length * Math.sin(penOrientation*2.*Math.PI/360.)
-                  ctx.lineTo(penPosition.x, penPosition.y)
+                  ctx.moveTo(penPosition.x, penPosition.y)
                } else if (command.type === 'draw') {
                   let length = command.value
                   penPosition.x += length * Math.cos(penOrientation*2.*Math.PI/360.)
                   penPosition.y += length * Math.sin(penOrientation*2.*Math.PI/360.)
                   ctx.lineTo(penPosition.x, penPosition.y)
-                  ctx.stroke()
                }
             })
+            ctx.stroke()
             //this.$emit('penmoved', penPosition)
          }
       },

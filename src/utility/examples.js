@@ -12,6 +12,33 @@ const examples = {
       input: [12]
    },
 
+   square: {
+      code: [
+         "        /* draws a square */",
+         "",
+         "        // move to 100, 100",
+         "        pen_turn 90",
+         "        pen_move 100",
+         "        pen_turn -90",
+         "        pen_move 100",
+         "        // draw top line",
+         "        pen_draw 50",
+         "        // draw right line",
+         "        pen_turn 90",
+         "        pen_draw 50",
+         "        // draw bottom line",
+         "        pen_turn 90",
+         "        pen_draw 50",
+         "        // draw left line",
+         "        pen_turn 90",
+         "        pen_draw 50",
+         "        stop",
+      ].join('\n'),
+      memory: [],
+      stack: [],
+      input: [12]
+   },
+
    fibonacci: {
       code: [
 "/* Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8,...",
@@ -35,21 +62,31 @@ const examples = {
    },
 
    sum_of_nth_first_integers: {
-      code:
-         "/* Compute the sum of the first integers\n" +
-         "   up to the value entered in the 'Numeric input' field.\n" +
-         "   Ex: 5 -> 1 + 2 + 3 + 4 + 5 = 15\n" +
-         "   The result is visible in the 'Numeric output' field\n" +
-         "*/\n" +
-         "         input -> memory[0]\n" +
-         "         0 -> memory[1]\n" +
-         "here:    compare memory[0] to 0\n" +
-         "         go end if smaller_or_equal\n" +
-         "         memory[0] + memory[1] -> memory[1]\n" +
-         "         memory[0] - 1 -> memory[0]\n" +
-         "         go here\n" +
-         "end:     memory[1] -> output\n" +
+      code: [
+         "/* Compute the sum of the first integers",
+         "   up to the value entered in the 'Numeric input' field.",
+         "   Ex: 5 -> 1 + 2 + 3 + 4 + 5 = 15",
+         "   The result is visible in the 'Numeric output' field",
+         "*/",
+         "         // memory[0] holds the current index value,",
+         "         // initialized to input value",
+         "         input -> memory[0]",
+         "         // memory[1] holds the result, initalized to 0",
+         "         0 -> memory[1]",
+         "here:    // compare memory[0] to 0",
+         "         compare memory[0] to 0",
+         "         // exit loop when smaller or equal to zero",
+         "         go end if smaller_or_equal",
+         "         // otherwise, cumulate current index into result",
+         "         memory[0] + memory[1] -> memory[1]",
+         "         // decrement current index",
+         "         memory[0] - 1 -> memory[0]",
+         "         // and loop again",
+         "         go here",
+         "end:     // in the end, display result in the numeric output field",
+         "         memory[1] -> output",
          "         stop",
+      ].join('\n'),
       memory: [],
       stack: [],
       input: [5]
