@@ -58,7 +58,8 @@
 "****",
 
 "##### `go <label> if <condition>`",
-"Go to the `label` in the program, if <condition> is true. <condition> can be `smaller`, `smaller_or_equal`, `equal`, `greater`, `greater_or_equal`.  ",
+"Go to the `label` in the program, if <condition> is true.  ",
+"<condition> can be `smaller`, `smaller_or_equal`, `equal`, `greater`, `greater_or_equal`.  ",
 "Examples:  ",
 "```",
 "       go here if smaller_or_equal",
