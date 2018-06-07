@@ -188,8 +188,11 @@
    }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
+
+/* styling de .Codemirror : voir App.vue */
+
 .code-editor {
    display: flex;
    flex-direction: column;  
@@ -207,4 +210,5 @@
 .code-editor-footer {
    margin-bottom: 0px;
 }
+
 </style>

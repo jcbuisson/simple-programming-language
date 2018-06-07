@@ -1,15 +1,5 @@
 
 
-WARNING: node_modules/codemirror/lib/codemirror.css must be modified
-.CodeMirror {
-  /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
-  /*height: 300px;*/
-  height: 100%;
-  color: black;
-}
-
-
 A web platform allowing to write and debug programs written in "Simple Programming Language"
 
 It is client side only web-application

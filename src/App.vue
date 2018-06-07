@@ -91,6 +91,14 @@
 
 <style>
 
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: monospace;
+  /*height: 300px;*/
+  height: 100%;
+  color: black;
+}
+
 html, body {
   width: 100%;
   height: 100%;
