@@ -4,7 +4,7 @@ A web platform allowing to write and debug programs written in "Simple Programmi
 
 It is client side only web-application
 
-Living demo: [http://formation.buissons.fr]
+Living demo: [http://spl.buissons.fr]
 
 Uses:
 
