@@ -4,7 +4,7 @@ A web platform allowing to write and debug programs written in "Simple Programmi
 
 It is client side only web-application
 
-Living demo: [http://spl.jcbuisson.dev]
+Living demo: [https://spl.jcbuisson.dev]
 
 Uses:
 
